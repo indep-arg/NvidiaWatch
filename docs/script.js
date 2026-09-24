@@ -38,6 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
     let trendsRange = 'all';
     let resizeDebounceTimer = null;
 
+    const VALID_FILTERS = Array.from(statusChips, chip => chip.dataset.filter);
+    const VALID_SORTS = Array.from(sortSelect.options, option => option.value);
+
+    // localStorage throws (not just returns null) when the browser blocks site
+    // storage, e.g. Chrome with all cookies blocked. Theme/view are only
+    // conveniences, so a failure here must never stop the driver list loading.
+    function storageGet(key) {
+        try { return localStorage.getItem(key); } catch { return null; }
+    }
+    function storageSet(key, value) {
+        try { localStorage.setItem(key, value); } catch { /* not persisted */ }
+    }
+
     // drivers.json versions are already 2-decimal strings (e.g. "581.80"), but
     // this normalizes anything entered without the trailing zero (e.g. "581.8")
     // so the UI never shows an inconsistent number of decimals. Falls back to
@@ -63,12 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // first so the highlighting regex runs on safe HTML, and the query itself is
     // escaped separately (safeQuery) so regex metacharacters typed by the user
     // (e.g. searching "DLSS 4.0 (beta)") are treated as literal text, not regex syntax.
+    // The match runs on the raw text and each piece is escaped afterwards, so a
+    // query like "&" or "amp" can't land inside an entity such as "&amp;".
+    // split() with a capture group puts the matches at the odd indices.
     function highlightText(text, query) {
-        const escapedText = escapeHTML(text);
-        if (!query) return escapedText;
+        if (!query) return escapeHTML(text);
         const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const regex = new RegExp(`(${safeQuery})`, 'gi');
-        return escapedText.replace(regex, '<mark class="highlight">$1</mark>');
+        return String(text)
+            .split(regex)
+            .map((part, i) => i % 2 ? `<mark class="highlight">${escapeHTML(part)}</mark>` : escapeHTML(part))
+            .join('');
     }
 
     let toastTimeout = null;
@@ -106,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // a new back-button entry, e.g. the initial load or a debounced search
     // keystroke - only "real" navigation actions (page change, filter click)
     // should be undoable with the browser back button.
-    function updateURL(replace = false) {
+    function updateURL(replace = false, hash = window.location.hash) {
         const params = new URLSearchParams();
         if (searchInput.value) params.set('q', searchInput.value);
         if (currentPage > 1) params.set('page', currentPage);
@@ -114,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentSort !== 'version-desc') params.set('sort', currentSort);
         const query = params.toString();
         const newRelativePathQuery = window.location.pathname + (query ? "?" + query : "");
-        const hash = window.location.hash;
         if (replace) {
             history.replaceState(null, '', newRelativePathQuery + hash);
         } else {
@@ -122,24 +139,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // The reverse of updateURL - runs once, right after drivers.json loads, so an
+    // The reverse of updateURL - runs right after drivers.json loads, so an
     // incoming shared link restores its search/page/filter/sort before the
-    // first render instead of flashing the default view first.
+    // first render instead of flashing the default view first, and again on
+    // every back/forward (popstate). Anything missing or unknown in the URL
+    // falls back to the default, so a hand-edited "?filter=xyz" can't leave
+    // the UI in a state no control can represent.
     function loadStateFromURL() {
         const params = new URLSearchParams(window.location.search);
-        if (params.has('q')) searchInput.value = params.get('q');
-        if (params.has('page')) {
-            const parsedPage = parseInt(params.get('page'), 10);
-            currentPage = (Number.isFinite(parsedPage) && parsedPage > 0) ? parsedPage : 1;
-        }
-        if (params.has('filter')) {
-            currentFilter = params.get('filter');
-            updateChipUI();
-        }
-        if (params.has('sort')) {
-            currentSort = params.get('sort');
-            sortSelect.value = currentSort;
-        }
+        searchInput.value = params.get('q') || '';
+        searchClearBtn.classList.toggle('hidden', !searchInput.value);
+        const parsedPage = parseInt(params.get('page'), 10);
+        currentPage = (Number.isFinite(parsedPage) && parsedPage > 0) ? parsedPage : 1;
+        const filter = params.get('filter');
+        currentFilter = VALID_FILTERS.includes(filter) ? filter : 'all';
+        updateChipUI();
+        const sort = params.get('sort');
+        currentSort = VALID_SORTS.includes(sort) ? sort : 'version-desc';
+        sortSelect.value = currentSort;
     }
 
     function updateChipUI() {
@@ -155,13 +172,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // flash on reload). This block runs after DOMContentLoaded just to sync
     // the toggle button's aria-pressed state to match, since the button
     // doesn't exist yet when the inline script runs.
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
+    // aria-pressed tracks dark mode because the button is labelled
+    // "Toggle Dark Mode" (and index.html starts it at "true" for the dark default).
+    const savedTheme = storageGet('theme');
+    if (savedTheme === 'light' || savedTheme === 'dark') {
         htmlEl.setAttribute('data-theme', savedTheme);
-        themeBtn.setAttribute('aria-pressed', savedTheme === 'light');
     }
+    themeBtn.setAttribute('aria-pressed', htmlEl.getAttribute('data-theme') === 'dark');
 
-    const savedView = localStorage.getItem('view') || 'masonry';
+    const savedView = storageGet('view') === 'timeline' ? 'timeline' : 'masonry';
     htmlEl.setAttribute('data-view', savedView);
     viewModeBtn.setAttribute('aria-pressed', savedView === 'timeline');
     
@@ -175,8 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentTheme = htmlEl.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         htmlEl.setAttribute('data-theme', newTheme);
-        themeBtn.setAttribute('aria-pressed', newTheme === 'light');
-        localStorage.setItem('theme', newTheme);
+        themeBtn.setAttribute('aria-pressed', newTheme === 'dark');
+        storageSet('theme', newTheme);
     });
 
     viewModeBtn.addEventListener('click', () => {
@@ -184,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newView = currentView === 'timeline' ? 'masonry' : 'timeline';
         htmlEl.setAttribute('data-view', newView);
         viewModeBtn.setAttribute('aria-pressed', newView === 'timeline');
-        localStorage.setItem('view', newView);
+        storageSet('view', newView);
         if (newView === 'masonry') {
             driverContainer.classList.replace('grid-layout', 'masonry-layout');
         } else {
@@ -296,8 +315,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (idx !== -1) currentPage = Math.floor(idx / itemsPerPage) + 1;
         renderDrivers();
         renderPagination();
-        updateURL();
-        history.pushState(null, '', `#driver-${version}`);
+        // One history entry carrying both the cleared filters and the hash,
+        // so a single Back returns to where the chart was clicked.
+        updateURL(false, `#driver-${version}`);
         scrollToDriverFromHash();
     }
 
@@ -396,7 +416,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resetTrendsTooltip(series, range);
     }
 
-    // A driver card survives the filter+search pass if either its version
+    // Under the Pending/Fixed filter, a driver with no bugs of that status is
+    // dropped outright. Otherwise a card survives if either its version
     // number matches the search text, or at least one of its bugs matches
     // *both* the active status filter (all/pending/fixed) and the search text.
     // Status filtering happens on the bug list first so that, e.g., searching
@@ -412,7 +433,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return true;
             });
             if (bugsMatchingStatus.length === 0 && currentFilter !== 'all') {
-                return versionText.includes(query);
+                return false;
             }
             const hasMatchingBug = bugsMatchingStatus.some(bug => {
                 const desc = (bug.description || "").toLowerCase();
@@ -703,5 +724,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('hashchange', scrollToDriverFromHash);
+
+    // Back/forward: updateURL pushes an entry for every page/filter/sort
+    // change, so re-read that entry's state and re-render to match it. No
+    // updateURL here - the browser already moved to the right URL. Scrolling
+    // to a #driver- hash is left to the hashchange listener above.
+    window.addEventListener('popstate', () => {
+        if (allDrivers.length === 0) return;
+        clearTimeout(searchDebounceTimer);
+        loadStateFromURL();
+        applyFiltersAndSort(false);
+        renderDrivers();
+        renderPagination();
+    });
 
 });

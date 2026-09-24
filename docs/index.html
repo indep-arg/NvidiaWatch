@@ -6,10 +6,12 @@
     <script>
         (function () {
             document.documentElement.classList.replace('no-js', 'js');
-            var saved = localStorage.getItem('theme');
-            if (saved === 'light' || saved === 'dark') {
-                document.documentElement.setAttribute('data-theme', saved);
-            }
+            try {
+                var saved = localStorage.getItem('theme');
+                if (saved === 'light' || saved === 'dark') {
+                    document.documentElement.setAttribute('data-theme', saved);
+                }
+            } catch (e) { /* storage blocked: keep the default theme */ }
         })();
     </script>
 
