@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 """
-Generate the "bugs by driver" trend chart as a standalone dark-theme SVG for
-embedding in README.md. Dark-only because GitHub's file viewer renders
-README images on a dark surface for the vast majority of viewers (default
-GitHub theme), so a light variant added complexity without real benefit.
-
-This script is read-only with respect to docs/drivers.json: it never edits
-driver/bug data, it only reads it to draw a chart. Colors below mirror the
-CSS custom properties in docs/style.css so the static README image matches
-the live, interactive chart on the site.
+Draw the "Bugs by driver" chart from docs/drivers.json as a static SVG for
+the README. Colors match the dark theme in docs/style.css.
 
 Usage:
     python scripts/generate_chart.py
@@ -22,7 +15,6 @@ DATA_PATH = REPO_ROOT / "docs" / "drivers.json"
 OUTPUT_DIR = REPO_ROOT / "docs" / "assets"
 SITE_URL = "https://indep-arg.github.io/NvidiaWatch/#trends"
 
-# Design tokens mirrored from docs/style.css :root (dark theme)
 THEMES = {
     "dark": {
         "bg": "#1e1c21",
@@ -31,6 +23,7 @@ THEMES = {
         "text_secondary": "#a3a0a8",
         "accent": "#c99aff",
         "fixed": "#8fc7ab",
+        "fixed_later": "#e6b422",
         "pending": "#e08276",
         "grid": "#332f38",
     },
@@ -42,6 +35,7 @@ FONT_MONO = "'DM Mono', 'SFMono-Regular', Consolas, monospace"
 WIDTH, HEIGHT = 1200, 400
 PAD_LEFT, PAD_RIGHT = 44, 24
 PAD_TOP, PAD_BOTTOM = 68, 60
+SEGMENT_GAP = 2
 
 
 def version_key(v):
@@ -58,19 +52,29 @@ def nice_ceil(value):
     return nice * (10 ** exp)
 
 
-def load_series():
-    with open(DATA_PATH, encoding="utf-8") as f:
+def bug_status(bug, version):
+    """Same rule as bugStatus() in docs/lib.js."""
+    fixed_in = bug.get("fixed_in")
+    if fixed_in is None:
+        return "pending"
+    if fixed_in == f"Fixed ({version})":
+        return "fixed"
+    return "fixed_later"
+
+
+def load_series(path=DATA_PATH):
+    with open(path, encoding="utf-8") as f:
         drivers = json.load(f)
     drivers = sorted(drivers, key=lambda d: version_key(d["version"]))
     series = []
     for d in drivers:
-        total = len(d["bugs"])
-        fixed = sum(1 for b in d["bugs"] if b.get("fixed_in") is not None)
+        statuses = [bug_status(b, d["version"]) for b in d["bugs"]]
         series.append({
             "version": d["version"],
-            "total": total,
-            "fixed": fixed,
-            "pending": total - fixed,
+            "total": len(statuses),
+            "fixed": statuses.count("fixed"),
+            "fixed_later": statuses.count("fixed_later"),
+            "pending": statuses.count("pending"),
         })
     return series
 
@@ -92,6 +96,22 @@ def build_svg(series, theme_name):
     plot_w = plot_x1 - plot_x0
     plot_h = plot_y1 - plot_y0
 
+    header = [
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {WIDTH} {HEIGHT}" '
+        f'width="{WIDTH}" height="{HEIGHT}" role="img" '
+        f'aria-label="Bugs by driver: fixed in the same release, fixed later, and pending">',
+        f'<rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="14" fill="{t["bg"]}" stroke="{t["border"]}"/>',
+        f'<text x="{PAD_LEFT}" y="34" font-family="{FONT_DISPLAY}" font-weight="700" '
+        f'font-size="20" fill="{t["text_primary"]}">Bugs by driver</text>',
+    ]
+
+    if n == 0:
+        return "\n".join(header + [
+            f'<text x="{WIDTH / 2:.1f}" y="{HEIGHT / 2:.1f}" text-anchor="middle" font-family="{FONT_MONO}" '
+            f'font-size="14" fill="{t["text_secondary"]}">No driver data yet</text>',
+            "</svg>",
+        ])
+
     max_total = max(item["total"] for item in series)
     y_max = nice_ceil(max_total * 1.15)
 
@@ -104,35 +124,23 @@ def build_svg(series, theme_name):
     def y_for(count):
         return plot_y1 - (count / y_max) * plot_h
 
-    parts = []
-    parts.append(
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {WIDTH} {HEIGHT}" '
-        f'width="{WIDTH}" height="{HEIGHT}" role="img" '
-        f'aria-label="Bugs by driver, fixed vs pending">'
-    )
-    parts.append(f'<rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" rx="14" fill="{t["bg"]}" stroke="{t["border"]}"/>')
-
-    # Title + subtitle
+    parts = list(header)
     first_v, last_v = series[0]["version"], series[-1]["version"]
-    parts.append(
-        f'<text x="{PAD_LEFT}" y="34" font-family="{FONT_DISPLAY}" font-weight="700" '
-        f'font-size="20" fill="{t["text_primary"]}">Bugs by driver</text>'
-    )
     parts.append(
         f'<text x="{PAD_LEFT}" y="54" font-family="{FONT_MONO}" font-size="12" '
         f'fill="{t["text_secondary"]}">{n} driver versions &#183; {esc(first_v)} &#8594; {esc(last_v)} &#183; auto-generated from drivers.json</text>'
     )
 
-    # Legend, top-right
     legend_y = 34
     parts.append(
         f'<text x="{WIDTH - PAD_RIGHT}" y="{legend_y}" text-anchor="end" '
         f'font-family="{FONT_MONO}" font-size="12" fill="{t["text_secondary"]}">'
-        f'<tspan fill="{t["fixed"]}">&#9679;</tspan> Fixed &#160;&#160;'
+        f'<tspan fill="{t["fixed"]}">&#9679;</tspan> Fixed in same release &#160;&#160;'
+        f'<tspan fill="{t["fixed_later"]}">&#9679;</tspan> Fixed later &#160;&#160;'
         f'<tspan fill="{t["pending"]}">&#9679;</tspan> Pending</text>'
     )
 
-    # Gridlines + y-axis labels (0, half, max)
+    # Gridlines and y labels at 0, half and max.
     for frac in (0, 0.5, 1.0):
         gy = y_for(y_max * frac)
         parts.append(f'<line x1="{plot_x0}" y1="{gy:.1f}" x2="{plot_x1}" y2="{gy:.1f}" stroke="{t["grid"]}" stroke-width="1"/>')
@@ -142,23 +150,26 @@ def build_svg(series, theme_name):
             f'font-size="10" fill="{t["text_secondary"]}">{label}</text>'
         )
 
-    # Bars (stacked: fixed at the base, pending on top)
+    # Stacked bottom to top: fixed in same release, fixed later, pending.
     peak_idx = max(range(n), key=lambda i: series[i]["total"])
     for i, item in enumerate(series):
         x = bar_x(i)
-        fixed_y = y_for(item["fixed"])
-        total_y = y_for(item["total"])
-        if item["fixed"] > 0:
-            parts.append(f'<rect x="{x:.2f}" y="{fixed_y:.1f}" width="{bar_w:.2f}" height="{(plot_y1 - fixed_y):.1f}" fill="{t["fixed"]}"/>')
-        if item["pending"] > 0:
-            parts.append(f'<rect x="{x:.2f}" y="{total_y:.1f}" width="{bar_w:.2f}" height="{(fixed_y - total_y):.1f}" fill="{t["pending"]}"/>')
-        title = f'{item["version"]}: {item["total"]} bugs ({item["fixed"]} fixed, {item["pending"]} pending)'
-        parts.append(f'<title>{esc(title)}</title>')
+        title = (f'{item["version"]}: {item["total"]} bugs ({item["fixed"]} fixed in same release, '
+                 f'{item["fixed_later"]} fixed later, {item["pending"]} pending)')
+        parts.append(f'<g><title>{esc(title)}</title>')
+        below = 0
+        for key in ("fixed", "fixed_later", "pending"):
+            count = item[key]
+            if count == 0:
+                continue
+            top = y_for(below + count)
+            bottom = y_for(below) - (SEGMENT_GAP if below else 0)
+            parts.append(f'<rect x="{x:.2f}" y="{top:.1f}" width="{bar_w:.2f}" height="{max(1, bottom - top):.1f}" fill="{t[key]}"/>')
+            below += count
+        parts.append('</g>')
 
-    # Axis baseline
     parts.append(f'<line x1="{plot_x0}" y1="{plot_y1}" x2="{plot_x1}" y2="{plot_y1}" stroke="{t["border"]}" stroke-width="1"/>')
 
-    # Start / end version labels
     first_x = bar_x(0) + bar_w / 2
     last_x = bar_x(n - 1) + bar_w / 2
     parts.append(
@@ -170,7 +181,6 @@ def build_svg(series, theme_name):
         f'font-size="11" fill="{t["text_secondary"]}">{esc(last_v)}</text>'
     )
 
-    # Peak callout: the worst driver branch gets called out explicitly
     peak = series[peak_idx]
     peak_x = bar_x(peak_idx) + bar_w / 2
     peak_top = y_for(peak["total"])
@@ -184,7 +194,6 @@ def build_svg(series, theme_name):
         f'font-weight="500" font-size="11" fill="{t["accent"]}">{esc(peak["version"])} &#183; {peak["total"]} bugs, worst branch</text>'
     )
 
-    # Footer caption pointing to the live, interactive version
     parts.append(
         f'<text x="{WIDTH / 2:.1f}" y="{HEIGHT - 18}" text-anchor="middle" font-family="{FONT_MONO}" '
         f'font-size="11" fill="{t["text_secondary"]}">Live &amp; interactive: {esc(SITE_URL)}</text>'

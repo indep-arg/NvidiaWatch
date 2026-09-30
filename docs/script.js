@@ -1,24 +1,21 @@
-// No framework, no build step, no charting library on purpose: docs/ is served
-// as-is by GitHub Pages, so keeping this dependency-free means it works if
-// someone forks the repo and opens index.html directly.
-//
-// `allDrivers` is fetched once from drivers.json and never mutated; every filter,
-// sort, search, and pagination is a UI-only derivation into `filteredDrivers`.
-// Search/filter/sort/page state is also mirrored into the URL query string
-// (see updateURL/loadStateFromURL) so a link someone shares reopens to the
-// same view instead of just the driver list from scratch.
+// Page state lives in the URL query string (q, page, filter, sort) so a shared
+// link reopens the same view. The data itself is never modified after loading.
 document.addEventListener('DOMContentLoaded', () => {
+    const {
+        CHANNEL_LABELS, escapeHTML, highlightText, formatVersion, compareVersions,
+        bugStatus, visibleBugs, filterAndSortDrivers, computeStats, trendSeries, paginationPages,
+    } = window.NvidiaWatch;
+
     const driverContainer = document.getElementById('driver-container');
     const statTotalDrivers = document.getElementById('stat-total-drivers');
     const statTotalBugs = document.getElementById('stat-total-bugs');
     const statFixedRate = document.getElementById('stat-fixed-rate');
+    const statSameReleaseRate = document.getElementById('stat-same-release-rate');
     const searchInput = document.getElementById('search-input');
     const searchClearBtn = document.getElementById('search-clear');
     const themeBtn = document.getElementById('theme-toggle');
     const viewModeBtn = document.getElementById('view-mode-toggle');
     const sortSelect = document.getElementById('sort-select');
-    // Scoped to #status-filters so the trends-range chips (added below) don't
-    // get swept into the status-filter logic just because they share `.chip`.
     const statusChips = document.querySelectorAll('#status-filters .chip');
     const htmlEl = document.documentElement;
     const paginationContainer = document.querySelector('.pagination-container');
@@ -27,23 +24,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const trendsTooltip = document.getElementById('trends-tooltip');
     const trendsRangeChips = document.querySelectorAll('#trends-range .chip');
 
-    let allDrivers = [];
-    let filteredDrivers = [];
-    let currentPage = 1;
-    const itemsPerPage = 9;
-    
-    let currentFilter = 'all'; 
-    let currentSort = 'version-desc';
-    let searchDebounceTimer = null;
-    let trendsRange = 'all';
-    let resizeDebounceTimer = null;
-
+    const ITEMS_PER_PAGE = 9;
     const VALID_FILTERS = Array.from(statusChips, chip => chip.dataset.filter);
     const VALID_SORTS = Array.from(sortSelect.options, option => option.value);
 
-    // localStorage throws (not just returns null) when the browser blocks site
-    // storage, e.g. Chrome with all cookies blocked. Theme/view are only
-    // conveniences, so a failure here must never stop the driver list loading.
+    let allDrivers = [];
+    let filteredDrivers = [];
+    let currentPage = 1;
+    let currentFilter = 'all';
+    let currentSort = 'version-desc';
+    let trendsRange = 'all';
+    let searchDebounceTimer = null;
+    let resizeDebounceTimer = null;
+    let toastTimeout = null;
+
+    function icon(name) {
+        return `<svg class="icon" aria-hidden="true"><use href="#icon-${name}"></use></svg>`;
+    }
+
+    // localStorage throws when site storage is blocked.
     function storageGet(key) {
         try { return localStorage.getItem(key); } catch { return null; }
     }
@@ -51,45 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try { localStorage.setItem(key, value); } catch { /* not persisted */ }
     }
 
-    // drivers.json versions are already 2-decimal strings (e.g. "581.80"), but
-    // this normalizes anything entered without the trailing zero (e.g. "581.8")
-    // so the UI never shows an inconsistent number of decimals. Falls back to
-    // the raw string for anything non-numeric rather than showing "NaN".
-    function formatVersion(version) {
-        const verNum = parseFloat(version);
-        return !isNaN(verNum) ? verNum.toFixed(2) : version;
+    function searchQuery() {
+        return searchInput.value.toLowerCase().trim();
     }
 
-    // Bug descriptions come from drivers.json, which the maintainer edits by hand -
-    // escaping before any innerHTML use keeps a stray "<" or "&" in a bug report
-    // from breaking the layout (and is cheap insurance against future contributor edits).
-    function escapeHTML(str) {
-        return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    // Wraps every match of the current search query in <mark>. Text is escaped
-    // first so the highlighting regex runs on safe HTML, and the query itself is
-    // escaped separately (safeQuery) so regex metacharacters typed by the user
-    // (e.g. searching "DLSS 4.0 (beta)") are treated as literal text, not regex syntax.
-    // The match runs on the raw text and each piece is escaped afterwards, so a
-    // query like "&" or "amp" can't land inside an entity such as "&amp;".
-    // split() with a capture group puts the matches at the odd indices.
-    function highlightText(text, query) {
-        if (!query) return escapeHTML(text);
-        const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regex = new RegExp(`(${safeQuery})`, 'gi');
-        return String(text)
-            .split(regex)
-            .map((part, i) => i % 2 ? `<mark class="highlight">${escapeHTML(part)}</mark>` : escapeHTML(part))
-            .join('');
-    }
-
-    let toastTimeout = null;
     function showToast(message) {
         const toast = document.getElementById('toast');
         if (!toast) return;
@@ -103,27 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 2500);
     }
 
-    // Driver versions sort by number, not by string: a plain string/localeCompare
-    // sort would put "581.9" after "581.10" alphabetically, which is backwards.
-    // Splitting on "." and comparing each segment as a number handles that correctly.
-    function compareVersions(a, b) {
-        const splitA = a.split('.').map(n => parseFloat(n) || 0);
-        const splitB = b.split('.').map(n => parseFloat(n) || 0);
-        const len = Math.max(splitA.length, splitB.length);
-        for (let i = 0; i < len; i++) {
-            const valA = splitA[i] || 0;
-            const valB = splitB[i] || 0;
-            if (valA !== valB) return valA - valB;
-        }
-        return 0;
+    // navigator.clipboard only exists on secure origins (https, localhost).
+    function copyText(text) {
+        if (!navigator.clipboard) return Promise.reject(new Error('Clipboard API unavailable'));
+        return navigator.clipboard.writeText(text);
     }
 
-    // Mirrors search/page/filter/sort into the URL (only when they differ from
-    // the default) so a copied link reopens to the same view. `replace` uses
-    // history.replaceState instead of pushState for updates that shouldn't add
-    // a new back-button entry, e.g. the initial load or a debounced search
-    // keystroke - only "real" navigation actions (page change, filter click)
-    // should be undoable with the browser back button.
+    // Search keystrokes and the initial load use replaceState so they don't
+    // pile up history entries; page, filter and sort changes push one.
     function updateURL(replace = false, hash = window.location.hash) {
         const params = new URLSearchParams();
         if (searchInput.value) params.set('q', searchInput.value);
@@ -131,20 +82,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentFilter !== 'all') params.set('filter', currentFilter);
         if (currentSort !== 'version-desc') params.set('sort', currentSort);
         const query = params.toString();
-        const newRelativePathQuery = window.location.pathname + (query ? "?" + query : "");
+        const url = window.location.pathname + (query ? `?${query}` : '') + hash;
         if (replace) {
-            history.replaceState(null, '', newRelativePathQuery + hash);
+            history.replaceState(null, '', url);
         } else {
-            history.pushState(null, '', newRelativePathQuery + hash);
+            history.pushState(null, '', url);
         }
     }
 
-    // The reverse of updateURL - runs right after drivers.json loads, so an
-    // incoming shared link restores its search/page/filter/sort before the
-    // first render instead of flashing the default view first, and again on
-    // every back/forward (popstate). Anything missing or unknown in the URL
-    // falls back to the default, so a hand-edited "?filter=xyz" can't leave
-    // the UI in a state no control can represent.
+    // Unknown values fall back to the defaults.
     function loadStateFromURL() {
         const params = new URLSearchParams(window.location.search);
         searchInput.value = params.get('q') || '';
@@ -167,48 +113,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // The <html data-theme> attribute itself is already set by the inline
-    // script in index.html <head> (before first paint, to avoid a dark->light
-    // flash on reload). This block runs after DOMContentLoaded just to sync
-    // the toggle button's aria-pressed state to match, since the button
-    // doesn't exist yet when the inline script runs.
-    // aria-pressed tracks dark mode because the button is labelled
-    // "Toggle Dark Mode" (and index.html starts it at "true" for the dark default).
-    const savedTheme = storageGet('theme');
-    if (savedTheme === 'light' || savedTheme === 'dark') {
-        htmlEl.setAttribute('data-theme', savedTheme);
+    function setView(view) {
+        htmlEl.setAttribute('data-view', view);
+        viewModeBtn.setAttribute('aria-pressed', view === 'timeline');
+        if (view === 'masonry') {
+            driverContainer.classList.replace('grid-layout', 'masonry-layout');
+        } else {
+            driverContainer.classList.replace('masonry-layout', 'grid-layout');
+        }
     }
-    themeBtn.setAttribute('aria-pressed', htmlEl.getAttribute('data-theme') === 'dark');
 
-    const savedView = storageGet('view') === 'timeline' ? 'timeline' : 'masonry';
-    htmlEl.setAttribute('data-view', savedView);
-    viewModeBtn.setAttribute('aria-pressed', savedView === 'timeline');
-    
-    if (savedView === 'masonry') {
-        driverContainer.classList.replace('grid-layout', 'masonry-layout');
-    } else {
-        driverContainer.classList.replace('masonry-layout', 'grid-layout');
-    }
+    // data-theme is already applied by the inline script in <head>.
+    themeBtn.setAttribute('aria-pressed', htmlEl.getAttribute('data-theme') === 'dark');
+    setView(storageGet('view') === 'timeline' ? 'timeline' : 'masonry');
 
     themeBtn.addEventListener('click', () => {
-        const currentTheme = htmlEl.getAttribute('data-theme');
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        const newTheme = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         htmlEl.setAttribute('data-theme', newTheme);
         themeBtn.setAttribute('aria-pressed', newTheme === 'dark');
         storageSet('theme', newTheme);
     });
 
     viewModeBtn.addEventListener('click', () => {
-        const currentView = htmlEl.getAttribute('data-view');
-        const newView = currentView === 'timeline' ? 'masonry' : 'timeline';
-        htmlEl.setAttribute('data-view', newView);
-        viewModeBtn.setAttribute('aria-pressed', newView === 'timeline');
+        const newView = htmlEl.getAttribute('data-view') === 'timeline' ? 'masonry' : 'timeline';
+        setView(newView);
         storageSet('view', newView);
-        if (newView === 'masonry') {
-            driverContainer.classList.replace('grid-layout', 'masonry-layout');
-        } else {
-            driverContainer.classList.replace('masonry-layout', 'grid-layout');
-        }
     });
 
     fetch('drivers.json')
@@ -218,21 +147,18 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             allDrivers = data;
-            const latest = data.sort((a, b) => compareVersions(b.version, a.version))[0];
+            const latest = data.reduce((a, b) => (compareVersions(b.version, a.version) > 0 ? b : a), data[0]);
             if (latest) {
                 document.title = `NvidiaWatch | Latest Driver ${formatVersion(latest.version)}`;
             }
             loadStateFromURL();
-            updateStats(allDrivers);
+            updateStats();
             renderTrendsChart();
             applyFiltersAndSort(false);
             const hash = window.location.hash;
             if (hash.startsWith('#driver-')) {
-                const targetVersion = hash.replace('#driver-', '');
-                const driverIndex = filteredDrivers.findIndex(d => d.version === targetVersion);
-                if (driverIndex !== -1) {
-                    currentPage = Math.floor(driverIndex / itemsPerPage) + 1;
-                }
+                const driverIndex = filteredDrivers.findIndex(d => d.version === hash.slice('#driver-'.length));
+                if (driverIndex !== -1) currentPage = Math.floor(driverIndex / ITEMS_PER_PAGE) + 1;
             }
             renderDrivers();
             renderPagination();
@@ -243,52 +169,18 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error loading data:', err);
             driverContainer.innerHTML = `
                 <div class="no-results" role="status">
-                    <ion-icon name="alert-circle-outline"></ion-icon>
+                    ${icon('alert-circle-outline')}
                     <p>Couldn't load driver data. Please try refreshing the page.</p>
                 </div>
             `;
         });
 
-    function updateStats(drivers) {
-        let totalDrivers = drivers.length;
-        let totalBugs = 0;
-        let fixedBugs = 0;
-        drivers.forEach(d => {
-            totalBugs += d.bugs.length;
-            fixedBugs += d.bugs.filter(b => b.fixed_in !== null).length;
-        });
-        const rate = totalBugs > 0 ? Math.round((fixedBugs / totalBugs) * 100) : 0;
-        statTotalDrivers.textContent = totalDrivers;
-        statTotalBugs.textContent = totalBugs;
-        statFixedRate.textContent = `${rate}%`;
-    }
-
-    // Builds the per-driver bug-count series behind the trends chart, for one
-    // of three ranges the user can pick via the chip buttons:
-    //   - 'recent': the 20 newest versions, chart's default so it loads fast
-    //     and stays readable without horizontal scrolling.
-    //   - 'worst': the 15 versions with the most bugs regardless of when they
-    //     shipped, then re-sorted back into version order so the x-axis still
-    //     reads chronologically instead of jumbled by bug count.
-    //   - 'all': every version ever tracked (can be wide - renderTrendsChart
-    //     lets this range grow past the container width and scroll).
-    function getTrendSeries(range) {
-        const chronological = [...allDrivers]
-            .sort((a, b) => compareVersions(a.version, b.version))
-            .map(d => {
-                const total = d.bugs.length;
-                const fixed = d.bugs.filter(b => b.fixed_in !== null).length;
-                return { version: d.version, total, fixed, pending: total - fixed };
-            });
-
-        if (range === 'recent') return chronological.slice(-20);
-        if (range === 'worst') {
-            return [...chronological]
-                .sort((a, b) => b.total - a.total)
-                .slice(0, 15)
-                .sort((a, b) => compareVersions(a.version, b.version));
-        }
-        return chronological; // 'all'
+    function updateStats() {
+        const stats = computeStats(allDrivers);
+        statTotalDrivers.textContent = stats.totalDrivers;
+        statTotalBugs.textContent = stats.totalBugs;
+        statFixedRate.textContent = `${stats.fixedRate}%`;
+        statSameReleaseRate.textContent = `${stats.sameReleaseRate}%`;
     }
 
     function rangeLabel(range) {
@@ -297,14 +189,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'all tracked versions';
     }
 
-    function resetTrendsTooltip(series, range) {
-        trendsTooltip.textContent = `Showing ${rangeLabel(range)} (${series.length}). Hover or tap a bar for details.`;
+    function resetTrendsTooltip() {
+        const count = trendSeries(allDrivers, trendsRange).length;
+        trendsTooltip.textContent = `Showing ${rangeLabel(trendsRange)} (${count}). Hover or tap a bar for details.`;
     }
 
-    // Used by the trends chart (clicking a bar) to jump straight to a driver
-    // card. Clears any active search/filter first, since the target driver's
-    // bugs could otherwise be hidden by whatever filter was active when the
-    // chart was clicked.
+    // Clears search and filter first so the target driver is guaranteed to be
+    // listed. One history entry, so a single Back returns to the chart.
     function goToDriver(version) {
         searchInput.value = '';
         searchClearBtn.classList.add('hidden');
@@ -312,41 +203,35 @@ document.addEventListener('DOMContentLoaded', () => {
         updateChipUI();
         applyFiltersAndSort(false);
         const idx = filteredDrivers.findIndex(d => d.version === version);
-        if (idx !== -1) currentPage = Math.floor(idx / itemsPerPage) + 1;
+        if (idx !== -1) currentPage = Math.floor(idx / ITEMS_PER_PAGE) + 1;
         renderDrivers();
         renderPagination();
-        // One history entry carrying both the cleared filters and the hash,
-        // so a single Back returns to where the chart was clicked.
         updateURL(false, `#driver-${version}`);
         scrollToDriverFromHash();
     }
 
-    // Builds the stacked bar chart by hand with raw SVG DOM nodes rather than
-    // a charting library, to keep the site dependency-free (see the file-level
-    // note at the top). Re-run on range switch, window resize, and initial load.
     function renderTrendsChart(range = trendsRange) {
         if (!trendsChartSvg || allDrivers.length === 0) return;
         trendsRange = range;
-        const series = getTrendSeries(range);
+        const series = trendSeries(allDrivers, range);
         const ns = 'http://www.w3.org/2000/svg';
         trendsChartSvg.innerHTML = '';
         if (series.length === 0) return;
 
-        // Bars get a fixed minimum width per range so they stay tappable/legible;
-        // 'all' can have far more bars than fit the container, so once the natural
-        // width exceeds the container the SVG grows past it and the wrapper scrolls
-        // horizontally instead of squeezing every bar down to nothing.
+        // Bars keep a minimum width; when they don't fit, the SVG grows past
+        // the container and the wrapper scrolls horizontally.
         const containerWidth = trendsChartSvg.parentElement.clientWidth || 800;
         const minBarWidth = range === 'all' ? 6 : 22;
         const gap = range === 'all' ? 1.5 : 6;
-        const naturalWidth = series.length * (minBarWidth + gap);
-        const width = Math.max(containerWidth, naturalWidth);
+        const width = Math.max(containerWidth, series.length * (minBarWidth + gap));
         const height = 240;
         const padTop = 8;
         const padBottom = 4;
         const plotH = height - padTop - padBottom;
+        const baseY = padTop + plotH;
         const barW = Math.max(minBarWidth, (width - gap * (series.length - 1)) / series.length);
         const maxTotal = Math.max(...series.map(s => s.total), 1);
+        const segmentGap = 2;
 
         trendsChartSvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
         trendsChartSvg.setAttribute('preserveAspectRatio', 'none');
@@ -357,18 +242,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         series.forEach((item, i) => {
             const x = i * (barW + gap);
-            const baseY = padTop + plotH;
-            const fixedH = (item.fixed / maxTotal) * plotH;
-            const pendingH = (item.pending / maxTotal) * plotH;
             const versionDisplay = formatVersion(item.version);
+            const detail = `${item.total} bug${item.total === 1 ? '' : 's'} (${item.fixed} fixed in same release, ${item.fixedLater} fixed later, ${item.pending} pending)`;
 
             const g = document.createElementNS(ns, 'g');
             g.setAttribute('class', 'trend-bar-group');
             g.setAttribute('tabindex', '0');
             g.setAttribute('role', 'button');
-            g.setAttribute('aria-label', `Driver ${versionDisplay}: ${item.total} bugs, ${item.fixed} fixed, ${item.pending} pending. Jump to this driver.`);
+            g.setAttribute('aria-label', `Driver ${versionDisplay}: ${detail}. Jump to this driver.`);
 
-            // Wider invisible hit area so thin bars stay easy to hover/tap.
+            // Invisible full-height hit area so thin bars are easy to hover and tap.
             const hit = document.createElementNS(ns, 'rect');
             hit.setAttribute('x', x - gap / 2);
             hit.setAttribute('y', padTop);
@@ -377,27 +260,25 @@ document.addEventListener('DOMContentLoaded', () => {
             hit.setAttribute('class', 'trend-bar-hit');
             g.appendChild(hit);
 
-            if (item.fixed > 0) {
-                const rFixed = document.createElementNS(ns, 'rect');
-                rFixed.setAttribute('x', x);
-                rFixed.setAttribute('y', baseY - fixedH);
-                rFixed.setAttribute('width', barW);
-                rFixed.setAttribute('height', fixedH);
-                rFixed.setAttribute('class', 'trend-bar-fixed');
-                g.appendChild(rFixed);
-            }
-            if (item.pending > 0) {
-                const rPending = document.createElementNS(ns, 'rect');
-                rPending.setAttribute('x', x);
-                rPending.setAttribute('y', baseY - fixedH - pendingH);
-                rPending.setAttribute('width', barW);
-                rPending.setAttribute('height', pendingH);
-                rPending.setAttribute('class', 'trend-bar-pending');
-                g.appendChild(rPending);
-            }
+            let below = 0;
+            [['fixed', 'trend-bar-fixed'], ['fixedLater', 'trend-bar-fixed-later'], ['pending', 'trend-bar-pending']]
+                .forEach(([key, className]) => {
+                    const count = item[key];
+                    if (count === 0) return;
+                    const top = baseY - ((below + count) / maxTotal) * plotH;
+                    const bottom = baseY - (below / maxTotal) * plotH - (below > 0 ? segmentGap : 0);
+                    const rect = document.createElementNS(ns, 'rect');
+                    rect.setAttribute('x', x);
+                    rect.setAttribute('y', top);
+                    rect.setAttribute('width', barW);
+                    rect.setAttribute('height', Math.max(1, bottom - top));
+                    rect.setAttribute('class', className);
+                    g.appendChild(rect);
+                    below += count;
+                });
 
             const showDetail = () => {
-                trendsTooltip.textContent = `Driver ${versionDisplay}: ${item.total} bug${item.total === 1 ? '' : 's'} (${item.fixed} fixed, ${item.pending} pending)`;
+                trendsTooltip.textContent = `Driver ${versionDisplay}: ${detail}`;
             };
             g.addEventListener('mouseenter', showDetail);
             g.addEventListener('focus', showDetail);
@@ -413,49 +294,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         trendsChartSvg.appendChild(frag);
-        resetTrendsTooltip(series, range);
+        resetTrendsTooltip();
     }
 
-    // Under the Pending/Fixed filter, a driver with no bugs of that status is
-    // dropped outright. Otherwise a card survives if either its version
-    // number matches the search text, or at least one of its bugs matches
-    // *both* the active status filter (all/pending/fixed) and the search text.
-    // Status filtering happens on the bug list first so that, e.g., searching
-    // "DLSS" under the "Fixed" filter only counts a driver as a match when it
-    // has a *fixed* DLSS bug - not just any DLSS bug regardless of status.
     function applyFiltersAndSort(shouldRender = true, replaceHistory = false) {
-        const query = searchInput.value.toLowerCase().trim();
-        filteredDrivers = allDrivers.filter(driver => {
-            const versionText = `driver ${formatVersion(driver.version)}`.toLowerCase();
-            const bugsMatchingStatus = driver.bugs.filter(bug => {
-                if (currentFilter === 'pending') return bug.fixed_in === null;
-                if (currentFilter === 'fixed') return bug.fixed_in !== null;
-                return true;
-            });
-            if (bugsMatchingStatus.length === 0 && currentFilter !== 'all') {
-                return false;
-            }
-            const hasMatchingBug = bugsMatchingStatus.some(bug => {
-                const desc = (bug.description || "").toLowerCase();
-                const status = (bug.fixed_in || "Pending").toLowerCase();
-                return desc.includes(query) || status.includes(query);
-            });
-            return versionText.includes(query) || hasMatchingBug;
+        filteredDrivers = filterAndSortDrivers(allDrivers, {
+            query: searchQuery(),
+            filter: currentFilter,
+            sort: currentSort,
         });
 
-        filteredDrivers.sort((a, b) => {
-            switch (currentSort) {
-                case 'version-asc': return compareVersions(a.version, b.version);
-                case 'version-desc': return compareVersions(b.version, a.version);
-                case 'bugs-asc': return a.bugs.length - b.bugs.length;
-                case 'bugs-desc': return b.bugs.length - a.bugs.length;
-                default: return 0;
-            }
-        });
-
-        const totalPages = Math.max(1, Math.ceil(filteredDrivers.length / itemsPerPage));
-        if (currentPage > totalPages) currentPage = totalPages;
-        if (currentPage < 1) currentPage = 1;
+        const totalPages = Math.max(1, Math.ceil(filteredDrivers.length / ITEMS_PER_PAGE));
+        currentPage = Math.min(Math.max(currentPage, 1), totalPages);
 
         if (shouldRender) {
             currentPage = 1;
@@ -465,22 +315,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Renders one page of driver cards. `filteredDrivers` already reflects
-    // search/status/sort (see applyFiltersAndSort); this only slices out the
-    // current page and, per card, re-applies the status filter + search
-    // highlighting to its bug list so a card that matched via its version
-    // number still only lists the bugs relevant to the active filter.
+    function driverMetaHTML(driver) {
+        const parts = (driver.channels || []).map(channel =>
+            `<span class="driver-channel">${escapeHTML(CHANNEL_LABELS[channel] || channel)}</span>`);
+        if (driver.release_date) {
+            parts.push(`<time datetime="${escapeHTML(driver.release_date)}">${escapeHTML(driver.release_date)}</time>`);
+        }
+        if (driver.release_notes) {
+            parts.push(`<a href="${escapeHTML(driver.release_notes)}" target="_blank" rel="noopener noreferrer">Release notes</a>`);
+        }
+        return parts.length ? `<div class="driver-meta">${parts.join('')}</div>` : '';
+    }
+
+    function bugItemHTML(bug, driver, query) {
+        const status = bugStatus(bug, driver.version);
+        const statusTitle = status === 'fixed' ? 'Introduced and fixed in this same driver version'
+            : status === 'fixed-later' ? 'Fixed in a later release or externally' : 'Not fixed yet';
+        const ids = bug.ids || [];
+        const idQuery = query.replace(/^#/, '');
+        const idsHTML = ids.length
+            ? `<span class="bug-ids"><span class="sr-only">NVIDIA bug ID${ids.length === 1 ? '' : 's'}:</span>${ids.map(id => `<span class="bug-id">#${highlightText(id, idQuery)}</span>`).join('')}</span>`
+            : '';
+        return `
+            <div class="bug-desc">${highlightText(bug.description, query)}</div>
+            <div class="bug-footer">
+                ${idsHTML}
+                <span class="status-badge status-${status}" title="${statusTitle}">
+                    ${highlightText(bug.fixed_in || 'Pending', query)}
+                </span>
+            </div>
+        `;
+    }
+
     function renderDrivers() {
         driverContainer.innerHTML = '';
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const driversToRender = filteredDrivers.slice(startIndex, startIndex + itemsPerPage);
+        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+        const driversToRender = filteredDrivers.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
         resultsStatus.textContent = `${filteredDrivers.length} driver${filteredDrivers.length === 1 ? '' : 's'} found`;
 
         if (driversToRender.length === 0) {
             driverContainer.innerHTML = `
                 <div class="no-results" role="status">
-                    <ion-icon name="search-outline"></ion-icon>
+                    ${icon('search-outline')}
                     <p>No results found for your current filters.</p>
                     <button class="clear-search-btn" id="empty-clear-btn">Clear all filters</button>
                 </div>
@@ -490,88 +367,49 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const fragment = document.createDocumentFragment();
-        const query = searchInput.value.toLowerCase().trim();
+        const query = searchQuery();
 
         driversToRender.forEach(driver => {
             const versionDisplay = formatVersion(driver.version);
             const card = document.createElement('div');
             card.className = 'driver-card';
             card.id = `driver-${driver.version}`;
-            
+
+            // The version is a plain in-page link; the hashchange listener
+            // below scrolls to and highlights the card.
             const header = document.createElement('div');
             header.className = 'driver-header';
-
-            const versionHighlighted = highlightText(`Driver ${versionDisplay}`, query);
             header.innerHTML = `
-                <div class="driver-version">${versionHighlighted}</div>
+                <a class="driver-version" href="#driver-${escapeHTML(driver.version)}">${highlightText(`Driver ${versionDisplay}`, query)}</a>
+                ${driverMetaHTML(driver)}
                 <button class="copy-link-btn" aria-label="Copy link to Driver ${versionDisplay}" title="Copy link to driver">
-                    <ion-icon name="link-outline"></ion-icon>
+                    ${icon('link-outline')}
                 </button>
             `;
-            
-            const copyBtn = header.querySelector('.copy-link-btn');
-            copyBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
+            header.querySelector('.copy-link-btn').addEventListener('click', () => {
                 const url = new URL(window.location.href);
                 url.hash = `driver-${driver.version}`;
-                navigator.clipboard.writeText(url.toString())
+                copyText(url.toString())
                     .then(() => showToast(`Link to Driver ${versionDisplay} copied!`))
                     .catch(() => showToast('Failed to copy link.'));
-            });
-
-            header.style.cursor = 'pointer';
-            header.setAttribute('role', 'button');
-            header.setAttribute('tabindex', '0');
-            header.addEventListener('click', (e) => {
-                if (e.target.closest('.copy-link-btn')) return;
-                const version = driver.version;
-                history.pushState(null, '', `#driver-${version}`);
-                document.getElementById(`driver-${version}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            });
-            header.addEventListener('keydown', (e) => {
-                if (e.target.closest('.copy-link-btn')) return;
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    header.click();
-                }
             });
             card.appendChild(header);
 
             const bugList = document.createElement('ul');
             bugList.className = 'bug-list';
 
-            const bugsToShow = driver.bugs.filter(bug => {
-                const matchesStatus = (currentFilter === 'all') || 
-                                     (currentFilter === 'pending' && bug.fixed_in === null) || 
-                                     (currentFilter === 'fixed' && bug.fixed_in !== null);
-                const matchesSearch = !query || 
-                                     (bug.description || "").toLowerCase().includes(query) || 
-                                     (bug.fixed_in || "Pending").toLowerCase().includes(query);
-                return matchesStatus && matchesSearch;
-            });
-
+            const bugsToShow = visibleBugs(driver, currentFilter, query);
             bugsToShow.forEach(bug => {
                 const li = document.createElement('li');
                 li.className = 'bug-item';
-                const isFixed = bug.fixed_in !== null;
-                const descHighlighted = highlightText(bug.description, query);
-                const statusHighlighted = highlightText(bug.fixed_in || 'Pending', query);
-
-                li.innerHTML = `
-                    <div class="bug-desc">${descHighlighted}</div>
-                    <div class="bug-footer">
-                        <span class="status-badge ${isFixed ? 'status-fixed' : 'status-pending'}">
-                            ${statusHighlighted}
-                        </span>
-                    </div>
-                `;
+                li.innerHTML = bugItemHTML(bug, driver, query);
                 bugList.appendChild(li);
             });
 
             if (bugsToShow.length === 0) {
                 const emptyLi = document.createElement('li');
                 emptyLi.className = 'bug-item';
-                emptyLi.innerHTML = `<div class="bug-desc" style="color: var(--text-secondary); font-style: italic;">No bugs match the current filter.</div>`;
+                emptyLi.innerHTML = '<div class="bug-desc bug-desc--empty">No bugs match the current filter.</div>';
                 bugList.appendChild(emptyLi);
             }
 
@@ -582,10 +420,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function highlightDriverCard(el) {
-        if (!el) return;
-        // Force a reflow before re-adding so the animation restarts even if
-        // the same card was already highlighted a moment ago (e.g. clicking
-        // the same bar twice in a row).
+        // Forcing a reflow restarts the animation if the card is already pulsing.
         el.classList.remove('highlight-pulse');
         void el.offsetWidth;
         el.classList.add('highlight-pulse');
@@ -595,20 +430,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function scrollToDriverFromHash() {
         const hash = window.location.hash;
-        if (hash.startsWith('#driver-')) {
-            setTimeout(() => {
-                const el = document.getElementById(hash.slice(1));
-                if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    highlightDriverCard(el);
-                }
-            }, 150);
-        }
+        if (!hash.startsWith('#driver-')) return;
+        setTimeout(() => {
+            const el = document.getElementById(hash.slice(1));
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                highlightDriverCard(el);
+            }
+        }, 150);
     }
 
     function renderPagination() {
         paginationContainer.innerHTML = '';
-        const totalPages = Math.ceil(filteredDrivers.length / itemsPerPage);
+        const totalPages = Math.ceil(filteredDrivers.length / ITEMS_PER_PAGE);
         if (totalPages <= 1) return;
 
         const createBtn = (content, page, label, active = false, disabled = false) => {
@@ -616,36 +450,26 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.className = `page-btn ${active ? 'active' : ''}`;
             btn.innerHTML = content;
             btn.setAttribute('aria-label', label);
+            if (active) btn.setAttribute('aria-current', 'page');
             btn.disabled = disabled;
             if (!disabled) btn.addEventListener('click', () => changePage(page));
             return btn;
         };
 
-        paginationContainer.appendChild(createBtn('<ion-icon name="chevron-back-outline"></ion-icon>', currentPage - 1, 'Previous page', false, currentPage === 1));
+        paginationContainer.appendChild(createBtn(icon('chevron-back-outline'), currentPage - 1, 'Previous page', false, currentPage === 1));
 
-        let pages = [];
-        if (totalPages <= 7) {
-            pages = Array.from({length: totalPages}, (_, i) => i + 1);
-        } else {
-            if (currentPage <= 4) pages = [1, 2, 3, 4, 5, '...', totalPages];
-            else if (currentPage >= totalPages - 3) pages = [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
-            else pages = [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
-        }
-
-        pages.forEach(p => {
+        paginationPages(currentPage, totalPages).forEach(p => {
             if (p === '...') {
-                const dot = document.createElement('span');
-                dot.textContent = '...';
-                dot.className = 'page-btn';
-                dot.style.border = 'none';
-                dot.style.backgroundColor = 'transparent';
-                paginationContainer.appendChild(dot);
+                const dots = document.createElement('span');
+                dots.textContent = '...';
+                dots.className = 'page-btn page-ellipsis';
+                paginationContainer.appendChild(dots);
             } else {
                 paginationContainer.appendChild(createBtn(p, p, `Go to page ${p}`, p === currentPage));
             }
         });
 
-        paginationContainer.appendChild(createBtn('<ion-icon name="chevron-forward-outline"></ion-icon>', currentPage + 1, 'Next page', false, currentPage === totalPages));
+        paginationContainer.appendChild(createBtn(icon('chevron-forward-outline'), currentPage + 1, 'Next page', false, currentPage === totalPages));
     }
 
     function changePage(newPage) {
@@ -658,23 +482,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function clearAllFilters() {
         searchInput.value = '';
+        searchClearBtn.classList.add('hidden');
         currentFilter = 'all';
         currentSort = 'version-desc';
-        sortSelect.value = 'version-desc';
+        sortSelect.value = currentSort;
         updateChipUI();
         applyFiltersAndSort();
     }
 
-    // Debounced so re-filtering (and the URL update it triggers) runs once
-    // after the user pauses typing, not on every keystroke. `replaceHistory:
-    // true` keeps rapid typing from spamming the browser history with one
-    // entry per keystroke.
     searchInput.addEventListener('input', () => {
         searchClearBtn.classList.toggle('hidden', !searchInput.value);
         clearTimeout(searchDebounceTimer);
-        searchDebounceTimer = setTimeout(() => {
-            applyFiltersAndSort(true, true);
-        }, 300);
+        searchDebounceTimer = setTimeout(() => applyFiltersAndSort(true, true), 300);
     });
 
     searchClearBtn.addEventListener('click', () => {
@@ -708,27 +527,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // The chart's width is computed from the container's pixel width (see
-    // renderTrendsChart), so it needs a full re-render on resize, not just a
-    // CSS reflow. Debounced so dragging a window edge doesn't rebuild the SVG
-    // on every intermediate frame.
+    // The chart width depends on the container width, so it is rebuilt on resize.
     window.addEventListener('resize', () => {
         clearTimeout(resizeDebounceTimer);
         resizeDebounceTimer = setTimeout(() => renderTrendsChart(), 200);
     });
 
-    // Bound once (not per-render) to avoid piling up duplicate listeners
-    // every time the chart re-draws (range switch, resize, initial load).
-    trendsChartSvg?.addEventListener('mouseleave', () => {
-        resetTrendsTooltip(getTrendSeries(trendsRange), trendsRange);
-    });
+    trendsChartSvg?.addEventListener('mouseleave', resetTrendsTooltip);
 
     window.addEventListener('hashchange', scrollToDriverFromHash);
 
-    // Back/forward: updateURL pushes an entry for every page/filter/sort
-    // change, so re-read that entry's state and re-render to match it. No
-    // updateURL here - the browser already moved to the right URL. Scrolling
-    // to a #driver- hash is left to the hashchange listener above.
     window.addEventListener('popstate', () => {
         if (allDrivers.length === 0) return;
         clearTimeout(searchDebounceTimer);
@@ -737,5 +545,4 @@ document.addEventListener('DOMContentLoaded', () => {
         renderDrivers();
         renderPagination();
     });
-
 });
