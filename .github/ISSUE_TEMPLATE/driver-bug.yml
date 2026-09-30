@@ -1,0 +1,47 @@
+name: Driver bug or correction
+description: Report a missing driver bug, or a fix to existing data.
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Driver version
+      description: Two decimals, e.g. 581.80
+      placeholder: "581.80"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug description
+      description: What goes wrong, and which games or apps are affected.
+    validations:
+      required: true
+  - type: input
+    id: ids
+    attributes:
+      label: NVIDIA bug ID(s)
+      description: As listed in the release notes, separated by commas. Leave empty if there is none.
+      placeholder: "4103923, 4343427"
+  - type: dropdown
+    id: status
+    attributes:
+      label: Status
+      options:
+        - Pending
+        - Fixed in a driver (say which below)
+        - Fixed outside the driver (game patch, OTA profile update)
+    validations:
+      required: true
+  - type: input
+    id: fixed_in
+    attributes:
+      label: Fixed in
+      description: Driver version that fixed it, if any.
+      placeholder: "581.94"
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: Link to the official NVIDIA release notes, driver page or post.
+    validations:
+      required: true
