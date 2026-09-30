@@ -42,11 +42,17 @@
         return 0;
     }
 
+    // 'fixed': this driver fixed it (listed under the driver's own fixes).
+    // 'fixed-later' and 'pending': a known issue in this driver.
     // Same rule as bug_status() in scripts/generate_chart.py.
     function bugStatus(bug, version) {
         if (bug.fixed_in === null) return 'pending';
         if (bug.fixed_in === `Fixed (${version})`) return 'fixed';
         return 'fixed-later';
+    }
+
+    function knownIssueCount(driver) {
+        return driver.bugs.filter(bug => bugStatus(bug, driver.version) !== 'fixed').length;
     }
 
     function matchesStatusFilter(bug, filter) {
@@ -84,8 +90,8 @@
             switch (sort) {
                 case 'version-asc': return compareVersions(a.version, b.version);
                 case 'version-desc': return compareVersions(b.version, a.version);
-                case 'bugs-asc': return a.bugs.length - b.bugs.length;
-                case 'bugs-desc': return b.bugs.length - a.bugs.length;
+                case 'bugs-asc': return knownIssueCount(a) - knownIssueCount(b);
+                case 'bugs-desc': return knownIssueCount(b) - knownIssueCount(a);
                 default: return 0;
             }
         });
@@ -94,46 +100,44 @@
 
     function computeStats(drivers) {
         let totalBugs = 0;
-        let fixedBugs = 0;
-        let sameReleaseBugs = 0;
+        let pending = 0;
         drivers.forEach(d => {
             d.bugs.forEach(b => {
                 totalBugs++;
-                const status = bugStatus(b, d.version);
-                if (status !== 'pending') fixedBugs++;
-                if (status === 'fixed') sameReleaseBugs++;
+                if (b.fixed_in === null) pending++;
             });
         });
-        const percent = n => totalBugs > 0 ? Math.round((n / totalBugs) * 100) : 0;
         return {
             totalDrivers: drivers.length,
             totalBugs,
-            fixedRate: percent(fixedBugs),
-            sameReleaseRate: percent(sameReleaseBugs),
+            fixedRate: totalBugs > 0 ? Math.round(((totalBugs - pending) / totalBugs) * 100) : 0,
+            pending,
         };
     }
 
-    // 'recent': the 20 newest versions. 'worst': the 15 with the most bugs,
-    // put back in version order. 'all': everything.
+    // 'recent': the 20 newest versions. 'worst': the 15 with the most known
+    // issues, put back in version order. 'all': everything.
     function trendSeries(drivers, range) {
         const chronological = [...drivers]
             .sort((a, b) => compareVersions(a.version, b.version))
             .map(d => {
                 const statuses = d.bugs.map(b => bugStatus(b, d.version));
                 const count = status => statuses.filter(s => s === status).length;
+                const fixedLater = count('fixed-later');
+                const pending = count('pending');
                 return {
                     version: d.version,
-                    total: statuses.length,
+                    known: fixedLater + pending,
+                    fixedLater,
+                    pending,
                     fixed: count('fixed'),
-                    fixedLater: count('fixed-later'),
-                    pending: count('pending'),
                 };
             });
 
         if (range === 'recent') return chronological.slice(-20);
         if (range === 'worst') {
             return [...chronological]
-                .sort((a, b) => b.total - a.total)
+                .sort((a, b) => b.known - a.known)
                 .slice(0, 15)
                 .sort((a, b) => compareVersions(a.version, b.version));
         }
@@ -157,6 +161,7 @@
         formatVersion,
         compareVersions,
         bugStatus,
+        knownIssueCount,
         bugMatchesQuery,
         visibleBugs,
         filterAndSortDrivers,

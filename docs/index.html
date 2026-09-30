@@ -118,8 +118,8 @@
                     <select id="sort-select" class="sort-dropdown">
                         <option value="version-desc">Version (newest)</option>
                         <option value="version-asc">Version (oldest)</option>
-                        <option value="bugs-desc">Most bugs</option>
-                        <option value="bugs-asc">Fewest bugs</option>
+                        <option value="bugs-desc">Most known issues</option>
+                        <option value="bugs-asc">Fewest known issues</option>
                     </select>
                 </div>
             </div>
@@ -140,9 +140,9 @@
                 <div class="stat-num" id="stat-fixed-rate">-</div>
                 <div class="stat-label">Fix rate</div>
             </div>
-            <div class="stat done">
-                <div class="stat-num" id="stat-same-release-rate">-</div>
-                <div class="stat-label">Fixed in same release</div>
+            <div class="stat pending">
+                <div class="stat-num" id="stat-pending">-</div>
+                <div class="stat-label">Pending</div>
             </div>
         </div>
 
@@ -158,16 +158,18 @@
                 </div>
             </div>
             <div class="trends-legend">
-                <span class="legend-item"><span class="legend-swatch legend-swatch--fixed"></span>Fixed in same release</span>
+                <span class="legend-group">Above the line</span>
                 <span class="legend-item"><span class="legend-swatch legend-swatch--fixed-later"></span>Fixed later</span>
                 <span class="legend-item"><span class="legend-swatch legend-swatch--pending"></span>Pending</span>
+                <span class="legend-group">Below the line</span>
+                <span class="legend-item"><span class="legend-swatch legend-swatch--fixed"></span>Fixed in this driver</span>
                 <span class="legend-hint js-only">Click a bar for details</span>
             </div>
             <div class="trends-chart-wrapper">
-                <img class="trends-chart-fallback no-js-only" src="assets/bugs-chart-dark.svg" alt="Bar chart of bugs by driver: fixed in the same release, fixed later, and pending" width="1200" height="400" loading="lazy">
-                <svg id="trends-chart" class="trends-chart js-only" role="group" aria-label="Bar chart of bugs by driver: fixed in the same release, fixed later, and pending"></svg>
+                <img class="trends-chart-fallback no-js-only" src="assets/bugs-chart-dark.svg" alt="Bar chart per driver: known issues above the line, bugs fixed in that driver below it" width="1200" height="400" loading="lazy">
+                <svg id="trends-chart" class="trends-chart js-only" role="group" aria-label="Bar chart per driver: known issues above the line, bugs fixed in that driver below it"></svg>
             </div>
-            <p class="trends-note">"Fixed in same release" means the bug was introduced and fixed within that same driver version. "Fixed later" covers fixes in a later driver or outside the driver (game patch, OTA profile update).</p>
+            <p class="trends-note">Above the line: the known issues each driver shipped with, either fixed in a later driver (or outside the driver, like a game patch) or still pending. Below the line: the bugs that driver fixed.</p>
             <div id="trends-tooltip" class="trends-tooltip js-only">Loading chart...</div>
         </section>
 

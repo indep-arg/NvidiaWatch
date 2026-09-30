@@ -30,13 +30,12 @@ class TestBugStatus(unittest.TestCase):
         self.assertEqual(gc.bug_status(bug("Fixed (OTA profile update)"), "581.80"), "fixed_later")
 
 
-class TestNiceCeil(unittest.TestCase):
-    def test_rounds_up_to_1_2_5(self):
-        self.assertEqual(gc.nice_ceil(0), 1)
-        self.assertEqual(gc.nice_ceil(7), 10)
-        self.assertEqual(gc.nice_ceil(12), 20)
-        self.assertEqual(gc.nice_ceil(39.1), 50)
-        self.assertEqual(gc.nice_ceil(50), 50)
+class TestCeilTo(unittest.TestCase):
+    def test_rounds_up_to_step(self):
+        self.assertEqual(gc.ceil_to(0, 5), 5)
+        self.assertEqual(gc.ceil_to(5, 5), 5)
+        self.assertEqual(gc.ceil_to(16, 5), 20)
+        self.assertEqual(gc.ceil_to(23, 5), 25)
 
 
 class TestLoadSeries(unittest.TestCase):
@@ -55,7 +54,7 @@ class TestLoadSeries(unittest.TestCase):
     def test_sorted_numerically_and_counted(self):
         series = gc.load_series(self.path)
         self.assertEqual([s["version"] for s in series], ["581.9", "581.80", "581.94"])
-        self.assertEqual(series[1], {"version": "581.80", "total": 3, "fixed": 1, "fixed_later": 1, "pending": 1})
+        self.assertEqual(series[1], {"version": "581.80", "known": 2, "fixed_later": 1, "pending": 1, "fixed": 1})
 
 
 class TestBuildSvg(unittest.TestCase):
@@ -66,8 +65,8 @@ class TestBuildSvg(unittest.TestCase):
 
     def test_one_group_per_driver_with_title(self):
         series = [
-            {"version": "581.80", "total": 3, "fixed": 1, "fixed_later": 1, "pending": 1},
-            {"version": "581.94", "total": 0, "fixed": 0, "fixed_later": 0, "pending": 0},
+            {"version": "581.80", "known": 2, "fixed_later": 1, "pending": 1, "fixed": 1},
+            {"version": "581.94", "known": 0, "fixed_later": 0, "pending": 0, "fixed": 0},
         ]
         root = ET.fromstring(gc.build_svg(series, "dark"))
         groups = root.findall(f"{SVG_NS}g")
@@ -75,6 +74,20 @@ class TestBuildSvg(unittest.TestCase):
         self.assertEqual(groups[0][0].tag, f"{SVG_NS}title")
         self.assertEqual(len(groups[0].findall(f"{SVG_NS}rect")), 3)
         self.assertEqual(len(groups[1].findall(f"{SVG_NS}rect")), 0)
+
+    def test_known_issues_above_and_fixes_below_the_baseline(self):
+        series = [{"version": "581.80", "known": 3, "fixed_later": 2, "pending": 1, "fixed": 4}]
+        root = ET.fromstring(gc.build_svg(series, "dark"))
+        rects = root.find(f"{SVG_NS}g").findall(f"{SVG_NS}rect")
+        colors = {r.get("fill"): r for r in rects}
+        base = next(float(l.get("y1")) for l in root.findall(f"{SVG_NS}line") if l.get("stroke") == gc.THEMES["dark"]["border"])
+        fixed = colors[gc.THEMES["dark"]["fixed"]]
+        later = colors[gc.THEMES["dark"]["fixed_later"]]
+        pending = colors[gc.THEMES["dark"]["pending"]]
+        self.assertGreater(float(fixed.get("y")), base)
+        self.assertLess(float(later.get("y")) + float(later.get("height")), base)
+        self.assertLess(float(pending.get("y")), float(later.get("y")))
+        self.assertIn("most known issues (3)", "".join(root.itertext()))
 
     def test_real_data_renders_valid_svg(self):
         ET.fromstring(gc.build_svg(gc.load_series(), "dark"))

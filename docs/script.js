@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statTotalDrivers = document.getElementById('stat-total-drivers');
     const statTotalBugs = document.getElementById('stat-total-bugs');
     const statFixedRate = document.getElementById('stat-fixed-rate');
-    const statSameReleaseRate = document.getElementById('stat-same-release-rate');
+    const statPending = document.getElementById('stat-pending');
     const searchInput = document.getElementById('search-input');
     const searchClearBtn = document.getElementById('search-clear');
     const themeBtn = document.getElementById('theme-toggle');
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statTotalDrivers.textContent = stats.totalDrivers;
         statTotalBugs.textContent = stats.totalBugs;
         statFixedRate.textContent = `${stats.fixedRate}%`;
-        statSameReleaseRate.textContent = `${stats.sameReleaseRate}%`;
+        statPending.textContent = stats.pending;
     }
 
     function rangeLabel(range) {
@@ -210,6 +210,8 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollToDriverFromHash();
     }
 
+    // Known issues (fixed later, pending) go up from the baseline, the bugs a
+    // driver fixed go down. Both sides share one scale.
     function renderTrendsChart(range = trendsRange) {
         if (!trendsChartSvg || allDrivers.length === 0) return;
         trendsRange = range;
@@ -224,14 +226,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const minBarWidth = range === 'all' ? 6 : 22;
         const gap = range === 'all' ? 1.5 : 6;
         const width = Math.max(containerWidth, series.length * (minBarWidth + gap));
-        const height = 240;
+        const height = 280;
         const padTop = 8;
-        const padBottom = 4;
+        const padBottom = 8;
         const plotH = height - padTop - padBottom;
-        const baseY = padTop + plotH;
         const barW = Math.max(minBarWidth, (width - gap * (series.length - 1)) / series.length);
-        const maxTotal = Math.max(...series.map(s => s.total), 1);
+        const maxUp = Math.max(...series.map(s => s.known), 1);
+        const maxDown = Math.max(...series.map(s => s.fixed), 1);
+        const unit = plotH / (maxUp + maxDown);
+        const baseY = padTop + maxUp * unit;
         const segmentGap = 2;
+        const baselineGap = 1;
 
         trendsChartSvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
         trendsChartSvg.setAttribute('preserveAspectRatio', 'none');
@@ -240,10 +245,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const frag = document.createDocumentFragment();
 
+        const rect = (x, y, w, h, className) => {
+            const r = document.createElementNS(ns, 'rect');
+            r.setAttribute('x', x);
+            r.setAttribute('y', y);
+            r.setAttribute('width', w);
+            r.setAttribute('height', Math.max(1, h));
+            r.setAttribute('class', className);
+            return r;
+        };
+
         series.forEach((item, i) => {
             const x = i * (barW + gap);
             const versionDisplay = formatVersion(item.version);
-            const detail = `${item.total} bug${item.total === 1 ? '' : 's'} (${item.fixed} fixed in same release, ${item.fixedLater} fixed later, ${item.pending} pending)`;
+            const detail = `${item.known} known issue${item.known === 1 ? '' : 's'} (${item.fixedLater} fixed later, ${item.pending} pending), ${item.fixed} bug${item.fixed === 1 ? '' : 's'} fixed in this driver`;
 
             const g = document.createElementNS(ns, 'g');
             g.setAttribute('class', 'trend-bar-group');
@@ -252,30 +267,23 @@ document.addEventListener('DOMContentLoaded', () => {
             g.setAttribute('aria-label', `Driver ${versionDisplay}: ${detail}. Jump to this driver.`);
 
             // Invisible full-height hit area so thin bars are easy to hover and tap.
-            const hit = document.createElementNS(ns, 'rect');
-            hit.setAttribute('x', x - gap / 2);
-            hit.setAttribute('y', padTop);
-            hit.setAttribute('width', barW + gap);
-            hit.setAttribute('height', plotH);
-            hit.setAttribute('class', 'trend-bar-hit');
+            const hit = rect(x - gap / 2, padTop, barW + gap, plotH, 'trend-bar-hit');
             g.appendChild(hit);
 
-            let below = 0;
-            [['fixed', 'trend-bar-fixed'], ['fixedLater', 'trend-bar-fixed-later'], ['pending', 'trend-bar-pending']]
-                .forEach(([key, className]) => {
-                    const count = item[key];
-                    if (count === 0) return;
-                    const top = baseY - ((below + count) / maxTotal) * plotH;
-                    const bottom = baseY - (below / maxTotal) * plotH - (below > 0 ? segmentGap : 0);
-                    const rect = document.createElementNS(ns, 'rect');
-                    rect.setAttribute('x', x);
-                    rect.setAttribute('y', top);
-                    rect.setAttribute('width', barW);
-                    rect.setAttribute('height', Math.max(1, bottom - top));
-                    rect.setAttribute('class', className);
-                    g.appendChild(rect);
-                    below += count;
-                });
+            let above = 0;
+            [['fixedLater', 'trend-bar-fixed-later'], ['pending', 'trend-bar-pending']].forEach(([key, className]) => {
+                const count = item[key];
+                if (count === 0) return;
+                const top = baseY - (above + count) * unit;
+                const bottom = baseY - above * unit - (above > 0 ? segmentGap : baselineGap);
+                g.appendChild(rect(x, top, barW, bottom - top, className));
+                above += count;
+            });
+
+            if (item.fixed > 0) {
+                const top = baseY + baselineGap;
+                g.appendChild(rect(x, top, barW, baseY + item.fixed * unit - top, 'trend-bar-fixed'));
+            }
 
             const showDetail = () => {
                 trendsTooltip.textContent = `Driver ${versionDisplay}: ${detail}`;
@@ -292,6 +300,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             frag.appendChild(g);
         });
+
+        const baseline = document.createElementNS(ns, 'line');
+        baseline.setAttribute('x1', 0);
+        baseline.setAttribute('x2', width);
+        baseline.setAttribute('y1', baseY);
+        baseline.setAttribute('y2', baseY);
+        baseline.setAttribute('class', 'trend-baseline');
+        frag.appendChild(baseline);
 
         trendsChartSvg.appendChild(frag);
         resetTrendsTooltip();
@@ -329,8 +345,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function bugItemHTML(bug, driver, query) {
         const status = bugStatus(bug, driver.version);
-        const statusTitle = status === 'fixed' ? 'Introduced and fixed in this same driver version'
-            : status === 'fixed-later' ? 'Fixed in a later release or externally' : 'Not fixed yet';
+        const statusTitle = status === 'fixed' ? 'Fixed in this driver'
+            : status === 'fixed-later' ? 'Known issue in this driver, fixed later' : 'Known issue in this driver, not fixed yet';
         const ids = bug.ids || [];
         const idQuery = query.replace(/^#/, '');
         const idsHTML = ids.length
