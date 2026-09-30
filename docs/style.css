@@ -1,10 +1,7 @@
-/* Every color, shadow, radius, and font used below reads from one of these
-   custom properties rather than being hardcoded in a rule. That's what lets
-   the [data-theme="light"] block just below override the whole site's
-   palette by redefining the same variable names - no per-component light-mode
-   rules needed anywhere else in this file. */
+/* All colors, shadows, radii and fonts come from these variables; the light
+   theme below only redefines them. */
 :root {
-    /* Dark Theme (Default) */
+    /* Dark theme (default) */
     --bg-body: #141316;
     --bg-surface: #1e1c21;
     --bg-surface-hover: #27242b;
@@ -19,6 +16,11 @@
     --status-fixed-text: #8fc7ab;
     --status-pending-bg: rgba(224, 130, 118, 0.15);
     --status-pending-text: #e08276;
+    /* -fill is for chart bars and swatches, -text for badge text. They only
+       differ in light mode, where the fill is too light for small text. */
+    --status-fixed-later-bg: rgba(230, 180, 34, 0.15);
+    --status-fixed-later-text: #e6b422;
+    --status-fixed-later-fill: #e6b422;
 
     --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.35);
     --shadow-md: 0 12px 24px -8px rgba(0, 0, 0, 0.5);
@@ -46,6 +48,9 @@
     --status-fixed-text: #4a8c6a;
     --status-pending-bg: rgba(166, 74, 58, 0.14);
     --status-pending-text: #a64a3a;
+    --status-fixed-later-bg: rgba(192, 138, 26, 0.14);
+    --status-fixed-later-text: #8f6410;
+    --status-fixed-later-fill: #c08a1a;
 
     --shadow-sm: 0 1px 2px 0 rgba(33, 31, 38, 0.08);
     --shadow-md: 0 12px 24px -8px rgba(33, 31, 38, 0.15);
@@ -95,11 +100,7 @@ body {
     min-height: 100vh;
 }
 
-/* A very faint (opacity .5 of an already .03-opacity noise layer) fixed grain
-   texture over the whole page, generated inline as an SVG data URI so it
-   needs no separate image file. Purely decorative - it's what keeps the flat
-   background colors from looking like a plain gradient/solid fill. Every
-   piece of real content sets z-index: 1 to sit above it. */
+/* Faint noise texture over the page background. Content sits above it with z-index: 1. */
 body::before {
     content: '';
     position: fixed;
@@ -110,9 +111,20 @@ body::before {
     opacity: .5;
 }
 
-/* ==========================================================================
-   Navbar
-   ========================================================================== */
+.icon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+.icon-sprite {
+    display: none;
+}
+
+/* Navbar */
 
 .navbar {
     background-color: var(--bg-surface);
@@ -265,9 +277,7 @@ mark.highlight {
 [data-view="masonry"] .icon-timeline { display: none; }
 [data-view="masonry"] .icon-masonry { display: block; }
 
-/* ==========================================================================
-   Hero, quick links, search bar, and status/sort filter chips
-   ========================================================================== */
+/* Hero, quick links, search and filters */
 
 .hero {
     position: relative;
@@ -325,7 +335,7 @@ mark.highlight {
     box-shadow: var(--shadow-sm);
 }
 
-.link-btn ion-icon {
+.link-btn .icon {
     font-size: 1.125rem;
 }
 
@@ -491,9 +501,7 @@ mark.highlight {
     border-color: var(--accent-color);
 }
 
-/* ==========================================================================
-   Summary stats (total drivers / issues / fix rate)
-   ========================================================================== */
+/* Summary stats */
 
 .stats {
     position: relative;
@@ -540,12 +548,7 @@ mark.highlight {
 
 .stat.done .stat-num { color: var(--status-fixed-text); }
 
-/* ==========================================================================
-   Trends chart ("Bugs by driver")
-   The <rect> bars themselves (.trend-bar-fixed / .trend-bar-pending /
-   .trend-bar-hit) don't exist in index.html - script.js builds the whole SVG
-   at runtime in renderTrendsChart(), these rules just style whatever it emits.
-   ========================================================================== */
+/* Trends chart. The bars are built by renderTrendsChart() in script.js. */
 
 .trends {
     position: relative;
@@ -585,10 +588,6 @@ mark.highlight {
     color: var(--text-primary);
 }
 
-/* Color legend for the chart below, replacing what used to be a full written
-   sentence ("Green shows fixed bugs - Red shows pending"). Swatches carry the
-   color meaning visually; the chip colors already match .trend-bar-fixed /
-   .trend-bar-pending in the SVG itself. */
 .trends-legend {
     display: flex;
     align-items: center;
@@ -615,6 +614,10 @@ mark.highlight {
 
 .legend-swatch--fixed {
     background-color: var(--status-fixed-text);
+}
+
+.legend-swatch--fixed-later {
+    background-color: var(--status-fixed-later-fill);
 }
 
 .legend-swatch--pending {
@@ -644,6 +647,7 @@ mark.highlight {
 }
 
 .trend-bar-fixed,
+.trend-bar-fixed-later,
 .trend-bar-pending {
     pointer-events: none;
     transition: filter 0.15s ease;
@@ -653,13 +657,19 @@ mark.highlight {
     fill: var(--status-fixed-text);
 }
 
+.trend-bar-fixed-later {
+    fill: var(--status-fixed-later-fill);
+}
+
 .trend-bar-pending {
     fill: var(--status-pending-text);
 }
 
 .trend-bar-group:hover .trend-bar-fixed,
+.trend-bar-group:hover .trend-bar-fixed-later,
 .trend-bar-group:hover .trend-bar-pending,
 .trend-bar-group:focus-visible .trend-bar-fixed,
+.trend-bar-group:focus-visible .trend-bar-fixed-later,
 .trend-bar-group:focus-visible .trend-bar-pending {
     filter: brightness(1.2);
 }
@@ -681,8 +691,16 @@ mark.highlight {
     min-height: 1.2em;
 }
 
+.trends-note {
+    margin-top: 0.85rem;
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--text-secondary);
+}
+
 @media (prefers-reduced-motion: reduce) {
     .trend-bar-fixed,
+    .trend-bar-fixed-later,
     .trend-bar-pending {
         transition: none;
     }
@@ -703,13 +721,7 @@ main {
     scroll-margin-top: 88px;
 }
 
-/* ==========================================================================
-   Driver cards - shared rules for both view modes.
-   The two view modes (toggled via the button in the navbar, persisted in
-   localStorage and applied through [data-view] on <html> - see script.js)
-   share these markup/class names and only diverge in the .masonry-layout
-   overrides further down.
-   ========================================================================== */
+/* Driver cards. Shared by both views; masonry overrides come further down. */
 
 .grid-layout {
     display: grid;
@@ -745,9 +757,7 @@ main {
     box-shadow: var(--shadow-accent);
 }
 
-/* Applied briefly after jumping to a card via the trends chart, a copied
-   link, or any #driver-<version> deep link, so the destination stands out
-   among the rest of the list instead of just silently scrolling into view. */
+/* Brief pulse on the card a #driver-<version> link points to. */
 .driver-card.highlight-pulse {
     animation: driver-highlight-pulse 1.3s ease-out 2;
     border-color: var(--accent-color);
@@ -778,21 +788,28 @@ main {
     position: relative;
 }
 
-/* In the default (list) view the header column is narrow and tall, so the
-   version number is rotated to read bottom-to-top rather than being squeezed
-   or wrapped. writing-mode does the rotation; the extra 180deg transform flips
-   it so the text still reads top-to-bottom instead of upside down. The
-   masonry view (below) resets both back to normal horizontal text, since that
-   header is wide and short instead. */
+/* List view: the header column is narrow, so the version runs vertically.
+   The 180deg rotation makes it read bottom to top. */
 .driver-version {
     font-family: var(--ff-display);
     font-size: 1.4rem;
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--accent-color);
+    text-decoration: none;
     writing-mode: vertical-rl;
     text-orientation: mixed;
     transform: rotate(180deg);
+}
+
+.driver-version:hover {
+    text-decoration: underline;
+}
+
+.driver-version:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 4px;
+    border-radius: 4px;
 }
 
 .bug-list {
@@ -804,11 +821,7 @@ main {
     background-color: var(--border-color);
 }
 
-/* Masonry is plain CSS multi-column (column-count), not JS-positioned - cards
-   are laid out in DOM order and simply flow into whichever column has room,
-   which is what gives the staggered "masonry" look for cards of different
-   heights. break-inside: avoid stops a single card from being split across
-   two columns. */
+/* Masonry view: CSS columns, cards flow in DOM order. */
 .masonry-layout {
     display: block;
     column-count: 3;
@@ -867,6 +880,11 @@ main {
     background-color: var(--bg-surface-hover);
 }
 
+.bug-desc--empty {
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
 .bug-desc {
     font-family: var(--ff-mono);
     font-size: 0.85rem;
@@ -877,7 +895,41 @@ main {
 
 .bug-footer {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.bug-ids {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-right: auto;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* Channel, release date and release notes link under the version. */
+.driver-meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.3rem 0.6rem;
+    margin-top: 0.4rem;
+    font-family: var(--ff-mono);
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.driver-meta a {
+    color: var(--accent-color);
+}
+
+.driver-channel {
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
 }
 
 .status-badge {
@@ -897,16 +949,17 @@ main {
     color: var(--status-fixed-text);
 }
 
+.status-fixed-later {
+    background-color: var(--status-fixed-later-bg);
+    color: var(--status-fixed-later-text);
+}
+
 .status-pending {
     background-color: var(--status-pending-bg);
     color: var(--status-pending-text);
 }
 
-/* ==========================================================================
-   Pagination
-   Buttons are generated by renderPagination() in script.js, including the
-   ellipsis "..." spacer for large page counts - not present in index.html.
-   ========================================================================== */
+/* Pagination (buttons built by renderPagination() in script.js) */
 
 .pagination-container {
     display: flex;
@@ -935,7 +988,13 @@ main {
     border-radius: var(--radius-full);
 }
 
-.page-btn:hover:not(:disabled) {
+.page-ellipsis {
+    border: none;
+    background-color: transparent;
+    cursor: default;
+}
+
+.page-btn:not(.page-ellipsis):hover:not(:disabled) {
     border-color: var(--accent-color);
     color: var(--accent-contrast);
     background: var(--accent-color);
@@ -954,9 +1013,7 @@ main {
     cursor: not-allowed;
 }
 
-/* ==========================================================================
-   Footer, empty/loading states, and responsive breakpoints
-   ========================================================================== */
+/* Footer, empty and loading states, breakpoints */
 
 footer {
     position: relative;
@@ -999,7 +1056,7 @@ footer p {
     font-size: 0.8rem;
 }
 
-.footer-links a ion-icon {
+.footer-links a .icon {
     font-size: 1.125rem;
 }
 
@@ -1019,8 +1076,8 @@ footer p {
     gap: 1rem;
 }
 
-.no-results ion-icon,
-.loading-state ion-icon {
+.no-results .icon,
+.loading-state .icon {
     font-size: 3rem;
     margin-bottom: 1rem;
     color: var(--accent-color);

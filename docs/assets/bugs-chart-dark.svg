@@ -1,215 +1,352 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-label="Bugs by driver, fixed vs pending">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-label="Bugs by driver: fixed in the same release, fixed later, and pending">
 <rect x="0" y="0" width="1200" height="400" rx="14" fill="#1e1c21" stroke="#3a3740"/>
 <text x="44" y="34" font-family="'Space Grotesk', 'Segoe UI', sans-serif" font-weight="700" font-size="20" fill="#f2f2f2">Bugs by driver</text>
 <text x="44" y="54" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="12" fill="#a3a0a8">88 driver versions &#183; 526.47 &#8594; 617.14 &#183; auto-generated from drivers.json</text>
-<text x="1176" y="34" text-anchor="end" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="12" fill="#a3a0a8"><tspan fill="#8fc7ab">&#9679;</tspan> Fixed &#160;&#160;<tspan fill="#e08276">&#9679;</tspan> Pending</text>
+<text x="1176" y="34" text-anchor="end" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="12" fill="#a3a0a8"><tspan fill="#8fc7ab">&#9679;</tspan> Fixed in same release &#160;&#160;<tspan fill="#e6b422">&#9679;</tspan> Fixed later &#160;&#160;<tspan fill="#e08276">&#9679;</tspan> Pending</text>
 <line x1="44" y1="340.0" x2="1176" y2="340.0" stroke="#332f38" stroke-width="1"/>
 <text x="36" y="343.0" text-anchor="end" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="10" fill="#a3a0a8">0</text>
 <line x1="44" y1="204.0" x2="1176" y2="204.0" stroke="#332f38" stroke-width="1"/>
 <text x="36" y="207.0" text-anchor="end" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="10" fill="#a3a0a8">25</text>
 <line x1="44" y1="68.0" x2="1176" y2="68.0" stroke="#332f38" stroke-width="1"/>
 <text x="36" y="71.0" text-anchor="end" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="10" fill="#a3a0a8">50</text>
-<rect x="44.00" y="236.6" width="11.38" height="103.4" fill="#8fc7ab"/>
-<rect x="44.00" y="220.3" width="11.38" height="16.3" fill="#e08276"/>
-<title>526.47: 22 bugs (19 fixed, 3 pending)</title>
-<rect x="56.88" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
-<title>526.86: 5 bugs (5 fixed, 0 pending)</title>
-<rect x="69.76" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>526.98: 3 bugs (3 fixed, 0 pending)</title>
-<rect x="82.64" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
-<rect x="82.64" y="296.5" width="11.38" height="16.3" fill="#e08276"/>
-<title>527.37: 8 bugs (5 fixed, 3 pending)</title>
+<g><title>526.47: 22 bugs (6 fixed in same release, 13 fixed later, 3 pending)</title>
+<rect x="44.00" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
+<rect x="44.00" y="236.6" width="11.38" height="68.7" fill="#e6b422"/>
+<rect x="44.00" y="220.3" width="11.38" height="14.3" fill="#e08276"/>
+</g>
+<g><title>526.86: 5 bugs (3 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="56.88" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
+<rect x="56.88" y="312.8" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>526.98: 3 bugs (1 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="69.76" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="69.76" y="323.7" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>527.37: 8 bugs (2 fixed in same release, 3 fixed later, 3 pending)</title>
+<rect x="82.64" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="82.64" y="312.8" width="11.38" height="14.3" fill="#e6b422"/>
+<rect x="82.64" y="296.5" width="11.38" height="14.3" fill="#e08276"/>
+</g>
+<g><title>527.56: 1 bugs (0 fixed in same release, 0 fixed later, 1 pending)</title>
 <rect x="95.52" y="334.6" width="11.38" height="5.4" fill="#e08276"/>
-<title>527.56: 1 bugs (0 fixed, 1 pending)</title>
-<rect x="108.40" y="296.5" width="11.38" height="43.5" fill="#8fc7ab"/>
-<title>528.02: 8 bugs (8 fixed, 0 pending)</title>
-<rect x="121.28" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
-<rect x="121.28" y="307.4" width="11.38" height="5.4" fill="#e08276"/>
-<title>528.24: 6 bugs (5 fixed, 1 pending)</title>
-<rect x="134.16" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<title>528.49: 4 bugs (4 fixed, 0 pending)</title>
-<rect x="147.05" y="291.0" width="11.38" height="49.0" fill="#8fc7ab"/>
-<title>531.18: 9 bugs (9 fixed, 0 pending)</title>
-<rect x="159.93" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>531.29: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="172.81" y="285.6" width="11.38" height="54.4" fill="#8fc7ab"/>
-<rect x="172.81" y="263.8" width="11.38" height="21.8" fill="#e08276"/>
-<title>531.41: 14 bugs (10 fixed, 4 pending)</title>
+</g>
+<g><title>528.02: 8 bugs (5 fixed in same release, 3 fixed later, 0 pending)</title>
+<rect x="108.40" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
+<rect x="108.40" y="296.5" width="11.38" height="14.3" fill="#e6b422"/>
+</g>
+<g><title>528.24: 6 bugs (2 fixed in same release, 3 fixed later, 1 pending)</title>
+<rect x="121.28" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="121.28" y="312.8" width="11.38" height="14.3" fill="#e6b422"/>
+<rect x="121.28" y="307.4" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>528.49: 4 bugs (2 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="134.16" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="134.16" y="318.2" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>531.18: 9 bugs (2 fixed in same release, 7 fixed later, 0 pending)</title>
+<rect x="147.05" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="147.05" y="291.0" width="11.38" height="36.1" fill="#e6b422"/>
+</g>
+<g><title>531.29: 1 bugs (0 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="159.93" y="334.6" width="11.38" height="5.4" fill="#e6b422"/>
+</g>
+<g><title>531.41: 14 bugs (6 fixed in same release, 4 fixed later, 4 pending)</title>
+<rect x="172.81" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
+<rect x="172.81" y="285.6" width="11.38" height="19.8" fill="#e6b422"/>
+<rect x="172.81" y="263.8" width="11.38" height="19.8" fill="#e08276"/>
+</g>
+<g><title>531.61: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="185.69" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>531.61: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="198.57" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<title>531.68: 7 bugs (7 fixed, 0 pending)</title>
-<rect x="211.45" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<title>532.03: 4 bugs (4 fixed, 0 pending)</title>
-<rect x="224.33" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<rect x="224.33" y="296.5" width="11.38" height="5.4" fill="#e08276"/>
-<title>535.98: 8 bugs (7 fixed, 1 pending)</title>
+</g>
+<g><title>531.68: 7 bugs (2 fixed in same release, 5 fixed later, 0 pending)</title>
+<rect x="198.57" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="198.57" y="301.9" width="11.38" height="25.2" fill="#e6b422"/>
+</g>
+<g><title>532.03: 4 bugs (2 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="211.45" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="211.45" y="318.2" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>535.98: 8 bugs (3 fixed in same release, 4 fixed later, 1 pending)</title>
+<rect x="224.33" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
+<rect x="224.33" y="301.9" width="11.38" height="19.8" fill="#e6b422"/>
+<rect x="224.33" y="296.5" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>536.23: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="237.21" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>536.23: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="250.09" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<title>536.40: 4 bugs (4 fixed, 0 pending)</title>
-<rect x="262.97" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
-<title>536.67: 6 bugs (6 fixed, 0 pending)</title>
-<rect x="275.85" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>536.99: 2 bugs (2 fixed, 0 pending)</title>
-<rect x="288.73" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<rect x="288.73" y="318.2" width="11.38" height="5.4" fill="#e08276"/>
-<title>537.13: 4 bugs (3 fixed, 1 pending)</title>
+</g>
+<g><title>536.40: 4 bugs (3 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="250.09" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
+<rect x="250.09" y="318.2" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>536.67: 6 bugs (1 fixed in same release, 5 fixed later, 0 pending)</title>
+<rect x="262.97" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="262.97" y="307.4" width="11.38" height="25.2" fill="#e6b422"/>
+</g>
+<g><title>536.99: 2 bugs (0 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="275.85" y="329.1" width="11.38" height="10.9" fill="#e6b422"/>
+</g>
+<g><title>537.13: 4 bugs (0 fixed in same release, 3 fixed later, 1 pending)</title>
+<rect x="288.73" y="323.7" width="11.38" height="16.3" fill="#e6b422"/>
+<rect x="288.73" y="318.2" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>537.34: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="301.61" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>537.34: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="314.49" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>537.42: 3 bugs (3 fixed, 0 pending)</title>
+</g>
+<g><title>537.42: 3 bugs (2 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="314.49" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="314.49" y="323.7" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>537.58: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="327.38" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>537.58: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="340.26" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
-<title>545.84: 5 bugs (5 fixed, 0 pending)</title>
-<rect x="353.14" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>545.92: 2 bugs (2 fixed, 0 pending)</title>
-<rect x="366.02" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<rect x="366.02" y="291.0" width="11.38" height="10.9" fill="#e08276"/>
-<title>546.01: 9 bugs (7 fixed, 2 pending)</title>
-<rect x="378.90" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<title>546.17: 7 bugs (7 fixed, 0 pending)</title>
+</g>
+<g><title>545.84: 5 bugs (1 fixed in same release, 4 fixed later, 0 pending)</title>
+<rect x="340.26" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="340.26" y="312.8" width="11.38" height="19.8" fill="#e6b422"/>
+</g>
+<g><title>545.92: 2 bugs (1 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="353.14" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="353.14" y="329.1" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>546.01: 9 bugs (2 fixed in same release, 5 fixed later, 2 pending)</title>
+<rect x="366.02" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="366.02" y="301.9" width="11.38" height="25.2" fill="#e6b422"/>
+<rect x="366.02" y="291.0" width="11.38" height="8.9" fill="#e08276"/>
+</g>
+<g><title>546.17: 7 bugs (5 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="378.90" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
+<rect x="378.90" y="301.9" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>546.29: 2 bugs (1 fixed in same release, 0 fixed later, 1 pending)</title>
 <rect x="391.78" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<rect x="391.78" y="329.1" width="11.38" height="5.4" fill="#e08276"/>
-<title>546.29: 2 bugs (1 fixed, 1 pending)</title>
-<rect x="404.66" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>546.33: 3 bugs (3 fixed, 0 pending)</title>
+<rect x="391.78" y="329.1" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>546.33: 3 bugs (2 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="404.66" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="404.66" y="323.7" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>546.65: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="417.54" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>546.65: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="430.42" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<rect x="430.42" y="301.9" width="11.38" height="16.3" fill="#e08276"/>
-<title>551.23: 7 bugs (4 fixed, 3 pending)</title>
+</g>
+<g><title>551.23: 7 bugs (1 fixed in same release, 3 fixed later, 3 pending)</title>
+<rect x="430.42" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="430.42" y="318.2" width="11.38" height="14.3" fill="#e6b422"/>
+<rect x="430.42" y="301.9" width="11.38" height="14.3" fill="#e08276"/>
+</g>
+<g><title>551.52: 3 bugs (3 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="443.30" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>551.52: 3 bugs (3 fixed, 0 pending)</title>
-<rect x="456.18" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
-<title>551.61: 6 bugs (6 fixed, 0 pending)</title>
-<rect x="469.06" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>551.76: 3 bugs (3 fixed, 0 pending)</title>
-<rect x="481.94" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<title>551.86: 7 bugs (7 fixed, 0 pending)</title>
-<rect x="494.82" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<rect x="494.82" y="312.8" width="11.38" height="10.9" fill="#e08276"/>
-<title>552.12: 5 bugs (3 fixed, 2 pending)</title>
-<rect x="507.70" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
-<rect x="507.70" y="307.4" width="11.38" height="5.4" fill="#e08276"/>
-<title>552.22: 6 bugs (5 fixed, 1 pending)</title>
+</g>
+<g><title>551.61: 6 bugs (4 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="456.18" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
+<rect x="456.18" y="307.4" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>551.76: 3 bugs (1 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="469.06" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="469.06" y="323.7" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>551.86: 7 bugs (6 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="481.94" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
+<rect x="481.94" y="301.9" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>552.12: 5 bugs (1 fixed in same release, 2 fixed later, 2 pending)</title>
+<rect x="494.82" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="494.82" y="323.7" width="11.38" height="8.9" fill="#e6b422"/>
+<rect x="494.82" y="312.8" width="11.38" height="8.9" fill="#e08276"/>
+</g>
+<g><title>552.22: 6 bugs (4 fixed in same release, 1 fixed later, 1 pending)</title>
+<rect x="507.70" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
+<rect x="507.70" y="312.8" width="11.38" height="3.4" fill="#e6b422"/>
+<rect x="507.70" y="307.4" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>552.44: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="520.59" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>552.44: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="533.47" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
-<rect x="533.47" y="296.5" width="11.38" height="10.9" fill="#e08276"/>
-<title>555.85: 8 bugs (6 fixed, 2 pending)</title>
-<rect x="546.35" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
-<rect x="546.35" y="301.9" width="11.38" height="10.9" fill="#e08276"/>
-<title>555.99: 7 bugs (5 fixed, 2 pending)</title>
-<rect x="559.23" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>556.12: 3 bugs (3 fixed, 0 pending)</title>
-<rect x="572.11" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<rect x="572.11" y="307.4" width="11.38" height="10.9" fill="#e08276"/>
-<title>560.70: 6 bugs (4 fixed, 2 pending)</title>
-<rect x="584.99" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>560.81: 2 bugs (2 fixed, 0 pending)</title>
+</g>
+<g><title>555.85: 8 bugs (1 fixed in same release, 5 fixed later, 2 pending)</title>
+<rect x="533.47" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="533.47" y="307.4" width="11.38" height="25.2" fill="#e6b422"/>
+<rect x="533.47" y="296.5" width="11.38" height="8.9" fill="#e08276"/>
+</g>
+<g><title>555.99: 7 bugs (2 fixed in same release, 3 fixed later, 2 pending)</title>
+<rect x="546.35" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="546.35" y="312.8" width="11.38" height="14.3" fill="#e6b422"/>
+<rect x="546.35" y="301.9" width="11.38" height="8.9" fill="#e08276"/>
+</g>
+<g><title>556.12: 3 bugs (1 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="559.23" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="559.23" y="323.7" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>560.70: 6 bugs (2 fixed in same release, 2 fixed later, 2 pending)</title>
+<rect x="572.11" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="572.11" y="318.2" width="11.38" height="8.9" fill="#e6b422"/>
+<rect x="572.11" y="307.4" width="11.38" height="8.9" fill="#e08276"/>
+</g>
+<g><title>560.81: 2 bugs (1 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="584.99" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="584.99" y="329.1" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>560.94: 3 bugs (2 fixed in same release, 0 fixed later, 1 pending)</title>
 <rect x="597.87" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<rect x="597.87" y="323.7" width="11.38" height="5.4" fill="#e08276"/>
-<title>560.94: 3 bugs (2 fixed, 1 pending)</title>
+<rect x="597.87" y="323.7" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>561.09: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="610.75" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>561.09: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="623.63" y="291.0" width="11.38" height="49.0" fill="#8fc7ab"/>
-<rect x="623.63" y="274.7" width="11.38" height="16.3" fill="#e08276"/>
-<title>565.90: 12 bugs (9 fixed, 3 pending)</title>
+</g>
+<g><title>565.90: 12 bugs (5 fixed in same release, 4 fixed later, 3 pending)</title>
+<rect x="623.63" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
+<rect x="623.63" y="291.0" width="11.38" height="19.8" fill="#e6b422"/>
+<rect x="623.63" y="274.7" width="11.38" height="14.3" fill="#e08276"/>
+</g>
+<g><title>566.03: 2 bugs (0 fixed in same release, 0 fixed later, 2 pending)</title>
 <rect x="636.51" y="329.1" width="11.38" height="10.9" fill="#e08276"/>
-<title>566.03: 2 bugs (0 fixed, 2 pending)</title>
-<rect x="649.39" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>566.14: 3 bugs (3 fixed, 0 pending)</title>
-<rect x="662.27" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<rect x="662.27" y="323.7" width="11.38" height="5.4" fill="#e08276"/>
-<title>566.36: 3 bugs (2 fixed, 1 pending)</title>
-<rect x="675.15" y="274.7" width="11.38" height="65.3" fill="#8fc7ab"/>
-<rect x="675.15" y="242.1" width="11.38" height="32.6" fill="#e08276"/>
-<title>572.16: 18 bugs (12 fixed, 6 pending)</title>
-<rect x="688.03" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<title>572.42: 4 bugs (4 fixed, 0 pending)</title>
-<rect x="700.91" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>572.47: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="713.80" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>572.60: 2 bugs (2 fixed, 0 pending)</title>
-<rect x="726.68" y="291.0" width="11.38" height="49.0" fill="#8fc7ab"/>
-<title>572.70: 9 bugs (9 fixed, 0 pending)</title>
-<rect x="739.56" y="291.0" width="11.38" height="49.0" fill="#8fc7ab"/>
-<rect x="739.56" y="285.6" width="11.38" height="5.4" fill="#e08276"/>
-<title>572.83: 10 bugs (9 fixed, 1 pending)</title>
-<rect x="752.44" y="171.4" width="11.38" height="168.6" fill="#8fc7ab"/>
-<rect x="752.44" y="155.0" width="11.38" height="16.3" fill="#e08276"/>
-<title>576.02: 34 bugs (31 fixed, 3 pending)</title>
-<rect x="765.32" y="258.4" width="11.38" height="81.6" fill="#8fc7ab"/>
-<rect x="765.32" y="253.0" width="11.38" height="5.4" fill="#e08276"/>
-<title>576.28: 16 bugs (15 fixed, 1 pending)</title>
-<rect x="778.20" y="285.6" width="11.38" height="54.4" fill="#8fc7ab"/>
-<rect x="778.20" y="280.2" width="11.38" height="5.4" fill="#e08276"/>
-<title>576.40: 11 bugs (10 fixed, 1 pending)</title>
-<rect x="791.08" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<rect x="791.08" y="323.7" width="11.38" height="10.9" fill="#e08276"/>
-<title>576.52: 3 bugs (1 fixed, 2 pending)</title>
-<rect x="803.96" y="247.5" width="11.38" height="92.5" fill="#8fc7ab"/>
-<title>576.80: 17 bugs (17 fixed, 0 pending)</title>
+</g>
+<g><title>566.14: 3 bugs (1 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="649.39" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="649.39" y="323.7" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>566.36: 3 bugs (0 fixed in same release, 2 fixed later, 1 pending)</title>
+<rect x="662.27" y="329.1" width="11.38" height="10.9" fill="#e6b422"/>
+<rect x="662.27" y="323.7" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>572.16: 18 bugs (4 fixed in same release, 8 fixed later, 6 pending)</title>
+<rect x="675.15" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
+<rect x="675.15" y="274.7" width="11.38" height="41.5" fill="#e6b422"/>
+<rect x="675.15" y="242.1" width="11.38" height="30.6" fill="#e08276"/>
+</g>
+<g><title>572.42: 4 bugs (2 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="688.03" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="688.03" y="318.2" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>572.47: 1 bugs (0 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="700.91" y="334.6" width="11.38" height="5.4" fill="#e6b422"/>
+</g>
+<g><title>572.60: 2 bugs (1 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="713.80" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="713.80" y="329.1" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>572.70: 9 bugs (0 fixed in same release, 9 fixed later, 0 pending)</title>
+<rect x="726.68" y="291.0" width="11.38" height="49.0" fill="#e6b422"/>
+</g>
+<g><title>572.83: 10 bugs (2 fixed in same release, 7 fixed later, 1 pending)</title>
+<rect x="739.56" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="739.56" y="291.0" width="11.38" height="36.1" fill="#e6b422"/>
+<rect x="739.56" y="285.6" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>576.02: 34 bugs (23 fixed in same release, 8 fixed later, 3 pending)</title>
+<rect x="752.44" y="214.9" width="11.38" height="125.1" fill="#8fc7ab"/>
+<rect x="752.44" y="171.4" width="11.38" height="41.5" fill="#e6b422"/>
+<rect x="752.44" y="155.0" width="11.38" height="14.3" fill="#e08276"/>
+</g>
+<g><title>576.28: 16 bugs (7 fixed in same release, 8 fixed later, 1 pending)</title>
+<rect x="765.32" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
+<rect x="765.32" y="258.4" width="11.38" height="41.5" fill="#e6b422"/>
+<rect x="765.32" y="253.0" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>576.40: 11 bugs (1 fixed in same release, 9 fixed later, 1 pending)</title>
+<rect x="778.20" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="778.20" y="285.6" width="11.38" height="47.0" fill="#e6b422"/>
+<rect x="778.20" y="280.2" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>576.52: 3 bugs (0 fixed in same release, 1 fixed later, 2 pending)</title>
+<rect x="791.08" y="334.6" width="11.38" height="5.4" fill="#e6b422"/>
+<rect x="791.08" y="323.7" width="11.38" height="8.9" fill="#e08276"/>
+</g>
+<g><title>576.80: 17 bugs (12 fixed in same release, 5 fixed later, 0 pending)</title>
+<rect x="803.96" y="274.7" width="11.38" height="65.3" fill="#8fc7ab"/>
+<rect x="803.96" y="247.5" width="11.38" height="25.2" fill="#e6b422"/>
+</g>
+<g><title>576.88: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="816.84" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>576.88: 1 bugs (1 fixed, 0 pending)</title>
+</g>
+<g><title>577.00: 2 bugs (2 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="829.72" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>577.00: 2 bugs (2 fixed, 0 pending)</title>
-<rect x="842.60" y="247.5" width="11.38" height="92.5" fill="#8fc7ab"/>
-<title>580.88: 17 bugs (17 fixed, 0 pending)</title>
-<rect x="855.48" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>580.97: 2 bugs (2 fixed, 0 pending)</title>
-<rect x="868.36" y="296.5" width="11.38" height="43.5" fill="#8fc7ab"/>
-<title>581.08: 8 bugs (8 fixed, 0 pending)</title>
+</g>
+<g><title>580.88: 17 bugs (16 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="842.60" y="253.0" width="11.38" height="87.0" fill="#8fc7ab"/>
+<rect x="842.60" y="247.5" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>580.97: 2 bugs (1 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="855.48" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
+<rect x="855.48" y="329.1" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>581.08: 8 bugs (6 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="868.36" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
+<rect x="868.36" y="296.5" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>581.15: 2 bugs (2 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="881.24" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>581.15: 2 bugs (2 fixed, 0 pending)</title>
+</g>
+<g><title>581.42: 7 bugs (7 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="894.12" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<title>581.42: 7 bugs (7 fixed, 0 pending)</title>
+</g>
+<g><title>581.57: 11 bugs (11 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="907.01" y="280.2" width="11.38" height="59.8" fill="#8fc7ab"/>
-<title>581.57: 11 bugs (11 fixed, 0 pending)</title>
+</g>
+<g><title>581.80: 2 bugs (2 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="919.89" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>581.80: 2 bugs (2 fixed, 0 pending)</title>
-<rect x="932.77" y="280.2" width="11.38" height="59.8" fill="#8fc7ab"/>
-<title>591.44: 11 bugs (11 fixed, 0 pending)</title>
+</g>
+<g><title>591.44: 11 bugs (10 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="932.77" y="285.6" width="11.38" height="54.4" fill="#8fc7ab"/>
+<rect x="932.77" y="280.2" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>591.59: 5 bugs (5 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="945.65" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
-<title>591.59: 5 bugs (5 fixed, 0 pending)</title>
-<rect x="958.53" y="307.4" width="11.38" height="32.6" fill="#8fc7ab"/>
-<title>591.74: 6 bugs (6 fixed, 0 pending)</title>
-<rect x="971.41" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>591.86: 3 bugs (3 fixed, 0 pending)</title>
+</g>
+<g><title>591.74: 6 bugs (5 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="958.53" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
+<rect x="958.53" y="307.4" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>591.86: 3 bugs (2 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="971.41" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="971.41" y="323.7" width="11.38" height="3.4" fill="#e6b422"/>
+</g>
+<g><title>595.59: 4 bugs (4 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="984.29" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<title>595.59: 4 bugs (4 fixed, 0 pending)</title>
+</g>
+<g><title>595.71: 2 bugs (2 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="997.17" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>595.71: 2 bugs (2 fixed, 0 pending)</title>
-<rect x="1010.05" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<title>595.79: 7 bugs (7 fixed, 0 pending)</title>
+</g>
+<g><title>595.79: 7 bugs (5 fixed in same release, 2 fixed later, 0 pending)</title>
+<rect x="1010.05" y="312.8" width="11.38" height="27.2" fill="#8fc7ab"/>
+<rect x="1010.05" y="301.9" width="11.38" height="8.9" fill="#e6b422"/>
+</g>
+<g><title>595.97: 3 bugs (3 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1022.93" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<title>595.97: 3 bugs (3 fixed, 0 pending)</title>
-<rect x="1035.81" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>596.21: 1 bugs (1 fixed, 0 pending)</title>
+</g>
+<g><title>596.21: 1 bugs (0 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="1035.81" y="334.6" width="11.38" height="5.4" fill="#e6b422"/>
+</g>
+<g><title>596.36: 4 bugs (4 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1048.69" y="318.2" width="11.38" height="21.8" fill="#8fc7ab"/>
-<title>596.36: 4 bugs (4 fixed, 0 pending)</title>
+</g>
+<g><title>596.49: 2 bugs (2 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1061.57" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>596.49: 2 bugs (2 fixed, 0 pending)</title>
+</g>
+<g><title>610.47: 8 bugs (7 fixed in same release, 0 fixed later, 1 pending)</title>
 <rect x="1074.45" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<rect x="1074.45" y="296.5" width="11.38" height="5.4" fill="#e08276"/>
-<title>610.47: 8 bugs (7 fixed, 1 pending)</title>
+<rect x="1074.45" y="296.5" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>610.62: 10 bugs (10 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1087.34" y="285.6" width="11.38" height="54.4" fill="#8fc7ab"/>
-<title>610.62: 10 bugs (10 fixed, 0 pending)</title>
+</g>
+<g><title>610.74: 1 bugs (1 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1100.22" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>610.74: 1 bugs (1 fixed, 0 pending)</title>
+</g>
+<g><title>610.88: 9 bugs (9 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1113.10" y="291.0" width="11.38" height="49.0" fill="#8fc7ab"/>
-<title>610.88: 9 bugs (9 fixed, 0 pending)</title>
+</g>
+<g><title>616.56: 7 bugs (7 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1125.98" y="301.9" width="11.38" height="38.1" fill="#8fc7ab"/>
-<title>616.56: 7 bugs (7 fixed, 0 pending)</title>
-<rect x="1138.86" y="334.6" width="11.38" height="5.4" fill="#8fc7ab"/>
-<title>616.64: 1 bugs (1 fixed, 0 pending)</title>
-<rect x="1151.74" y="323.7" width="11.38" height="16.3" fill="#8fc7ab"/>
-<rect x="1151.74" y="318.2" width="11.38" height="5.4" fill="#e08276"/>
-<title>616.92: 4 bugs (3 fixed, 1 pending)</title>
+</g>
+<g><title>616.64: 1 bugs (0 fixed in same release, 1 fixed later, 0 pending)</title>
+<rect x="1138.86" y="334.6" width="11.38" height="5.4" fill="#e6b422"/>
+</g>
+<g><title>616.92: 4 bugs (2 fixed in same release, 1 fixed later, 1 pending)</title>
+<rect x="1151.74" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
+<rect x="1151.74" y="323.7" width="11.38" height="3.4" fill="#e6b422"/>
+<rect x="1151.74" y="318.2" width="11.38" height="3.4" fill="#e08276"/>
+</g>
+<g><title>617.14: 2 bugs (2 fixed in same release, 0 fixed later, 0 pending)</title>
 <rect x="1164.62" y="329.1" width="11.38" height="10.9" fill="#8fc7ab"/>
-<title>617.14: 2 bugs (2 fixed, 0 pending)</title>
+</g>
 <line x1="44" y1="340" x2="1176" y2="340" stroke="#3a3740" stroke-width="1"/>
 <text x="49.7" y="360" text-anchor="start" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a3a0a8">526.47</text>
 <text x="1170.3" y="360" text-anchor="end" font-family="'DM Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a3a0a8">617.14</text>
