@@ -35,7 +35,7 @@ Please only add information you can point to in an official NVIDIA source: the d
 | `ids` | yes | NVIDIA bug IDs as strings, e.g. `["4103923", "4343427"]`. Use `[]` if there is none. |
 | `fixed_in` | yes | `null` while pending, otherwise usually `"Fixed (X.YY)"`. |
 
-A bug whose `fixed_in` names its own driver version counts as fixed in the same release. Any other fix counts as fixed later.
+A bug whose `fixed_in` names its own driver version is one that driver fixed (it's in that driver's "Fixed Issues" list). Any other bug is a known issue of that driver: fixed later, or still pending.
 
 ## Checks
 

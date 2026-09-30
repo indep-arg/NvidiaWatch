@@ -161,8 +161,8 @@ def validate_data(filepath):
                         for bug_id in ids:
                             id_occurrences.setdefault(bug_id, []).append((version, bug.get("fixed_in")))
 
-                # null means pending. "Fixed (<this entry's version>)" counts
-                # as fixed in the same release.
+                # null means pending. "Fixed (<this entry's version>)" means
+                # this driver fixed it.
                 if "fixed_in" not in bug:
                     print(f"Error at {bug_location}: Missing required field 'fixed_in'.")
                     has_errors = True

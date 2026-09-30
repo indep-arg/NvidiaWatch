@@ -68,7 +68,9 @@ test('filterAndSortDrivers matches the version text', () => {
 test('filterAndSortDrivers sorts and does not modify the input', () => {
     const before = drivers.map(d => d.version);
     assert.deepEqual(lib.filterAndSortDrivers(drivers, { sort: 'version-asc' }).map(d => d.version), ['576.02', '581.80', '581.94']);
+    // bugs-* sort by known issues, not by every bug listed
     assert.deepEqual(lib.filterAndSortDrivers(drivers, { sort: 'bugs-desc' }).map(d => d.version), ['576.02', '581.80', '581.94']);
+    assert.deepEqual(lib.filterAndSortDrivers(drivers, { sort: 'bugs-asc' }).map(d => d.version), ['581.80', '581.94', '576.02']);
     assert.deepEqual(drivers.map(d => d.version), before);
 });
 
@@ -78,15 +80,20 @@ test('visibleBugs keeps only bugs matching filter and search', () => {
     assert.equal(lib.visibleBugs(drivers[0], 'fixed', 'crash').length, 0);
 });
 
-test('computeStats counts rates over all bugs', () => {
-    assert.deepEqual(lib.computeStats(drivers), { totalDrivers: 3, totalBugs: 6, fixedRate: 50, sameReleaseRate: 33 });
-    assert.deepEqual(lib.computeStats([]), { totalDrivers: 0, totalBugs: 0, fixedRate: 0, sameReleaseRate: 0 });
+test('knownIssueCount leaves out the bugs a driver fixed', () => {
+    assert.equal(lib.knownIssueCount(drivers[0]), 1);
+    assert.equal(lib.knownIssueCount(drivers[2]), 2);
+});
+
+test('computeStats counts fix rate and pending over all bugs', () => {
+    assert.deepEqual(lib.computeStats(drivers), { totalDrivers: 3, totalBugs: 6, fixedRate: 50, pending: 3 });
+    assert.deepEqual(lib.computeStats([]), { totalDrivers: 0, totalBugs: 0, fixedRate: 0, pending: 0 });
 });
 
 test('trendSeries builds chronological per-status counts', () => {
     const all = lib.trendSeries(drivers, 'all');
     assert.deepEqual(all.map(s => s.version), ['576.02', '581.80', '581.94']);
-    assert.deepEqual(all[0], { version: '576.02', total: 3, fixed: 1, fixedLater: 1, pending: 1 });
+    assert.deepEqual(all[0], { version: '576.02', known: 2, fixedLater: 1, pending: 1, fixed: 1 });
 });
 
 test('trendSeries ranges', () => {
@@ -99,9 +106,9 @@ test('trendSeries ranges', () => {
     assert.equal(recent[19].version, '529.00');
     const worst = lib.trendSeries(many, 'worst');
     assert.equal(worst.length, 15);
-    const minKept = Math.min(...worst.map(s => s.total));
+    const minKept = Math.min(...worst.map(s => s.known));
     const kept = new Set(worst.map(s => s.version));
-    assert.ok(lib.trendSeries(many, 'all').filter(s => !kept.has(s.version)).every(s => s.total <= minKept));
+    assert.ok(lib.trendSeries(many, 'all').filter(s => !kept.has(s.version)).every(s => s.known <= minKept));
     assert.deepEqual(worst.map(s => s.version), [...worst.map(s => s.version)].sort(lib.compareVersions));
 });
 

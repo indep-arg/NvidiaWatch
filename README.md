@@ -8,13 +8,14 @@ This database can help in several ways. For example, we can analyze which driver
 
 ## Bug trends
 
-<img alt="Bugs by driver: fixed in the same release, fixed later, and pending" src="docs/assets/bugs-chart-dark.svg">
+<img alt="Bugs by driver: known issues above the line, bugs fixed in that driver below it" src="docs/assets/bugs-chart-dark.svg">
 
-Each bar splits a driver's bugs three ways:
+Above the line are the known issues each driver shipped with:
 
-- **Fixed in same release:** introduced and fixed within that driver version.
 - **Fixed later:** fixed in a later driver, or outside the driver (game patch, OTA profile update).
 - **Pending:** not fixed yet.
+
+Below the line are the bugs that driver fixed.
 
 ## Features
 
@@ -23,7 +24,7 @@ Each bar splits a driver's bugs three ways:
 - Sort by driver version or number of bugs
 - Release date, channel (Game Ready / Studio) and release notes link for every driver
 - Masonry and timeline views, light and dark theme
-- Quick overview: drivers tracked, issues logged, fix rate and share of bugs fixed in the same release
+- Quick overview: drivers tracked, issues logged, fix rate and how many are still pending
 
 ## How it's built
 
