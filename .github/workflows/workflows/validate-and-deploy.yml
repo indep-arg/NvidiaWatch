@@ -1,0 +1,91 @@
+# PRs only run the checks. Pushes to main also commit the regenerated chart
+# and deploy to GitHub Pages.
+name: Validate and Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  validate-and-build:
+    runs-on: ubuntu-latest
+    # One run per ref at a time, so two quick pushes don't race on the chart commit.
+    concurrency:
+      group: build-${{ github.ref }}
+      cancel-in-progress: false
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.12'
+
+      - name: Run Python tests
+        run: |
+          python -m unittest discover -s tests
+
+      - name: Run JavaScript tests
+        run: |
+          node --test tests/lib.test.js
+
+      - name: Validate drivers.json
+        run: |
+          python scripts/validate_data.py docs/drivers.json
+
+      - name: Generate trend chart
+        run: |
+          python scripts/generate_chart.py
+
+      - name: Commit updated chart if drivers.json changed it
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        run: |
+          if ! git diff --quiet -- docs/assets; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add docs/assets/bugs-chart-dark.svg
+            git commit -m "chore: refresh bug trend chart [skip ci]"
+            # If the branch moved during this run, the newer run will regenerate the chart.
+            git fetch origin "$GITHUB_REF_NAME"
+            if [ "$(git rev-parse HEAD~1)" = "$(git rev-parse FETCH_HEAD)" ]; then
+              git push
+            else
+              echo "Branch moved since checkout, leaving the chart to the newer run."
+            fi
+          else
+            echo "Chart unchanged, nothing to commit."
+          fi
+
+      - name: Setup Pages
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/configure-pages@v6
+
+      - name: Upload artifact
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: 'docs'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: validate-and-build
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    permissions:
+      pages: write
+      id-token: write
+    concurrency:
+      group: "pages"
+      cancel-in-progress: false
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
