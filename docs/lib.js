@@ -117,7 +117,30 @@
 
     // 'recent': the 20 newest versions. 'worst': the 15 with the most known
     // issues, put back in version order. 'all': everything.
-    function trendSeries(drivers, range) {
+    // Bugs logged under an earlier driver and fixed after this one, per driver
+    // version. Only bugs with a known fix version count; pending ones and fixes
+    // outside the driver ("Fixed External", OTA) have no known end.
+    function carriedOverCounts(drivers) {
+        const versions = drivers.map(d => d.version).sort(compareVersions);
+        const counts = new Map(versions.map(v => [v, 0]));
+        drivers.forEach(d => {
+            d.bugs.forEach(b => {
+                const m = /^Fixed \((\d+\.\d{2})\)$/.exec(b.fixed_in || '');
+                if (!m || m[1] === d.version) return;
+                versions.forEach(v => {
+                    if (compareVersions(v, d.version) > 0 && compareVersions(v, m[1]) < 0) {
+                        counts.set(v, counts.get(v) + 1);
+                    }
+                });
+            });
+        });
+        return counts;
+    }
+
+    // With includeCarried, each item also gets `carried` (see carriedOverCounts)
+    // and the 'worst' range ranks by known + carried.
+    function trendSeries(drivers, range, { includeCarried = false } = {}) {
+        const carried = includeCarried ? carriedOverCounts(drivers) : null;
         const chronological = [...drivers]
             .sort((a, b) => compareVersions(a.version, b.version))
             .map(d => {
@@ -125,19 +148,22 @@
                 const count = status => statuses.filter(s => s === status).length;
                 const fixedLater = count('fixed-later');
                 const pending = count('pending');
-                return {
+                const item = {
                     version: d.version,
                     known: fixedLater + pending,
                     fixedLater,
                     pending,
                     fixed: count('fixed'),
                 };
+                if (carried) item.carried = carried.get(d.version);
+                return item;
             });
 
         if (range === 'recent') return chronological.slice(-20);
         if (range === 'worst') {
+            const weight = s => s.known + (s.carried || 0);
             return [...chronological]
-                .sort((a, b) => b.known - a.known)
+                .sort((a, b) => weight(b) - weight(a))
                 .slice(0, 15)
                 .sort((a, b) => compareVersions(a.version, b.version));
         }
@@ -146,9 +172,9 @@
 
     // Drivers that have a release date, oldest first, with the same counts as
     // trendSeries(). Used by the timeline view.
-    function timelineSeries(drivers) {
+    function timelineSeries(drivers, options) {
         const dates = new Map(drivers.map(d => [d.version, d.release_date]));
-        return trendSeries(drivers.filter(d => d.release_date), 'all')
+        return trendSeries(drivers.filter(d => d.release_date), 'all', options)
             .map(item => ({ ...item, date: dates.get(item.version) }))
             .sort((a, b) => a.date.localeCompare(b.date));
     }
@@ -201,6 +227,7 @@
         visibleBugs,
         filterAndSortDrivers,
         computeStats,
+        carriedOverCounts,
         trendSeries,
         timelineSeries,
         launchBands,

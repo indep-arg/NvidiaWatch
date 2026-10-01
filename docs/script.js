@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const trendsChartSvg = document.getElementById('trends-chart');
     const trendsTooltip = document.getElementById('trends-tooltip');
     const trendsRangeChips = document.querySelectorAll('#trends-range .chip');
+    const carriedToggle = document.getElementById('carried-toggle');
 
     const ITEMS_PER_PAGE = 9;
     const VALID_FILTERS = Array.from(statusChips, chip => chip.dataset.filter);
@@ -38,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentFilter = 'all';
     let currentSort = 'version-desc';
     let trendsRange = 'all';
+    let includeCarried = false;
     let searchDebounceTimer = null;
     let resizeDebounceTimer = null;
     let toastTimeout = null;
@@ -202,8 +204,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'all tracked versions';
     }
 
+    function chartSeries(range) {
+        const options = { includeCarried };
+        return range === 'timeline' ? timelineSeries(allDrivers, options) : trendSeries(allDrivers, range, options);
+    }
+
     function resetTrendsTooltip() {
-        const count = (trendsRange === 'timeline' ? timelineSeries(allDrivers) : trendSeries(allDrivers, trendsRange)).length;
+        const count = chartSeries(trendsRange).length;
         trendsTooltip.textContent = `Showing ${rangeLabel(trendsRange)} (${count}). Hover or tap a bar for details.`;
     }
 
@@ -235,10 +242,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const enteringTimeline = range === 'timeline' && trendsRange !== 'timeline';
         trendsRange = range;
         trendsSection.dataset.range = range;
+        trendsSection.dataset.carried = includeCarried;
         trendsChartSvg.innerHTML = '';
 
         const timeline = range === 'timeline';
-        const series = timeline ? timelineSeries(allDrivers) : trendSeries(allDrivers, range);
+        const series = chartSeries(range);
         if (series.length === 0) return;
 
         const ns = 'http://www.w3.org/2000/svg';
@@ -264,14 +272,14 @@ document.addEventListener('DOMContentLoaded', () => {
             barX = item => dateX(item.date) - barW / 2;
         } else {
             const minBarWidth = range === 'all' ? 6 : 22;
-            const gap = range === 'all' ? 1.5 : 6;
+            const gap = range === 'all' ? 3.5 : 6;
             width = Math.max(containerWidth, series.length * (minBarWidth + gap));
             barW = Math.max(minBarWidth, (width - gap * (series.length - 1)) / series.length);
             hitW = barW + gap;
             barX = (_, i) => i * (barW + gap);
         }
 
-        const maxUp = Math.max(...series.map(s => s.known), 1);
+        const maxUp = Math.max(...series.map(s => s.known + (s.carried || 0)), 1);
         const maxDown = Math.max(...series.map(s => s.fixed), 1);
         const unit = plotH / (maxUp + maxDown);
         const baseY = padTop + maxUp * unit;
@@ -322,6 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const launched = launchByDriver.get(item.version);
             const when = timeline ? ` (${item.date})` : '';
             const detail = `${item.known} known issue${item.known === 1 ? '' : 's'} (${item.fixedLater} fixed later, ${item.pending} pending), ${item.fixed} bug${item.fixed === 1 ? '' : 's'} fixed in this driver`
+                + (includeCarried ? `, plus ${item.carried} carried over from earlier drivers` : '')
                 + (launched ? `. Launch driver for ${listNames(launched)}` : '');
 
             const g = svgEl('g', {
@@ -335,8 +344,9 @@ document.addEventListener('DOMContentLoaded', () => {
             rect(g, x - (hitW - barW) / 2, padTop, hitW, plotH, 'trend-bar-hit');
 
             let above = 0;
-            [['fixedLater', 'trend-bar-fixed-later'], ['pending', 'trend-bar-pending']].forEach(([key, className]) => {
-                const count = item[key];
+            // Carried-over issues (only when the toggle is on) stack on top.
+            [['fixedLater', 'trend-bar-fixed-later'], ['pending', 'trend-bar-pending'], ['carried', 'trend-bar-carried']].forEach(([key, className]) => {
+                const count = item[key] || 0;
                 if (count === 0) return;
                 const top = baseY - (above + count) * unit;
                 const bottom = baseY - above * unit - (above > 0 ? segmentGap : baselineGap);
@@ -603,6 +613,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             renderTrendsChart(chip.dataset.range);
         });
+    });
+
+    carriedToggle?.addEventListener('change', () => {
+        includeCarried = carriedToggle.checked;
+        renderTrendsChart();
     });
 
     // The chart width depends on the container width, so it is rebuilt on resize.

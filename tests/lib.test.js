@@ -173,3 +173,31 @@ test('real events.json lines up with drivers.json', () => {
     assert.ok(bands.length >= 1);
     bands.forEach(b => assert.ok(b.start <= b.end));
 });
+
+test('carriedOverCounts counts bugs between the driver that lists them and their fix', () => {
+    const chain = [
+        { version: '531.41', bugs: [bug('Fixed (536.23)'), bug('Fixed (531.41)'), bug(null), bug('Fixed External')] },
+        { version: '531.61', bugs: [] },
+        { version: '531.68', bugs: [] },
+        { version: '536.23', bugs: [] },
+        { version: '536.40', bugs: [] },
+    ];
+    const counts = lib.carriedOverCounts(chain);
+    assert.deepEqual([...counts.entries()], [['531.41', 0], ['531.61', 1], ['531.68', 1], ['536.23', 0], ['536.40', 0]]);
+});
+
+test('trendSeries is unchanged unless carried-over issues are asked for', () => {
+    assert.deepEqual(lib.trendSeries(drivers, 'all'), lib.trendSeries(drivers, 'all', {}));
+    assert.ok(lib.trendSeries(drivers, 'all').every(s => !('carried' in s)));
+    // No driver here sits between 576.02 and the 581.80 fix, so nothing is carried.
+    const withCarried = lib.trendSeries(drivers, 'all', { includeCarried: true });
+    assert.deepEqual(withCarried.map(s => s.carried), [0, 0, 0]);
+});
+
+test('real data: the Reddit example 4063597 is carried into 531.61', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
+    const series = lib.trendSeries(data, 'all', { includeCarried: true });
+    const at = v => series.find(s => s.version === v);
+    assert.equal(at('531.61').known, 0);
+    assert.ok(at('531.61').carried >= 1);
+});

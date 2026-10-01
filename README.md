@@ -24,6 +24,7 @@ Below the line are the bugs that driver fixed.
 - Sort by driver version or number of bugs
 - Release date, channel (Game Ready / Studio) and release notes link for every driver
 - Timeline view that places every driver on its release date, with RTX 40 and RTX 50 launch periods marked
+- Optional "carried-over issues" view: counts a bug in every driver between the one that lists it and the one that fixes it
 - Masonry and list layouts for the driver cards, light and dark theme
 - Quick overview: drivers tracked, issues logged, fix rate and how many are still pending
 
