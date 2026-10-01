@@ -126,3 +126,50 @@ test('real drivers.json works with every helper', () => {
     assert.equal(lib.trendSeries(data, 'all').length, data.length);
     assert.equal(lib.filterAndSortDrivers(data).length, data.length);
 });
+
+const events = [
+    { date: '2025-02-20', driver: '572.47', gpus: ['GeForce RTX 5070 Ti'], family: 'RTX 50 series', source: 'https://example.com/b' },
+    { date: '2024-01-31', driver: '551.31', gpus: ['GeForce RTX 4080 SUPER'], family: 'RTX 40 series', source: 'https://example.com/a' },
+    { date: '2025-01-30', driver: '572.16', gpus: ['GeForce RTX 5090', 'GeForce RTX 5080'], family: 'RTX 50 series', source: 'https://example.com/c' },
+    { date: '2023-01-05', driver: '528.02', gpus: ['GeForce RTX 4070 Ti'], family: 'RTX 40 series', source: 'https://example.com/d' },
+];
+
+test('daysBetween counts calendar days', () => {
+    assert.equal(lib.daysBetween('2024-02-28', '2024-03-01'), 2);
+    assert.equal(lib.daysBetween('2025-01-30', '2025-01-30'), 0);
+});
+
+test('launchBands merges consecutive events of the same family', () => {
+    const bands = lib.launchBands(events);
+    assert.deepEqual(bands.map(b => [b.family, b.start, b.end, b.events.length]), [
+        ['RTX 40 series', '2023-01-05', '2024-01-31', 2],
+        ['RTX 50 series', '2025-01-30', '2025-02-20', 2],
+    ]);
+});
+
+test('launchesByDriver maps a driver to the GPUs it launched', () => {
+    const map = lib.launchesByDriver(events);
+    assert.deepEqual(map.get('572.16'), ['GeForce RTX 5090', 'GeForce RTX 5080']);
+    assert.equal(map.get('999.99'), undefined);
+});
+
+test('timelineSeries sorts by date and skips drivers without one', () => {
+    const withDates = [
+        { version: '581.94', release_date: '2025-11-18', bugs: [bug(null)] },
+        { version: '581.80', release_date: '2025-11-04', bugs: [bug('Fixed (581.80)')] },
+        { version: '500.00', bugs: [] },
+    ];
+    const series = lib.timelineSeries(withDates);
+    assert.deepEqual(series.map(s => [s.version, s.date, s.known, s.fixed]), [['581.80', '2025-11-04', 0, 1], ['581.94', '2025-11-18', 1, 0]]);
+});
+
+test('real events.json lines up with drivers.json', () => {
+    const docs = path.join(__dirname, '..', 'docs');
+    const data = JSON.parse(fs.readFileSync(path.join(docs, 'drivers.json'), 'utf8'));
+    const realEvents = JSON.parse(fs.readFileSync(path.join(docs, 'events.json'), 'utf8'));
+    const series = lib.timelineSeries(data);
+    assert.equal(series.length, data.filter(d => d.release_date).length);
+    const bands = lib.launchBands(realEvents);
+    assert.ok(bands.length >= 1);
+    bands.forEach(b => assert.ok(b.start <= b.end));
+});

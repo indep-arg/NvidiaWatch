@@ -634,6 +634,24 @@ mark.highlight {
     margin-left: -0.5rem;
 }
 
+.legend-swatch--launch {
+    background-color: var(--accent-color);
+    opacity: 0.35;
+}
+
+.legend-item--launch,
+.trends-note-timeline {
+    display: none;
+}
+
+.trends[data-range="timeline"] .legend-item--launch {
+    display: inline-flex;
+}
+
+.trends[data-range="timeline"] .trends-note-timeline {
+    display: inline;
+}
+
 .legend-hint {
     margin-left: auto;
     opacity: 0.75;
@@ -649,6 +667,35 @@ mark.highlight {
     display: block;
     width: 100%;
     height: 280px;
+}
+
+.trends-chart text {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+}
+
+.timeline-band {
+    fill: var(--accent-color);
+    opacity: 0.08;
+}
+
+.timeline-band-label {
+    fill: var(--text-secondary);
+}
+
+.timeline-tick {
+    stroke: var(--accent-color);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.timeline-grid {
+    stroke: var(--border-color);
+    stroke-width: 1;
+}
+
+.timeline-year {
+    fill: var(--text-secondary);
 }
 
 .trend-baseline {
@@ -725,6 +772,15 @@ mark.highlight {
 @media (max-width: 640px) {
     .trends {
         padding: 1.1rem;
+    }
+
+    #trends-range {
+        width: 100%;
+    }
+
+    #trends-range .chip {
+        flex: 1;
+        padding: 6px 6px;
     }
 }
 

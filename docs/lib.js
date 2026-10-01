@@ -144,6 +144,41 @@
         return chronological;
     }
 
+    // Drivers that have a release date, oldest first, with the same counts as
+    // trendSeries(). Used by the timeline view.
+    function timelineSeries(drivers) {
+        const dates = new Map(drivers.map(d => [d.version, d.release_date]));
+        return trendSeries(drivers.filter(d => d.release_date), 'all')
+            .map(item => ({ ...item, date: dates.get(item.version) }))
+            .sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    // Consecutive launch events of the same GPU family, merged into one band.
+    function launchBands(events) {
+        const bands = [];
+        [...events].sort((a, b) => a.date.localeCompare(b.date)).forEach(event => {
+            const last = bands[bands.length - 1];
+            if (last && last.family === event.family) {
+                last.end = event.date;
+                last.events.push(event);
+            } else {
+                bands.push({ family: event.family, start: event.date, end: event.date, events: [event] });
+            }
+        });
+        return bands;
+    }
+
+    // driver version -> GPU names it launched, e.g. "572.16" -> ["GeForce RTX 5090", ...]
+    function launchesByDriver(events) {
+        const map = new Map();
+        events.forEach(e => map.set(e.driver, [...(map.get(e.driver) || []), ...e.gpus]));
+        return map;
+    }
+
+    function daysBetween(from, to) {
+        return (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86400000;
+    }
+
     // Page numbers to show, with '...' for gaps. Never more than 7 entries.
     function paginationPages(currentPage, totalPages) {
         if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -167,6 +202,10 @@
         filterAndSortDrivers,
         computeStats,
         trendSeries,
+        timelineSeries,
+        launchBands,
+        launchesByDriver,
+        daysBetween,
         paginationPages,
     };
 

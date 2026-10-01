@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const {
         CHANNEL_LABELS, escapeHTML, highlightText, formatVersion, compareVersions,
         bugStatus, visibleBugs, filterAndSortDrivers, computeStats, trendSeries, paginationPages,
+        timelineSeries, launchBands, launchesByDriver, daysBetween,
     } = window.NvidiaWatch;
 
     const driverContainer = document.getElementById('driver-container');
@@ -20,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const htmlEl = document.documentElement;
     const paginationContainer = document.querySelector('.pagination-container');
     const resultsStatus = document.getElementById('results-status');
+    const trendsSection = document.getElementById('trends');
     const trendsChartSvg = document.getElementById('trends-chart');
     const trendsTooltip = document.getElementById('trends-tooltip');
     const trendsRangeChips = document.querySelectorAll('#trends-range .chip');
@@ -29,6 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const VALID_SORTS = Array.from(sortSelect.options, option => option.value);
 
     let allDrivers = [];
+    let launchEvents = [];
+    let launchByDriver = new Map();
     let filteredDrivers = [];
     let currentPage = 1;
     let currentFilter = 'all';
@@ -140,13 +144,21 @@ document.addEventListener('DOMContentLoaded', () => {
         storageSet('view', newView);
     });
 
+    // The timeline still works without events.json, just without launch bands.
+    const eventsRequest = fetch('events.json')
+        .then(response => (response.ok ? response.json() : []))
+        .catch(() => []);
+
     fetch('drivers.json')
         .then(response => {
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             return response.json();
         })
-        .then(data => {
+        .then(data => eventsRequest.then(events => [data, events]))
+        .then(([data, events]) => {
             allDrivers = data;
+            launchEvents = events;
+            launchByDriver = launchesByDriver(events);
             const latest = data.reduce((a, b) => (compareVersions(b.version, a.version) > 0 ? b : a), data[0]);
             if (latest) {
                 document.title = `NvidiaWatch | Latest Driver ${formatVersion(latest.version)}`;
@@ -186,11 +198,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function rangeLabel(range) {
         if (range === 'recent') return 'last 20 versions';
         if (range === 'worst') return 'most affected versions';
+        if (range === 'timeline') return 'all versions by release date';
         return 'all tracked versions';
     }
 
     function resetTrendsTooltip() {
-        const count = trendSeries(allDrivers, trendsRange).length;
+        const count = (trendsRange === 'timeline' ? timelineSeries(allDrivers) : trendSeries(allDrivers, trendsRange)).length;
         trendsTooltip.textContent = `Showing ${rangeLabel(trendsRange)} (${count}). Hover or tap a bar for details.`;
     }
 
@@ -210,27 +223,54 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollToDriverFromHash();
     }
 
+    function listNames(names) {
+        return names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0];
+    }
+
     // Known issues (fixed later, pending) go up from the baseline, the bugs a
-    // driver fixed go down. Both sides share one scale.
+    // driver fixed go down. Both sides share one scale. The timeline view
+    // places each bar at its release date and shades GPU launch periods.
     function renderTrendsChart(range = trendsRange) {
         if (!trendsChartSvg || allDrivers.length === 0) return;
+        const enteringTimeline = range === 'timeline' && trendsRange !== 'timeline';
         trendsRange = range;
-        const series = trendSeries(allDrivers, range);
-        const ns = 'http://www.w3.org/2000/svg';
+        trendsSection.dataset.range = range;
         trendsChartSvg.innerHTML = '';
+
+        const timeline = range === 'timeline';
+        const series = timeline ? timelineSeries(allDrivers) : trendSeries(allDrivers, range);
         if (series.length === 0) return;
+
+        const ns = 'http://www.w3.org/2000/svg';
+        const containerWidth = trendsChartSvg.parentElement.clientWidth || 800;
+        const height = 280;
+        const padTop = timeline ? 40 : 8;
+        const padBottom = timeline ? 26 : 8;
+        const plotH = height - padTop - padBottom;
 
         // Bars keep a minimum width; when they don't fit, the SVG grows past
         // the container and the wrapper scrolls horizontally.
-        const containerWidth = trendsChartSvg.parentElement.clientWidth || 800;
-        const minBarWidth = range === 'all' ? 6 : 22;
-        const gap = range === 'all' ? 1.5 : 6;
-        const width = Math.max(containerWidth, series.length * (minBarWidth + gap));
-        const height = 280;
-        const padTop = 8;
-        const padBottom = 8;
-        const plotH = height - padTop - padBottom;
-        const barW = Math.max(minBarWidth, (width - gap * (series.length - 1)) / series.length);
+        let width, barW, hitW, barX, dateX;
+        if (timeline) {
+            const first = series[0].date;
+            const span = Math.max(daysBetween(first, series[series.length - 1].date), 1);
+            const edge = 16;
+            // 1.6px per day keeps drivers released 4 days apart from overlapping.
+            const pxPerDay = Math.max((containerWidth - 2 * edge) / span, 1.6);
+            width = Math.max(containerWidth, span * pxPerDay + 2 * edge);
+            barW = Math.min(8, Math.max(3, 4 * pxPerDay - 1.5));
+            hitW = barW + 1.5;
+            dateX = date => edge + daysBetween(first, date) * pxPerDay;
+            barX = item => dateX(item.date) - barW / 2;
+        } else {
+            const minBarWidth = range === 'all' ? 6 : 22;
+            const gap = range === 'all' ? 1.5 : 6;
+            width = Math.max(containerWidth, series.length * (minBarWidth + gap));
+            barW = Math.max(minBarWidth, (width - gap * (series.length - 1)) / series.length);
+            hitW = barW + gap;
+            barX = (_, i) => i * (barW + gap);
+        }
+
         const maxUp = Math.max(...series.map(s => s.known), 1);
         const maxDown = Math.max(...series.map(s => s.fixed), 1);
         const unit = plotH / (maxUp + maxDown);
@@ -245,30 +285,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const frag = document.createDocumentFragment();
 
-        const rect = (x, y, w, h, className) => {
-            const r = document.createElementNS(ns, 'rect');
-            r.setAttribute('x', x);
-            r.setAttribute('y', y);
-            r.setAttribute('width', w);
-            r.setAttribute('height', Math.max(1, h));
-            r.setAttribute('class', className);
-            return r;
+        const svgEl = (name, attrs, parent = frag) => {
+            const node = document.createElementNS(ns, name);
+            Object.entries(attrs).forEach(([k, v]) => node.setAttribute(k, v));
+            parent.appendChild(node);
+            return node;
         };
+        const rect = (parent, x, y, w, h, className) =>
+            svgEl('rect', { x, y, width: w, height: Math.max(1, h), class: className }, parent);
+
+        if (timeline) {
+            const firstYear = Number(series[0].date.slice(0, 4)) + 1;
+            const lastYear = Number(series[series.length - 1].date.slice(0, 4));
+            for (let year = firstYear; year <= lastYear; year++) {
+                const x = dateX(`${year}-01-01`);
+                svgEl('line', { x1: x, x2: x, y1: padTop, y2: height - padBottom, class: 'timeline-grid' });
+                svgEl('text', { x: x + 4, y: height - 8, class: 'timeline-year' }).textContent = year;
+            }
+
+            launchBands(launchEvents).forEach(band => {
+                const x0 = dateX(band.start) - 6;
+                const x1 = dateX(band.end) + 6;
+                svgEl('rect', { x: x0, y: 0, width: x1 - x0, height: height - padBottom, class: 'timeline-band' });
+                svgEl('text', { x: x0 + 6, y: 14, class: 'timeline-band-label' }).textContent = `${band.family} launches`;
+                band.events.forEach(event => {
+                    const x = dateX(event.date);
+                    const tick = svgEl('line', { x1: x, x2: x, y1: 22, y2: 32, class: 'timeline-tick' });
+                    svgEl('title', {}, tick).textContent = `${listNames(event.gpus)}: launch driver ${event.driver} (${event.date})`;
+                });
+            });
+        }
 
         series.forEach((item, i) => {
-            const x = i * (barW + gap);
+            const x = barX(item, i);
             const versionDisplay = formatVersion(item.version);
-            const detail = `${item.known} known issue${item.known === 1 ? '' : 's'} (${item.fixedLater} fixed later, ${item.pending} pending), ${item.fixed} bug${item.fixed === 1 ? '' : 's'} fixed in this driver`;
+            const launched = launchByDriver.get(item.version);
+            const when = timeline ? ` (${item.date})` : '';
+            const detail = `${item.known} known issue${item.known === 1 ? '' : 's'} (${item.fixedLater} fixed later, ${item.pending} pending), ${item.fixed} bug${item.fixed === 1 ? '' : 's'} fixed in this driver`
+                + (launched ? `. Launch driver for ${listNames(launched)}` : '');
 
-            const g = document.createElementNS(ns, 'g');
-            g.setAttribute('class', 'trend-bar-group');
-            g.setAttribute('tabindex', '0');
-            g.setAttribute('role', 'button');
-            g.setAttribute('aria-label', `Driver ${versionDisplay}: ${detail}. Jump to this driver.`);
+            const g = svgEl('g', {
+                class: 'trend-bar-group',
+                tabindex: '0',
+                role: 'button',
+                'aria-label': `Driver ${versionDisplay}${when}: ${detail}. Jump to this driver.`,
+            });
 
             // Invisible full-height hit area so thin bars are easy to hover and tap.
-            const hit = rect(x - gap / 2, padTop, barW + gap, plotH, 'trend-bar-hit');
-            g.appendChild(hit);
+            rect(g, x - (hitW - barW) / 2, padTop, hitW, plotH, 'trend-bar-hit');
 
             let above = 0;
             [['fixedLater', 'trend-bar-fixed-later'], ['pending', 'trend-bar-pending']].forEach(([key, className]) => {
@@ -276,17 +340,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (count === 0) return;
                 const top = baseY - (above + count) * unit;
                 const bottom = baseY - above * unit - (above > 0 ? segmentGap : baselineGap);
-                g.appendChild(rect(x, top, barW, bottom - top, className));
+                rect(g, x, top, barW, bottom - top, className);
                 above += count;
             });
 
             if (item.fixed > 0) {
                 const top = baseY + baselineGap;
-                g.appendChild(rect(x, top, barW, baseY + item.fixed * unit - top, 'trend-bar-fixed'));
+                rect(g, x, top, barW, baseY + item.fixed * unit - top, 'trend-bar-fixed');
             }
 
             const showDetail = () => {
-                trendsTooltip.textContent = `Driver ${versionDisplay}: ${detail}`;
+                trendsTooltip.textContent = `Driver ${versionDisplay}${when}: ${detail}`;
             };
             g.addEventListener('mouseenter', showDetail);
             g.addEventListener('focus', showDetail);
@@ -297,20 +361,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     goToDriver(item.version);
                 }
             });
-
-            frag.appendChild(g);
         });
 
-        const baseline = document.createElementNS(ns, 'line');
-        baseline.setAttribute('x1', 0);
-        baseline.setAttribute('x2', width);
-        baseline.setAttribute('y1', baseY);
-        baseline.setAttribute('y2', baseY);
-        baseline.setAttribute('class', 'trend-baseline');
-        frag.appendChild(baseline);
+        svgEl('line', { x1: 0, x2: width, y1: baseY, y2: baseY, class: 'trend-baseline' });
 
         trendsChartSvg.appendChild(frag);
         resetTrendsTooltip();
+
+        // Open the timeline at its newest end.
+        if (enteringTimeline) {
+            const wrapper = trendsChartSvg.parentElement;
+            wrapper.scrollLeft = wrapper.scrollWidth;
+        }
     }
 
     function applyFiltersAndSort(shouldRender = true, replaceHistory = false) {

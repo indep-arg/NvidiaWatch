@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-Check docs/drivers.json against the format the site and the chart expect.
-Unknown keys are rejected too, so a typo like "fixed" for "fixed_in" fails
-instead of being silently ignored.
+Check docs/drivers.json and docs/events.json against the format the site and
+the chart expect. Unknown keys are rejected too, so a typo like "fixed" for
+"fixed_in" fails instead of being silently ignored.
 
 Usage:
-    python scripts/validate_data.py [path/to/drivers.json]
+    python scripts/validate_data.py [path/to/drivers.json] [--events path/to/events.json]
 """
 import json
 import re
@@ -24,6 +24,17 @@ BUG_ID_REGEX = re.compile(r"^\d{6,}$")
 ID_IN_DESCRIPTION_REGEX = re.compile(r"\[\s*\d{6,}(?:\s*/\s*\d{6,})*\s*\]")
 
 DRIVER_CHANNELS = {"game-ready", "studio"}
+
+
+def is_real_date(value):
+    """True for a real calendar date written as YYYY-MM-DD."""
+    if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+        return False
+    try:
+        date.fromisoformat(value)
+    except ValueError:
+        return False
+    return True
 
 
 def validate_data(filepath):
@@ -98,14 +109,7 @@ def validate_data(filepath):
                 has_errors = True
 
         if "release_date" in entry:
-            release_date = entry["release_date"]
-            valid_date = isinstance(release_date, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", release_date)
-            if valid_date:
-                try:
-                    date.fromisoformat(release_date)
-                except ValueError:
-                    valid_date = False
-            if not valid_date:
+            if not is_real_date(entry["release_date"]):
                 print(f"Error at {location}: 'release_date' must be a real date formatted YYYY-MM-DD.")
                 has_errors = True
 
@@ -184,12 +188,102 @@ def validate_data(filepath):
     return True
 
 
+def validate_events(filepath, drivers_filepath):
+    """
+    Check the GPU launch events drawn on the timeline. Each event names the
+    driver that added support for new GPUs. When that driver is also in
+    drivers.json, both dates must match.
+    """
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            events = json.load(f)
+    except (OSError, json.JSONDecodeError) as e:
+        print(f"Error reading '{filepath}': {e}")
+        return False
+    try:
+        with open(drivers_filepath, "r", encoding="utf-8") as f:
+            release_dates = {d.get("version"): d.get("release_date") for d in json.load(f) if isinstance(d, dict)}
+    except (OSError, json.JSONDecodeError):
+        release_dates = {}
+
+    if not isinstance(events, list):
+        print(f"Error: Root element in '{filepath}' must be a JSON array [].")
+        return False
+
+    has_errors = False
+    seen_gpus = set()
+    previous_date = None
+    for idx, event in enumerate(events):
+        location = f"Event {idx}"
+        if not isinstance(event, dict):
+            print(f"Error at {location}: Event must be an object.")
+            has_errors = True
+            continue
+
+        expected = {"date", "driver", "gpus", "family", "source"}
+        if set(event) != expected:
+            missing = expected - set(event)
+            extra = set(event) - expected
+            if missing:
+                print(f"Error at {location}: Missing field(s): {', '.join(sorted(missing))}")
+            if extra:
+                print(f"Error at {location}: Contains unexpected key(s): {', '.join(sorted(extra))}")
+            has_errors = True
+            continue
+
+        if not is_real_date(event["date"]):
+            print(f"Error at {location}: 'date' must be a real date formatted YYYY-MM-DD.")
+            has_errors = True
+        elif previous_date and event["date"] < previous_date:
+            print(f"Error at {location}: Events must be sorted by date.")
+            has_errors = True
+        else:
+            previous_date = event["date"]
+
+        driver = event["driver"]
+        if not isinstance(driver, str) or not VERSION_REGEX.match(driver):
+            print(f"Error at {location}: 'driver' must be a version like '581.80'.")
+            has_errors = True
+        elif driver in release_dates and release_dates[driver] and release_dates[driver] != event["date"]:
+            print(f"Error at {location}: 'date' {event['date']} doesn't match driver {driver}'s release_date {release_dates[driver]}.")
+            has_errors = True
+
+        gpus = event["gpus"]
+        if not isinstance(gpus, list) or not gpus or not all(isinstance(g, str) and g.strip() for g in gpus):
+            print(f"Error at {location}: 'gpus' must be a non-empty list of GPU names.")
+            has_errors = True
+        else:
+            for gpu in gpus:
+                if gpu in seen_gpus:
+                    print(f"Error at {location}: '{gpu}' already appears in an earlier event.")
+                    has_errors = True
+                seen_gpus.add(gpu)
+
+        if not isinstance(event["family"], str) or not event["family"].strip():
+            print(f"Error at {location}: 'family' must be a non-empty string.")
+            has_errors = True
+
+        if not isinstance(event["source"], str) or not event["source"].startswith("https://"):
+            print(f"Error at {location}: 'source' must be an https:// URL.")
+            has_errors = True
+
+    if has_errors:
+        return False
+
+    print(f"Validation successful! '{filepath}' is valid. Checked {len(events)} events.")
+    return True
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Validate drivers.json structure and formatting.")
-    parser.add_argument("file", nargs="?", default="docs/drivers.json", help="Path to drivers.json file to validate (default: docs/drivers.json)")
+    parser = argparse.ArgumentParser(description="Validate drivers.json and events.json.")
+    parser.add_argument("file", nargs="?", default="docs/drivers.json", help="Path to drivers.json (default: docs/drivers.json)")
+    parser.add_argument("--events", default=None, help="Path to events.json (default: events.json next to drivers.json, if it exists)")
     args = parser.parse_args()
 
     success = validate_data(args.file)
+    events_path = Path(args.events) if args.events else Path(args.file).with_name("events.json")
+    if args.events or events_path.exists():
+        success = validate_events(events_path, args.file) and success
     sys.exit(0 if success else 1)
 
 

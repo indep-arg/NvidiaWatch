@@ -1,0 +1,107 @@
+[
+    {
+        "date": "2022-11-16",
+        "driver": "526.98",
+        "gpus": ["GeForce RTX 4080"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4080-game-ready-driver/"
+    },
+    {
+        "date": "2023-01-05",
+        "driver": "528.02",
+        "gpus": ["GeForce RTX 4070 Ti"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4070-ti-game-ready-driver/"
+    },
+    {
+        "date": "2023-04-13",
+        "driver": "531.61",
+        "gpus": ["GeForce RTX 4070"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4070-game-ready-driver/"
+    },
+    {
+        "date": "2023-05-24",
+        "driver": "532.03",
+        "gpus": ["GeForce RTX 4060 Ti (8GB)"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4060-4060ti-game-ready-driver/"
+    },
+    {
+        "date": "2023-06-29",
+        "driver": "536.40",
+        "gpus": ["GeForce RTX 4060"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4060-game-ready-driver/"
+    },
+    {
+        "date": "2023-07-18",
+        "driver": "536.67",
+        "gpus": ["GeForce RTX 4060 Ti (16GB)"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/portal-prelude-rtx-game-ready-driver/"
+    },
+    {
+        "date": "2024-01-17",
+        "driver": "546.65",
+        "gpus": ["GeForce RTX 4070 SUPER"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4070-super-game-ready-driver/"
+    },
+    {
+        "date": "2024-01-24",
+        "driver": "551.23",
+        "gpus": ["GeForce RTX 4070 Ti SUPER"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4070-ti-super-rtx-video-hdr-game-ready-driver/"
+    },
+    {
+        "date": "2024-01-31",
+        "driver": "551.31",
+        "gpus": ["GeForce RTX 4080 SUPER"],
+        "family": "RTX 40 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-4080-super-game-ready-driver/"
+    },
+    {
+        "date": "2025-01-30",
+        "driver": "572.16",
+        "gpus": ["GeForce RTX 5090", "GeForce RTX 5080"],
+        "family": "RTX 50 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-5090-5080-dlss-4-game-ready-driver/"
+    },
+    {
+        "date": "2025-02-20",
+        "driver": "572.47",
+        "gpus": ["GeForce RTX 5070 Ti"],
+        "family": "RTX 50 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-5070-ti-game-ready-driver/"
+    },
+    {
+        "date": "2025-03-05",
+        "driver": "572.70",
+        "gpus": ["GeForce RTX 5070"],
+        "family": "RTX 50 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-5070-game-ready-driver/"
+    },
+    {
+        "date": "2025-04-16",
+        "driver": "576.02",
+        "gpus": ["GeForce RTX 5060 Ti"],
+        "family": "RTX 50 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-5060-ti-game-ready-driver/"
+    },
+    {
+        "date": "2025-05-19",
+        "driver": "576.52",
+        "gpus": ["GeForce RTX 5060"],
+        "family": "RTX 50 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/rtx-5060-dune-awakening-f1-25-geforce-game-ready-driver/"
+    },
+    {
+        "date": "2025-07-01",
+        "driver": "576.88",
+        "gpus": ["GeForce RTX 5050"],
+        "family": "RTX 50 series",
+        "source": "https://www.nvidia.com/en-us/geforce/news/mecha-break-dlss-4-multi-frame-gen-geforce-game-ready-driver/"
+    }
+]

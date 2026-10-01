@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent / "scripts"))
-from validate_data import validate_data
+from validate_data import validate_data, validate_events
 
 class TestValidateData(unittest.TestCase):
     def setUp(self):
@@ -157,6 +157,63 @@ class TestValidateData(unittest.TestCase):
         data = [{"version": "581.80", "bugs": [], "extra_key": "val"}]
         path = self._create_temp_json(data)
         self.assertFalse(validate_data(path))
+
+class TestValidateEvents(unittest.TestCase):
+    def setUp(self):
+        self.temp_files = []
+
+    def tearDown(self):
+        for filepath in self.temp_files:
+            if os.path.exists(filepath):
+                os.remove(filepath)
+
+    def _write(self, content):
+        fd, path = tempfile.mkstemp(suffix=".json")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(content, f)
+        self.temp_files.append(path)
+        return path
+
+    def _event(self, **overrides):
+        e = {"date": "2025-01-30", "driver": "572.16", "gpus": ["GeForce RTX 5090"],
+             "family": "RTX 50 series", "source": "https://www.nvidia.com/"}
+        e.update(overrides)
+        return e
+
+    def _check(self, events, drivers=None):
+        drivers = drivers if drivers is not None else [{"version": "572.16", "release_date": "2025-01-30", "bugs": []}]
+        return validate_events(self._write(events), self._write(drivers))
+
+    def test_valid_events(self):
+        self.assertTrue(self._check([self._event()]))
+        # A launch driver that isn't tracked in drivers.json is fine.
+        self.assertTrue(self._check([self._event(driver="551.31", date="2024-01-31", gpus=["GeForce RTX 4080 SUPER"])]))
+
+    def test_actual_events_json(self):
+        docs = Path(__file__).parent.parent / "docs"
+        self.assertTrue(validate_events(docs / "events.json", docs / "drivers.json"))
+
+    def test_date_must_match_tracked_driver(self):
+        self.assertFalse(self._check([self._event(date="2025-01-29")]))
+
+    def test_invalid_fields(self):
+        self.assertFalse(self._check([self._event(date="2025-02-30")]))
+        self.assertFalse(self._check([self._event(driver="572.1")]))
+        self.assertFalse(self._check([self._event(gpus=[])]))
+        self.assertFalse(self._check([self._event(family="")]))
+        self.assertFalse(self._check([self._event(source="http://www.nvidia.com/")]))
+        extra = self._event()
+        extra["note"] = "x"
+        self.assertFalse(self._check([extra]))
+        missing = self._event()
+        del missing["source"]
+        self.assertFalse(self._check([missing]))
+
+    def test_sorted_and_no_repeated_gpu(self):
+        later = self._event(driver="572.47", date="2025-02-20", gpus=["GeForce RTX 5070 Ti"])
+        self.assertFalse(self._check([later, self._event()], drivers=[]))
+        self.assertFalse(self._check([self._event(), self._event(driver="572.47", date="2025-02-20")], drivers=[]))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -155,6 +155,7 @@
                     <button class="chip" data-range="recent" aria-pressed="false">Latest 20</button>
                     <button class="chip" data-range="worst" aria-pressed="false">Most affected</button>
                     <button class="chip active" data-range="all" aria-pressed="true">All time</button>
+                    <button class="chip" data-range="timeline" aria-pressed="false">Timeline</button>
                 </div>
             </div>
             <div class="trends-legend">
@@ -163,13 +164,14 @@
                 <span class="legend-item"><span class="legend-swatch legend-swatch--pending"></span>Pending</span>
                 <span class="legend-group">Below the line</span>
                 <span class="legend-item"><span class="legend-swatch legend-swatch--fixed"></span>Fixed in this driver</span>
+                <span class="legend-item legend-item--launch"><span class="legend-swatch legend-swatch--launch"></span>GPU launch period</span>
                 <span class="legend-hint js-only">Click a bar for details</span>
             </div>
             <div class="trends-chart-wrapper">
                 <img class="trends-chart-fallback no-js-only" src="assets/bugs-chart-dark.svg" alt="Bar chart per driver: known issues above the line, bugs fixed in that driver below it" width="1200" height="400" loading="lazy">
                 <svg id="trends-chart" class="trends-chart js-only" role="group" aria-label="Bar chart per driver: known issues above the line, bugs fixed in that driver below it"></svg>
             </div>
-            <p class="trends-note">Above the line: the known issues each driver shipped with, either fixed in a later driver (or outside the driver, like a game patch) or still pending. Below the line: the bugs that driver fixed.</p>
+            <p class="trends-note">Above the line: the known issues each driver shipped with, either fixed in a later driver (or outside the driver, like a game patch) or still pending. Below the line: the bugs that driver fixed.<span class="trends-note-timeline"> In the timeline, shaded areas mark GPU launch periods, from the launch driver of the first card to that of the last one, based on NVIDIA's release notes.</span></p>
             <div id="trends-tooltip" class="trends-tooltip js-only">Loading chart...</div>
         </section>
 
