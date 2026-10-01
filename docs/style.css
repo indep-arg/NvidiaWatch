@@ -593,7 +593,7 @@ mark.highlight {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 1.1rem;
+    gap: 0.5rem 1.1rem;
     margin-bottom: 1.1rem;
     font-size: 11px;
     color: var(--text-secondary);
@@ -630,8 +630,59 @@ mark.highlight {
     color: var(--text-primary);
 }
 
-.legend-group + .legend-item {
-    margin-left: -0.5rem;
+.legend-swatch--launch {
+    background-color: var(--accent-color);
+    opacity: 0.35;
+}
+
+.legend-swatch--carried {
+    background-color: var(--status-fixed-later-fill);
+    opacity: 0.4;
+}
+
+.legend-item--launch,
+.legend-item--carried,
+.trends-note-carried,
+.trends-note-timeline {
+    display: none;
+}
+
+.trends[data-carried="true"] .legend-item--carried {
+    display: inline-flex;
+}
+
+.trends[data-carried="true"] .trends-note-carried {
+    display: inline;
+}
+
+.trends-options {
+    margin: -0.4rem 0 1.1rem;
+    font-size: 11px;
+}
+
+.trends-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+}
+
+.trends-toggle input {
+    accent-color: var(--accent-color);
+    margin: 0;
+}
+
+.legend-item + .legend-group {
+    margin-left: 0.6rem;
+}
+
+.trends[data-range="timeline"] .legend-item--launch {
+    display: inline-flex;
+}
+
+.trends[data-range="timeline"] .trends-note-timeline {
+    display: inline;
 }
 
 .legend-hint {
@@ -651,6 +702,35 @@ mark.highlight {
     height: 280px;
 }
 
+.trends-chart text {
+    font-family: var(--ff-mono);
+    font-size: 11px;
+}
+
+.timeline-band {
+    fill: var(--accent-color);
+    opacity: 0.08;
+}
+
+.timeline-band-label {
+    fill: var(--text-secondary);
+}
+
+.timeline-tick {
+    stroke: var(--accent-color);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+.timeline-grid {
+    stroke: var(--border-color);
+    stroke-width: 1;
+}
+
+.timeline-year {
+    fill: var(--text-secondary);
+}
+
 .trend-baseline {
     stroke: var(--text-secondary);
     stroke-width: 1;
@@ -664,6 +744,7 @@ mark.highlight {
 
 .trend-bar-fixed,
 .trend-bar-fixed-later,
+.trend-bar-carried,
 .trend-bar-pending {
     pointer-events: none;
     transition: filter 0.15s ease;
@@ -677,15 +758,22 @@ mark.highlight {
     fill: var(--status-fixed-later-fill);
 }
 
+.trend-bar-carried {
+    fill: var(--status-fixed-later-fill);
+    opacity: 0.4;
+}
+
 .trend-bar-pending {
     fill: var(--status-pending-text);
 }
 
 .trend-bar-group:hover .trend-bar-fixed,
 .trend-bar-group:hover .trend-bar-fixed-later,
+.trend-bar-group:hover .trend-bar-carried,
 .trend-bar-group:hover .trend-bar-pending,
 .trend-bar-group:focus-visible .trend-bar-fixed,
 .trend-bar-group:focus-visible .trend-bar-fixed-later,
+.trend-bar-group:focus-visible .trend-bar-carried,
 .trend-bar-group:focus-visible .trend-bar-pending {
     filter: brightness(1.2);
 }
@@ -717,6 +805,7 @@ mark.highlight {
 @media (prefers-reduced-motion: reduce) {
     .trend-bar-fixed,
     .trend-bar-fixed-later,
+    .trend-bar-carried,
     .trend-bar-pending {
         transition: none;
     }
@@ -725,6 +814,15 @@ mark.highlight {
 @media (max-width: 640px) {
     .trends {
         padding: 1.1rem;
+    }
+
+    #trends-range {
+        width: 100%;
+    }
+
+    #trends-range .chip {
+        flex: 1;
+        padding: 6px 6px;
     }
 }
 

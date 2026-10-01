@@ -37,6 +37,22 @@ Please only add information you can point to in an official NVIDIA source: the d
 
 A bug whose `fixed_in` names its own driver version is one that driver fixed (it's in that driver's "Fixed Issues" list). Any other bug is a known issue of that driver: fixed later, or still pending.
 
+## GPU launch events
+
+`docs/events.json` lists the drivers that launched new GPUs. The timeline view shades each GPU family's launch period from its first to its last launch driver.
+
+```json
+{
+    "date": "2025-04-16",
+    "driver": "576.02",
+    "gpus": ["GeForce RTX 5060 Ti"],
+    "family": "RTX 50 series",
+    "source": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-5060-ti-game-ready-driver/"
+}
+```
+
+Only add a launch that the driver's own release notes announce (e.g. "Game Ready for GeForce RTX 5060 Ti"), and use NVIDIA's announcement for that driver as the `source`. Keep the list sorted by date. If the driver is also in `drivers.json`, the dates must match.
+
 ## Checks
 
 CI runs these on every PR. You can run them locally first:
