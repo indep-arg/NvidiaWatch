@@ -29,6 +29,14 @@ class TestBugStatus(unittest.TestCase):
         self.assertEqual(gc.bug_status(bug("Fixed External"), "581.80"), "fixed_later")
         self.assertEqual(gc.bug_status(bug("Fixed (OTA profile update)"), "581.80"), "fixed_later")
 
+    def test_shared_cases(self):
+        # Same cases as tests/lib.test.js, so the site and the chart can't disagree.
+        cases = json.loads((Path(__file__).parent / "status_cases.json").read_text(encoding="utf-8"))
+        for case in cases:
+            with self.subTest(case=case):
+                expected = case["status"].replace("-", "_")
+                self.assertEqual(gc.bug_status(bug(case["fixed_in"]), case["version"]), expected)
+
 
 class TestCeilTo(unittest.TestCase):
     def test_rounds_up_to_step(self):
@@ -55,6 +63,26 @@ class TestLoadSeries(unittest.TestCase):
         series = gc.load_series(self.path)
         self.assertEqual([s["version"] for s in series], ["581.9", "581.80", "581.94"])
         self.assertEqual(series[1], {"version": "581.80", "known": 2, "fixed_later": 1, "pending": 1, "fixed": 1})
+
+
+class TestEarlierFixes(unittest.TestCase):
+    def test_counted_under_the_driver_that_fixed_them(self):
+        drivers = [
+            {"version": "581.80", "bugs": [
+                {"description": "Flicker", "ids": ["1"], "fixed_in": "Fixed (581.94)"},
+                {"description": "Crash", "ids": ["2"], "fixed_in": "Fixed (581.94)"},
+                {"description": "Hang", "ids": [], "fixed_in": "Fixed (590.00)"},
+                {"description": "Profile", "ids": ["3"], "fixed_in": "Fixed (OTA profile update)"},
+            ]},
+            # 581.94 already lists bug 2, so only bug 1 is added.
+            {"version": "581.94", "bugs": [{"description": "Crash", "ids": ["2"], "fixed_in": "Fixed (581.94)"}]},
+        ]
+        self.assertEqual(gc.earlier_fixes(drivers), {"581.94": 1})
+
+    def test_matches_lib_js_on_real_data(self):
+        series = {s["version"]: s for s in gc.load_series()}
+        self.assertEqual(series["616.92"]["fixed"], 3)
+        self.assertEqual(sum(s["fixed"] for s in series.values()), 461)
 
 
 class TestBuildSvg(unittest.TestCase):
@@ -91,6 +119,23 @@ class TestBuildSvg(unittest.TestCase):
 
     def test_real_data_renders_valid_svg(self):
         ET.fromstring(gc.build_svg(gc.load_series(), "dark"))
+
+
+
+class TestRelisted(unittest.TestCase):
+    def test_repeated_open_issues_count_as_known(self):
+        drivers = [
+            {"version": "610.47", "bugs": [{"description": "Power mode", "ids": ["1"], "fixed_in": None}]},
+            {"version": "610.62", "bugs": [{"description": "Crash", "ids": ["2"], "fixed_in": "Fixed (617.14)"}], "still_open": ["1"]},
+            {"version": "616.92", "bugs": [], "still_open": ["1", "2"]},
+        ]
+        self.assertEqual(gc.relisted_statuses(drivers, drivers[2]), ["pending", "fixed_later"])
+        self.assertEqual(gc.relisted_statuses(drivers, drivers[0]), [])
+
+    def test_matches_lib_js_on_real_data(self):
+        series = {s["version"]: s for s in gc.load_series()}
+        self.assertEqual(series["617.14"]["known"], 2)
+        self.assertEqual(sum(s["known"] for s in series.values()), 602)
 
 
 if __name__ == "__main__":

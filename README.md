@@ -13,31 +13,34 @@ This database can help in several ways. For example, we can analyze which driver
 Above the line are the known issues each driver shipped with:
 
 - **Fixed later:** fixed in a later driver, or outside the driver (game patch, OTA profile update).
-- **Pending:** not fixed yet.
+- **Still open:** no fix logged yet.
 
 Below the line are the bugs that driver fixed.
 
 ## Features
 
-- Search across games, driver versions, known issues and NVIDIA bug IDs
-- Filter by status (pending or fixed)
-- Sort by driver version or number of bugs
-- Release date, channel (Game Ready / Studio) and release notes link for every driver
-- Timeline view that places every driver on its release date, with RTX 40 and RTX 50 launch periods marked
-- Optional "carried-over issues" view: counts a bug in every driver between the one that lists it and the one that fixes it
-- Masonry and list layouts for the driver cards, light and dark theme
-- Quick overview: drivers tracked, issues logged, fix rate and how many are still pending
+- **Latest:** the newest Game Ready driver with what it fixed and its known issues, the newest Studio driver and the totals
+- **Drivers:** search across games, driver versions, known issues and NVIDIA bug IDs; filter by status (known issues, still open, fixed in that driver) and channel; sort by version or number of known issues
+- **Driver pages:** everything NVIDIA listed for that driver: its fixes, its known issues (including the open ones it repeated from earlier drivers) and the ones it carried over, with release notes and feedback thread links
+- **Bug history:** for any NVIDIA bug ID, the driver that listed it, the drivers that repeated or carried it and the one that fixed it
+- **Trends:** known issues and fixes per driver (latest 20, most affected, all time) and a timeline by release date with RTX 40 and RTX 50 launch periods; carried-over issues are optional
+- Dark theme by default, light theme on request; works with a keyboard and on phones
 
 ## How it's built
 
-Plain HTML, CSS and JavaScript on GitHub Pages, with no framework and no build step. Icons are from [Ionicons](https://ionic.io/ionicons) and embedded in the page, fonts come from Google Fonts.
+Plain HTML, CSS and JavaScript on GitHub Pages, with no framework and no build step. The page code is split into native ES modules. Fonts are IBM Plex Sans and Plex Mono, served from the site itself.
 
 ```
 docs/
 ├── index.html
 ├── style.css
-├── lib.js                   # data helpers (filtering, stats, chart series)
-├── script.js                # page logic
+├── lib.js                   # data helpers (filtering, stats, chart series), tested in Node
+├── js/
+│   ├── main.js              # loads the data, routes ?driver=, ?bug=, ?view=
+│   ├── chart.js             # bar chart and timeline
+│   ├── ui.js                # shared HTML pieces
+│   └── views/               # latest, drivers, driver, bugs, bug, trends, methodology
+├── fonts/                   # IBM Plex Sans and Plex Mono (OFL)
 ├── drivers.json             # driver and bug data
 ├── events.json              # GPU launch drivers shown on the timeline
 └── assets/
@@ -46,6 +49,9 @@ scripts/
 ├── validate_data.py         # checks drivers.json and events.json
 └── generate_chart.py        # draws the README chart
 tests/
+├── lib.test.js              # docs/lib.js, run with node --test
+├── test_*.py                # the two scripts
+└── status_cases.json        # status rule cases shared by both
 ```
 
 To run the checks locally:
@@ -54,6 +60,7 @@ To run the checks locally:
 python -m unittest discover -s tests
 node --test tests/lib.test.js
 python scripts/validate_data.py
+python -m http.server --directory docs   # then open http://localhost:8000
 ```
 
 ## Contributing

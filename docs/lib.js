@@ -51,18 +51,35 @@
         return 'fixed-later';
     }
 
+    // "Fixed (581.80)" -> "581.80"; anything else (pending, "Fixed External") -> null.
+    function fixedInVersion(bug) {
+        const m = /^Fixed \((\d+\.\d{2})\)$/.exec(bug.fixed_in || '');
+        return m ? m[1] : null;
+    }
+
     function knownIssueCount(driver) {
         return driver.bugs.filter(bug => bugStatus(bug, driver.version) !== 'fixed').length;
     }
 
-    function matchesStatusFilter(bug, filter) {
+    // A driver's own bugs, split the way the driver view lists them.
+    function driverBugs(driver) {
+        const fixed = [];
+        const known = [];
+        driver.bugs.forEach(bug => (bugStatus(bug, driver.version) === 'fixed' ? fixed : known).push(bug));
+        return { fixed, known };
+    }
+
+    // 'pending': still open. 'fixed': fixed in that driver. 'known': a known
+    // issue of that driver, fixed later or still open. Anything else: all.
+    function matchesStatusFilter(bug, version, filter) {
         if (filter === 'pending') return bug.fixed_in === null;
-        if (filter === 'fixed') return bug.fixed_in !== null;
+        if (filter === 'fixed') return bugStatus(bug, version) === 'fixed';
+        if (filter === 'known') return bugStatus(bug, version) !== 'fixed';
         return true;
     }
 
     // `query` is expected lowercased and trimmed. IDs match with or without
-    // the leading "#" the cards show.
+    // the leading "#".
     function bugMatchesQuery(bug, query) {
         if (!query) return true;
         const idQuery = query.replace(/^#/, '');
@@ -71,17 +88,18 @@
             (idQuery !== '' && (bug.ids || []).some(id => id.includes(idQuery)));
     }
 
-    // Bugs a card lists under the active status filter and search.
+    // Bugs a driver shows under the active status filter and search.
     function visibleBugs(driver, filter, query) {
-        return driver.bugs.filter(bug => matchesStatusFilter(bug, filter) && bugMatchesQuery(bug, query));
+        return driver.bugs.filter(bug => matchesStatusFilter(bug, driver.version, filter) && bugMatchesQuery(bug, query));
     }
 
     // A driver is kept if its version matches the search, or if one of its
     // bugs matches both the status filter and the search. With a status
     // filter set, drivers with no bugs of that status are dropped.
-    function filterAndSortDrivers(drivers, { query = '', filter = 'all', sort = 'version-desc' } = {}) {
+    function filterAndSortDrivers(drivers, { query = '', filter = 'all', sort = 'version-desc', channel = 'all' } = {}) {
         const result = drivers.filter(driver => {
-            const bugsMatchingStatus = driver.bugs.filter(bug => matchesStatusFilter(bug, filter));
+            if (channel !== 'all' && !(driver.channels || []).includes(channel)) return false;
+            const bugsMatchingStatus = driver.bugs.filter(bug => matchesStatusFilter(bug, driver.version, filter));
             if (filter !== 'all' && bugsMatchingStatus.length === 0) return false;
             const versionText = `driver ${formatVersion(driver.version)}`.toLowerCase();
             return versionText.includes(query) || bugsMatchingStatus.some(bug => bugMatchesQuery(bug, query));
@@ -98,37 +116,180 @@
         return result;
     }
 
-    function computeStats(drivers) {
-        let totalBugs = 0;
-        let pending = 0;
-        drivers.forEach(d => {
-            d.bugs.forEach(b => {
-                totalBugs++;
-                if (b.fixed_in === null) pending++;
-            });
-        });
-        return {
-            totalDrivers: drivers.length,
-            totalBugs,
-            fixedRate: totalBugs > 0 ? Math.round(((totalBugs - pending) / totalBugs) * 100) : 0,
-            pending,
-        };
+    // Totals for the overview. fixedLaterRate is the share of known issues
+    // that a later driver (or a fix outside the driver) resolved.
+    function summaryStats(drivers) {
+        const totals = { drivers: drivers.length, bugs: 0, fixed: 0, fixedLater: 0, pending: 0 };
+        drivers.forEach(d => d.bugs.forEach(b => {
+            totals.bugs++;
+            const status = bugStatus(b, d.version);
+            if (status === 'fixed') totals.fixed++;
+            else if (status === 'pending') totals.pending++;
+            else totals.fixedLater++;
+        }));
+        totals.known = totals.fixedLater + totals.pending;
+        totals.fixedLaterRate = totals.known > 0 ? Math.round((totals.fixedLater / totals.known) * 100) : 0;
+        return totals;
     }
 
-    // 'recent': the 20 newest versions. 'worst': the 15 with the most known
-    // issues, put back in version order. 'all': everything.
+    function byVersion(drivers) {
+        return [...drivers].sort((a, b) => compareVersions(a.version, b.version));
+    }
+
+    // Newest driver, or the newest one released on `channel`.
+    function latestDriver(drivers, channel) {
+        const pool = channel ? drivers.filter(d => (d.channels || []).includes(channel)) : drivers;
+        return byVersion(pool).pop() || null;
+    }
+
+    function neighbours(drivers, version) {
+        const sorted = byVersion(drivers);
+        const i = sorted.findIndex(d => d.version === version);
+        return { previous: i > 0 ? sorted[i - 1] : null, next: i >= 0 && i < sorted.length - 1 ? sorted[i + 1] : null };
+    }
+
+    // Bugs logged under an earlier driver and fixed after `version`, so that
+    // driver had them too. Pending bugs and fixes outside the driver have no
+    // known end and never count.
+    // A bug NVIDIA repeated in this driver's own notes (`still_open`) is one of
+    // its known issues instead. Copies added by withEarlierFixes() and
+    // withRelisted() are skipped, so the drivers they return work here too.
+    function carriedOverBugs(drivers, version) {
+        const target = drivers.find(d => d.version === version);
+        const relisted = new Set((target && target.still_open) || []);
+        const carried = [];
+        byVersion(drivers).forEach(d => {
+            if (compareVersions(d.version, version) >= 0) return;
+            d.bugs.forEach(bug => {
+                if (isCopy(bug) || (bug.ids || []).some(id => relisted.has(id))) return;
+                const to = fixedInVersion(bug);
+                if (to && to !== d.version && compareVersions(to, version) > 0) carried.push({ bug, from: d.version, to });
+            });
+        });
+        return carried;
+    }
+
+    const isCopy = bug => Boolean(bug.listedIn || bug.since);
+
+    // The entry a repeated open issue comes from: the latest earlier driver
+    // that has that bug ID.
+    function relistedEntry(drivers, id, version) {
+        let found = null;
+        drivers.forEach(d => {
+            if (compareVersions(d.version, version) >= 0) return;
+            d.bugs.forEach(bug => {
+                if (isCopy(bug) || !(bug.ids || []).includes(id)) return;
+                if (!found || compareVersions(d.version, found.version) > 0) found = { version: d.version, bug };
+            });
+        });
+        return found;
+    }
+
+    // NVIDIA repeats open issues in every driver's notes until they're fixed.
+    // `still_open` lists the IDs a driver repeated; this adds those bugs to the
+    // driver's own list, marked with `since` (the driver whose entry they come
+    // from). The data itself isn't changed.
+    function withRelisted(drivers) {
+        return drivers.map(d => {
+            if (!(d.still_open || []).length) return d;
+            const extra = d.still_open
+                .map(id => relistedEntry(drivers, id, d.version))
+                .filter(Boolean)
+                .map(found => ({ ...found.bug, since: found.version }));
+            return { ...d, bugs: [...d.bugs, ...extra] };
+        });
+    }
+
+    // Every driver as its page lists it: its own bugs, the known issues of
+    // earlier drivers that it fixed, and the open issues it repeated.
+    function asListed(drivers) {
+        return withRelisted(withEarlierFixes(drivers));
+    }
+
+    // A known issue fixed in a later driver is logged once, under the driver
+    // that listed it. This returns the drivers with those fixes also added to
+    // the driver that fixed them, marked with `listedIn`, unless that driver
+    // already has the bug. The data itself isn't changed.
+    function withEarlierFixes(drivers) {
+        const added = new Map();
+        byVersion(drivers).forEach(d => d.bugs.forEach(bug => {
+            const to = fixedInVersion(bug);
+            if (!to || to === d.version || isCopy(bug)) return;
+            if (!added.has(to)) added.set(to, []);
+            added.get(to).push({ ...bug, listedIn: d.version });
+        }));
+        return drivers.map(d => {
+            const extra = added.get(d.version);
+            if (!extra) return d;
+            const ids = new Set();
+            const texts = new Set();
+            const seen = bug => (bug.ids || []).length ? bug.ids.some(id => ids.has(id)) : texts.has(bug.description.toLowerCase());
+            const remember = bug => { (bug.ids || []).forEach(id => ids.add(id)); texts.add(bug.description.toLowerCase()); };
+            d.bugs.forEach(remember);
+            const bugs = [...d.bugs];
+            extra.forEach(bug => {
+                if (seen(bug)) return;
+                remember(bug);
+                bugs.push(bug);
+            });
+            return { ...d, bugs };
+        });
+    }
+
+    // A bug still open in `version` whose ID another entry lists as fixed in
+    // that driver or a later one: { to, listedIn } for the earliest such fix,
+    // else null. NVIDIA sometimes lists the same ID twice; this keeps the two
+    // entries connected without changing either.
+    function fixedElsewhere(drivers, bug, version) {
+        if (bug.fixed_in !== null || !(bug.ids || []).length) return null;
+        let found = null;
+        drivers.forEach(d => d.bugs.forEach(other => {
+            if (other === bug || !(other.ids || []).some(id => bug.ids.includes(id))) return;
+            const to = fixedInVersion(other);
+            if (!to || compareVersions(to, version) < 0) return;
+            if (!found || compareVersions(to, found.to) < 0) found = { to, listedIn: d.version };
+        }));
+        return found;
+    }
+
+    // Bugs nobody has logged a fix for yet, newest driver first.
+    function openBugs(drivers) {
+        return byVersion(drivers).reverse()
+            .flatMap(driver => driver.bugs.filter(bug => bug.fixed_in === null && !isCopy(bug)).map(bug => ({ driver, bug })));
+    }
+
+    // Everything the data says about one NVIDIA bug ID: each driver that lists
+    // it, the drivers that repeated it as still open, and the drivers in
+    // between that carried it until a logged fix.
+    function bugHistory(drivers, id) {
+        const sorted = byVersion(drivers);
+        const mentions = [];
+        sorted.forEach(driver => driver.bugs.forEach(bug => {
+            if (!isCopy(bug) && (bug.ids || []).includes(id)) mentions.push({ driver, bug, status: bugStatus(bug, driver.version) });
+        }));
+        const listed = new Set(mentions.map(m => m.driver.version));
+        const relisted = sorted.filter(d => !listed.has(d.version) && (d.still_open || []).includes(id));
+        relisted.forEach(d => listed.add(d.version));
+        const carried = sorted.filter(d => !listed.has(d.version) && mentions.some(m => {
+            const to = fixedInVersion(m.bug);
+            return to && compareVersions(d.version, m.driver.version) > 0 && compareVersions(d.version, to) < 0;
+        }));
+        return { mentions, relisted, carried };
+    }
+
     // Bugs logged under an earlier driver and fixed after this one, per driver
-    // version. Only bugs with a known fix version count; pending ones and fixes
-    // outside the driver ("Fixed External", OTA) have no known end.
+    // version. Same rule as carriedOverBugs(), counted for every driver at once.
     function carriedOverCounts(drivers) {
         const versions = drivers.map(d => d.version).sort(compareVersions);
         const counts = new Map(versions.map(v => [v, 0]));
+        const relisted = new Map(drivers.map(d => [d.version, new Set(d.still_open || [])]));
         drivers.forEach(d => {
             d.bugs.forEach(b => {
-                const m = /^Fixed \((\d+\.\d{2})\)$/.exec(b.fixed_in || '');
-                if (!m || m[1] === d.version) return;
+                const to = fixedInVersion(b);
+                if (!to || to === d.version || isCopy(b)) return;
                 versions.forEach(v => {
-                    if (compareVersions(v, d.version) > 0 && compareVersions(v, m[1]) < 0) {
+                    if ((b.ids || []).some(id => relisted.get(v).has(id))) return;
+                    if (compareVersions(v, d.version) > 0 && compareVersions(v, to) < 0) {
                         counts.set(v, counts.get(v) + 1);
                     }
                 });
@@ -137,6 +298,8 @@
         return counts;
     }
 
+    // 'recent': the 20 newest versions. 'worst': the 15 with the most known
+    // issues, put back in version order. 'all': everything.
     // With includeCarried, each item also gets `carried` (see carriedOverCounts)
     // and the 'worst' range ranks by known + carried.
     function trendSeries(drivers, range, { includeCarried = false } = {}) {
@@ -222,11 +385,22 @@
         formatVersion,
         compareVersions,
         bugStatus,
+        fixedInVersion,
         knownIssueCount,
+        driverBugs,
         bugMatchesQuery,
         visibleBugs,
         filterAndSortDrivers,
-        computeStats,
+        summaryStats,
+        latestDriver,
+        neighbours,
+        carriedOverBugs,
+        withEarlierFixes,
+        withRelisted,
+        asListed,
+        fixedElsewhere,
+        openBugs,
+        bugHistory,
         carriedOverCounts,
         trendSeries,
         timelineSeries,

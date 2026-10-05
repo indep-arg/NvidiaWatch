@@ -76,7 +76,7 @@ def validate_data(filepath):
             has_errors = True
             continue
 
-        allowed_entry_keys = {"version", "bugs", "channels", "release_date", "release_notes"}
+        allowed_entry_keys = {"version", "bugs", "channels", "release_date", "release_notes", "feedback_thread", "reddit_thread", "still_open"}
         extra_keys = set(entry.keys()) - allowed_entry_keys
         if extra_keys:
             print(f"Error at {location}: Contains unexpected key(s): {', '.join(sorted(extra_keys))}")
@@ -113,10 +113,17 @@ def validate_data(filepath):
                 print(f"Error at {location}: 'release_date' must be a real date formatted YYYY-MM-DD.")
                 has_errors = True
 
-        if "release_notes" in entry:
-            release_notes = entry["release_notes"]
-            if not isinstance(release_notes, str) or not release_notes.startswith("https://"):
-                print(f"Error at {location}: 'release_notes' must be an https:// URL.")
+        for link in ("release_notes", "feedback_thread", "reddit_thread"):
+            if link in entry and (not isinstance(entry[link], str) or not entry[link].startswith("https://")):
+                print(f"Error at {location}: '{link}' must be an https:// URL.")
+                has_errors = True
+
+        if "still_open" in entry:
+            still_open = entry["still_open"]
+            if (not isinstance(still_open, list) or not still_open
+                    or not all(isinstance(i, str) and BUG_ID_REGEX.match(i) for i in still_open)
+                    or len(set(still_open)) != len(still_open)):
+                print(f"Error at {location}: 'still_open' must be a non-empty list of unique bug IDs (e.g. [\"6007998\"]).")
                 has_errors = True
 
         bugs = entry.get("bugs")
@@ -176,6 +183,9 @@ def validate_data(filepath):
                         print(f"Error at {bug_location}: 'fixed_in' must be a string or null.")
                         has_errors = True
 
+    if not has_errors and not check_still_open(data):
+        has_errors = True
+
     for bug_id, occurrences in sorted(id_occurrences.items()):
         if len(occurrences) > 1:
             where = "; ".join(f"{v} ({fixed_in or 'Pending'})" for v, fixed_in in occurrences)
@@ -186,6 +196,40 @@ def validate_data(filepath):
 
     print(f"Validation successful! '{filepath}' is valid. Checked {len(data)} driver versions.")
     return True
+
+
+def version_key(version):
+    return tuple(int(p) for p in version.split("."))
+
+
+def check_still_open(data):
+    """
+    'still_open' lists IDs NVIDIA repeated as open issues in a driver after an
+    earlier driver listed them. Each ID must belong to an earlier entry, not to
+    this driver's own bugs, and that entry can't say it was fixed by now.
+    """
+    ok = True
+    for entry in data:
+        version = entry["version"]
+        own = {i for bug in entry["bugs"] for i in bug["ids"]}
+        for bug_id in entry.get("still_open", []):
+            location = f"Version {version}, still_open {bug_id}"
+            if bug_id in own:
+                print(f"Error at {location}: this driver already has an entry with that ID.")
+                ok = False
+                continue
+            earlier = [(d["version"], bug) for d in data if version_key(d["version"]) < version_key(version)
+                       for bug in d["bugs"] if bug_id in bug["ids"]]
+            if not earlier:
+                print(f"Error at {location}: no earlier driver lists that ID.")
+                ok = False
+                continue
+            listed_in, bug = max(earlier, key=lambda e: version_key(e[0]))
+            m = re.fullmatch(r"Fixed \((\d+\.\d{2})\)", bug["fixed_in"] or "")
+            if m and version_key(m.group(1)) <= version_key(version):
+                print(f"Error at {location}: {listed_in} says it was {bug['fixed_in']}, so it can't still be open here.")
+                ok = False
+    return ok
 
 
 def validate_events(filepath, drivers_filepath):

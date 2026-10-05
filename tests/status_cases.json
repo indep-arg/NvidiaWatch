@@ -1,0 +1,9 @@
+[
+    { "fixed_in": null, "version": "581.80", "status": "pending" },
+    { "fixed_in": "Fixed (581.80)", "version": "581.80", "status": "fixed" },
+    { "fixed_in": "Fixed (581.94)", "version": "581.80", "status": "fixed-later" },
+    { "fixed_in": "Fixed (576.02)", "version": "581.80", "status": "fixed-later" },
+    { "fixed_in": "Fixed External", "version": "581.80", "status": "fixed-later" },
+    { "fixed_in": "Fixed External ?", "version": "581.80", "status": "fixed-later" },
+    { "fixed_in": "Fixed (OTA profile update)", "version": "616.92", "status": "fixed-later" }
+]

@@ -122,6 +122,7 @@
         "channels": ["game-ready"],
         "release_date": "2022-11-10",
         "release_notes": "https://us.download.nvidia.com/Windows/526.86/526.86-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "200742937", "3592260", "3659104", "3809401", "3830387", "3838022"],
         "bugs": [
             {
                 "description": "[Call of Duty: Vanguard] Game may randomly crash after extended gameplay",
@@ -155,6 +156,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2022-11-16",
         "release_notes": "https://us.download.nvidia.com/Windows/526.98/526.98-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "200742937", "3870232", "3858911", "3793355", "3858016", "3592260"],
         "bugs": [
             {
                 "description": "[QNIX QX2710/Fujitsu Siemens SL23T-1/Dell UP2715K/ HP Z27q] Unable to select the native resolution of certain monitors from the Windows display settings",
@@ -178,6 +180,7 @@
         "channels": ["game-ready"],
         "release_date": "2022-12-01",
         "release_notes": "https://us.download.nvidia.com/Windows/527.37/527.37-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "200742937", "3870232", "3858016", "3592260", "3876764"],
         "bugs": [
             {
                 "description": "Flicker may be observed when streaming using the TikTok Broadcasting Tool",
@@ -226,11 +229,17 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2022-12-08",
         "release_notes": "https://us.download.nvidia.com/Windows/527.56/527.56-win10-win11-nsd-release-notes.pdf",
+        "still_open": ["3624030", "200742937", "3592260", "3888343", "3866530", "3858016"],
         "bugs": [
             {
                 "description": "OBS Studio may crash when opening Virtual Camera Device",
                 "ids": ["3880090"],
                 "fixed_in": null
+            },
+            {
+                "description": "Games utilizing DLSS 3 may crash when ending a recording using Shadowplay or OBS with NVENC",
+                "ids": ["3817185"],
+                "fixed_in": "Fixed (527.56)"
             }
         ]
     },
@@ -239,6 +248,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-01-05",
         "release_notes": "https://us.download.nvidia.com/Windows/528.02/528.02-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3866530", "3858016"],
         "bugs": [
             {
                 "description": "Portal RTX hang during resolution/mode change and GFE recording",
@@ -287,6 +297,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-01-24",
         "release_notes": "https://us.download.nvidia.com/Windows/528.24/528.24-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3866530", "3858016"],
         "bugs": [
             {
                 "description": "Autodesk Alias: Expected transparent window appears opaque",
@@ -325,6 +336,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-02-08",
         "release_notes": "https://us.download.nvidia.com/Windows/528.49/528.49-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3866530", "3858016", "3952556"],
         "bugs": [
             {
                 "description": "Adobe Bridge stability issues with 528.02",
@@ -353,6 +365,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-02-28",
         "release_notes": "https://us.download.nvidia.com/Windows/531.18/531.18-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "3940086"],
         "bugs": [
             {
                 "description": "Call of Duty Modern Warfare 2 occasional stability issues",
@@ -406,6 +419,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-03-14",
         "release_notes": "https://us.download.nvidia.com/Windows/531.29/531.29-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3858016", "4012825", "4008945", "4008770", "3952556"],
         "bugs": [
             {
                 "description": "[The Witcher 3: Wild Hunt] After updating to patch v4.02, game will randomly crash if DLSS 3 Frame Generation is enabled from the in-game settings",
@@ -419,6 +433,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-03-23",
         "release_notes": "https://us.download.nvidia.com/Windows/531.41/531.41-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4008770"],
         "bugs": [
             {
                 "description": "Enscape crash at startup with 531.18",
@@ -497,6 +512,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-04-13",
         "release_notes": "https://us.download.nvidia.com/Windows/531.61/531.61-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4050712"],
         "bugs": [
             {
                 "description": "[Resident Evil 4 Remake] Corruption in the game when FXAA enabled",
@@ -510,6 +526,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-04-18",
         "release_notes": "https://us.download.nvidia.com/Windows/531.68/531.68-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4050712"],
         "bugs": [
             {
                 "description": "[Immortals Fenyx Rising] is randomly crashing to desktop after a driver update to 531.41",
@@ -549,21 +566,12 @@
         ]
     },
     {
-        "version": "532.03",
+        "version": "531.79",
         "channels": ["game-ready"],
-        "release_date": "2023-05-24",
-        "release_notes": "https://us.download.nvidia.com/Windows/532.03/532.03-win11-win10-release-notes.pdf",
+        "release_date": "2023-05-02",
+        "release_notes": "https://us.download.nvidia.com/Windows/531.79/531.79-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4034096", "4084000", "4019721"],
         "bugs": [
-            {
-                "description": "[Age of Wonders 4] Application stability issues",
-                "ids": ["4101637"],
-                "fixed_in": "Fixed (532.03)"
-            },
-            {
-                "description": "[Bus Simulator 21] Ansel & Freestyle not working",
-                "ids": ["4090979"],
-                "fixed_in": "Fixed (532.03)"
-            },
             {
                 "description": "[Microsoft Flight Simulator] Game may randomly crash when playing in DX12 mode after updating to driver 531.41",
                 "ids": ["4051526"],
@@ -577,10 +585,30 @@
         ]
     },
     {
+        "version": "532.03",
+        "channels": ["game-ready"],
+        "release_date": "2023-05-24",
+        "release_notes": "https://us.download.nvidia.com/Windows/532.03/532.03-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3592260", "3858016", "3952556", "4008945"],
+        "bugs": [
+            {
+                "description": "[Age of Wonders 4] Application stability issues",
+                "ids": ["4101637"],
+                "fixed_in": "Fixed (532.03)"
+            },
+            {
+                "description": "[Bus Simulator 21] Ansel & Freestyle not working",
+                "ids": ["4090979"],
+                "fixed_in": "Fixed (532.03)"
+            }
+        ]
+    },
+    {
         "version": "535.98",
         "channels": ["game-ready", "studio"],
         "release_date": "2023-05-30",
         "release_notes": "https://us.download.nvidia.com/Windows/535.98/535.98-win11-win10-release-notes.pdf",
+        "still_open": ["3624030", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4034096", "4084000", "4114157"],
         "bugs": [
             {
                 "description": "[MAGIX Vegas Pro] Preview not working properly on some notebooks",
@@ -629,6 +657,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-06-14",
         "release_notes": "https://us.download.nvidia.com/Windows/536.23/536.23-win11-win10-release-notes.pdf",
+        "still_open": ["3952556", "4008945", "4049182", "3992875", "4034096", "4084000", "4140545", "4029825"],
         "bugs": [
             {
                 "description": "[ON1 Photo RAW] Application crashing",
@@ -642,6 +671,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-06-29",
         "release_notes": "https://us.download.nvidia.com/Windows/536.40/536.40-win11-win10-release-notes.pdf",
+        "still_open": ["3952556", "4008945", "4049182", "3992875", "4034096", "4084000", "4029825"],
         "bugs": [
             {
                 "description": "[Street Fighter 6] Corruption during the fight start cutscene when MFAA is applied",
@@ -670,6 +700,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-07-18",
         "release_notes": "https://us.download.nvidia.com/Windows/536.67/536.67-win11-win10-release-notes.pdf",
+        "still_open": ["3992875", "4034096", "4084000", "4029825", "4186490", "4049182", "4140545"],
         "bugs": [
             {
                 "description": "[Lenovo Legion 5 15ACH6H] Unable to select refresh rate higher than 60Hz for internal LCD panel",
@@ -708,11 +739,12 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-08-08",
         "release_notes": "https://us.download.nvidia.com/Windows/536.99/536.99-win11-win10-release-notes.pdf",
+        "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4212649", "4009884"],
         "bugs": [
             {
                 "description": "[Elgato Wave Link] Potential audio issues with NVIDIA Broadcast effects",
                 "ids": ["3752618"],
-                "fixed_in": "Fixed (537.13)"
+                "fixed_in": "Fixed (536.99)"
             },
             {
                 "description": "Horizontal band may appear when cloning a G-SYNC display to HDMI monitor",
@@ -726,6 +758,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-08-22",
         "release_notes": "https://us.download.nvidia.com/Windows/537.13/537.13-win11-win10-release-notes.pdf",
+        "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4009884", "4103923"],
         "bugs": [
             {
                 "description": "A new NVIDIA icon is created in the system tray each time a a user switch takes place in Windows",
@@ -754,6 +787,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-09-12",
         "release_notes": "https://us.download.nvidia.com/Windows/537.34/537.34-win11-win10-release-notes.pdf",
+        "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
         "bugs": [
             {
                 "description": "[Starfield] Profile updated for Microsoft Store/Xbox Game Pass version",
@@ -767,6 +801,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-09-21",
         "release_notes": "https://us.download.nvidia.com/Windows/537.42/537.42-win11-win10-release-notes.pdf",
+        "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
         "bugs": [
             {
                 "description": "[Octane Render]: TLAS with custom intersection shaders may cause slowdown in performance",
@@ -790,6 +825,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-10-10",
         "release_notes": "https://us.download.nvidia.com/Windows/537.58/537.58-win11-win10-release-notes.pdf",
+        "still_open": ["4052711", "3992875", "4034096", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
         "bugs": [
             {
                 "description": "Add Microsoft Store/Xbox Game Pass application profile for Lies of P",
@@ -803,6 +839,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-10-17",
         "release_notes": "https://us.download.nvidia.com/Windows/545.84/545.84-win11-win10-release-notes.pdf",
+        "still_open": ["4052711", "3992875", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
         "bugs": [
             {
                 "description": "Monitor colors are incorrect after coming back from display sleep",
@@ -836,6 +873,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-10-26",
         "release_notes": "https://us.download.nvidia.com/Windows/545.92/545.92-win11-win10-release-notes.pdf",
+        "still_open": ["4052711", "3992875", "4009884", "4103923", "4251314", "4146369", "4239893", "4331318", "4335862", "4336461", "4337526"],
         "bugs": [
             {
                 "description": "[Discord] When streaming gameplay, colors may appear muted",
@@ -854,6 +892,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-10-31",
         "release_notes": "https://us.download.nvidia.com/Windows/546.01/546.01-win11-win10-release-notes.pdf",
+        "still_open": ["4251314", "4349586", "4335862", "3992875", "4009884", "4103923", "4146369", "4239893", "4336461"],
         "bugs": [
             {
                 "description": "LG C3 OLED TV does not show up as a validated G-SYNC Compatible display in the NVIDIA Control Panel",
@@ -907,6 +946,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-11-14",
         "release_notes": "https://us.download.nvidia.com/Windows/546.17/546.17-win11-win10-release-notes.pdf",
+        "still_open": ["4349586", "4251314", "3992875", "4009884", "4103923", "4146369", "4239893", "4362307"],
         "bugs": [
             {
                 "description": "[Alan Wake 2] Addressing gradual stability and performance degradation over extended periods of gameplay",
@@ -950,6 +990,7 @@
         "channels": ["game-ready"],
         "release_date": "2023-12-04",
         "release_notes": "https://us.download.nvidia.com/Windows/546.29/546.29-win11-win10-release-notes.pdf",
+        "still_open": ["4349586", "4251314", "4009884", "4103923", "4146369", "4239893", "4362307", "4351702"],
         "bugs": [
             {
                 "description": "[Call of Duty: Modern Warfare 2] Updated application profile",
@@ -968,6 +1009,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2023-12-12",
         "release_notes": "https://us.download.nvidia.com/Windows/546.33/546.33-win11-win10-release-notes.pdf",
+        "still_open": ["4388454", "4009884", "4103923", "4146369", "4239893", "4362307", "4351702"],
         "bugs": [
             {
                 "description": "[Chaos Vantage] Application takes longer to launch in r545 compared to r535",
@@ -991,6 +1033,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-01-17",
         "release_notes": "https://us.download.nvidia.com/Windows/546.65/546.65-win11-win10-release-notes.pdf",
+        "still_open": ["4388454", "4009884", "4103923", "4146369", "4239893", "4362307"],
         "bugs": [
             {
                 "description": "Cyberpunk 2077: GeForce Experience 1-click optimization not working with v2.1 game update.",
@@ -1004,6 +1047,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-01-24",
         "release_notes": "https://us.download.nvidia.com/Windows/551.23/551.23-win11-win10-release-notes.pdf",
+        "still_open": ["4388454", "4009884", "4362307"],
         "bugs": [
             {
                 "description": "Forza Horizon 4: Ansel/ Freestyle filters cause application to freeze or crash",
@@ -1047,6 +1091,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-02-13",
         "release_notes": "https://us.download.nvidia.com/Windows/551.52/551.52-win11-win10-release-notes.pdf",
+        "still_open": ["4388454", "4009884", "4472656", "4492243"],
         "bugs": [
             {
                 "description": "Some users may experience intermittent micro-stuttering in games when vertical sync is enabled",
@@ -1070,6 +1115,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-02-22",
         "release_notes": "https://us.download.nvidia.com/Windows/551.61/551.61-win11-win10-release-notes.pdf",
+        "still_open": ["4388454", "4009884"],
         "bugs": [
             {
                 "description": "Tom Clancy's Rainbow Six Siege: Stability issues when running Vulkan API",
@@ -1108,6 +1154,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-03-05",
         "release_notes": "https://us.download.nvidia.com/Windows/551.76/551.76-win11-win10-release-notes.pdf",
+        "still_open": ["4388454", "4009884"],
         "bugs": [
             {
                 "description": "The Talos Principle 2: Game stability issues when DLSS FG is enabled [RELATED WITH 4362644]",
@@ -1131,6 +1178,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-03-19",
         "release_notes": "https://us.download.nvidia.com/Windows/551.86/551.86-win11-win10-release-notes.pdf",
+        "still_open": ["4009884", "4503216", "4388454"],
         "bugs": [
             {
                 "description": "[Advanced Optimus] Notebook may not wake up from sleep when in NVIDIA GPU only display mode",
@@ -1174,6 +1222,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-04-04",
         "release_notes": "https://us.download.nvidia.com/Windows/552.12/552.12-win11-win10-release-notes.pdf",
+        "still_open": ["4009884", "4412035", "4503216"],
         "bugs": [
             {
                 "description": "Horizon Forbidden West: Resizable BAR profile",
@@ -1207,6 +1256,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-04-16",
         "release_notes": "https://us.download.nvidia.com/Windows/552.22/552.22-win11-win10-release-notes.pdf",
+        "still_open": ["4503216", "4485993", "4412035"],
         "bugs": [
             {
                 "description": "After waking up PC from sleep, PC may exhibit a small stutter when opening an app when GPU is connected to certain monitors.",
@@ -1245,6 +1295,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-05-09",
         "release_notes": "https://us.download.nvidia.com/Windows/552.44/552.44-win11-win10-release-notes.pdf",
+        "still_open": ["4503216", "4412035", "4608670"],
         "bugs": [
             {
                 "description": "Ghost of Tsushima DIRECTOR'S CUT: Resizable BAR profile",
@@ -1258,6 +1309,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-05-21",
         "release_notes": "https://us.download.nvidia.com/Windows/555.85/555.85-win11-win10-release-notes.pdf",
+        "still_open": ["4608670"],
         "bugs": [
             {
                 "description": "Blender Cycles: Motion blur renders incorrectly with some GPU architectures",
@@ -1306,6 +1358,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-06-04",
         "release_notes": "https://us.download.nvidia.com/Windows/555.99/555.99-win11-win10-release-notes.pdf",
+        "still_open": ["4662117", "4663766"],
         "bugs": [
             {
                 "description": "[NVIDIA app] FPS overlay showing NA in multiple games",
@@ -1349,6 +1402,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-06-27",
         "release_notes": "https://us.download.nvidia.com/Windows/556.12/556.12-win11-win10-release-notes.pdf",
+        "still_open": ["4697900", "4679970"],
         "bugs": [
             {
                 "description": "Notebook mux switch is blocked when Overwolf application is running",
@@ -1372,6 +1426,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-07-16",
         "release_notes": "https://us.download.nvidia.com/Windows/560.70/560.70-win11-win10-release-notes.pdf",
+        "still_open": ["4679970", "4720547"],
         "bugs": [
             {
                 "description": "[Adobe Premiere] Visual corruption in Source and Program Monitor Previews when using 555.85 driver",
@@ -1410,6 +1465,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-08-06",
         "release_notes": "https://us.download.nvidia.com/Windows/560.81/560.81-win11-win10-release-notes.pdf",
+        "still_open": ["4679970", "4726026"],
         "bugs": [
             {
                 "description": "NVIDIA Container showing high CPU utilization",
@@ -1428,6 +1484,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-08-20",
         "release_notes": "https://us.download.nvidia.com/Windows/560.94/560.94-win11-win10-release-notes.pdf",
+        "still_open": ["4790774"],
         "bugs": [
             {
                 "description": "GeForce Experience unable to locate Counter-Strike 2",
@@ -1456,6 +1513,11 @@
                 "description": "[Chaos V-Ray] Performance regression in some workloads when running R560 drivers",
                 "ids": ["4766640"],
                 "fixed_in": "Fixed (561.09)"
+            },
+            {
+                "description": "[Advanced Optimus] Asus ROG notebook screen freezes when switching from iGPU to dGPU",
+                "ids": ["4849577"],
+                "fixed_in": "Fixed (565.90)"
             }
         ]
     },
@@ -1483,11 +1545,6 @@
             {
                 "description": "[VRR] Slight monitor backlight panel flicker when FPS drops below 60FPS",
                 "ids": ["4785222"],
-                "fixed_in": "Fixed (565.90)"
-            },
-            {
-                "description": "[Advanced Optimus] Asus ROG notebook screen freezes when switching from iGPU to dGPU",
-                "ids": ["4849577"],
                 "fixed_in": "Fixed (565.90)"
             },
             {
@@ -1524,6 +1581,11 @@
                 "description": "[SteamVR] Changing refresh rate may cause PC to bugcheck",
                 "ids": ["4910686"],
                 "fixed_in": null
+            },
+            {
+                "description": "Short 3 second black screen on alt-tab from game to desktop in Windows 11 24H2",
+                "ids": ["4722079"],
+                "fixed_in": null
             }
         ]
     },
@@ -1532,6 +1594,7 @@
         "channels": ["game-ready"],
         "release_date": "2024-10-22",
         "release_notes": "https://us.download.nvidia.com/Windows/566.03/566.03-win11-win10-release-notes.pdf",
+        "still_open": ["4895184", "4893446", "4798073", "4895217", "4910686"],
         "bugs": [
             {
                 "description": "Houdini XPU rendering shows green tint",
@@ -1542,6 +1605,11 @@
                 "description": "Windows 10 transparency effects not working correctly after updating to GRD 566.03",
                 "ids": ["4922638"],
                 "fixed_in": null
+            },
+            {
+                "description": "DSR/DLDSR custom resolutions may not appear in certain games",
+                "ids": ["4839770"],
+                "fixed_in": "Fixed (566.14)"
             }
         ]
     },
@@ -1550,6 +1618,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-11-12",
         "release_notes": "https://us.download.nvidia.com/Windows/566.14/566.14-win11-win10-release-notes.pdf",
+        "still_open": ["4922638", "4798073"],
         "bugs": [
             {
                 "description": "[Call of Duty MWIII] filename change preventing users from using GFE Freestyle Filters",
@@ -1573,6 +1642,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2024-12-05",
         "release_notes": "https://us.download.nvidia.com/Windows/566.36/566.36-win11-win10-release-notes.pdf",
+        "still_open": ["4730911"],
         "bugs": [
             {
                 "description": "Changing state of \"Display GPU Activity Icon in Notification Area\" does not take effect until PC is rebooted",
@@ -1596,6 +1666,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-01-30",
         "release_notes": "https://us.download.nvidia.com/Windows/572.16/572.16-win11-win10-release-notes.pdf",
+        "still_open": ["4995658"],
         "bugs": [
             {
                 "description": "Certain G-SYNC Compatible monitors may display flickering when game FPS drops below 60FPS",
@@ -1694,6 +1765,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-02-13",
         "release_notes": "https://us.download.nvidia.com/Windows/572.42/572.42-win11-win10-release-notes.pdf",
+        "still_open": ["4995658", "4915763", "5091781", "5089560", "5088118", "5091576"],
         "bugs": [
             {
                 "description": "[3DMark DXR Feature Test] Unusually low score for Blackwell GPUs",
@@ -1722,6 +1794,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-02-20",
         "release_notes": "https://us.download.nvidia.com/Windows/572.47/572.47-win11-win10-release-notes.pdf",
+        "still_open": ["4995658", "4915763", "5091781", "5088118", "5071565", "5091576", "5104848"],
         "bugs": [
             {
                 "description": "[GeForce RTX 50 series] Various black screen issues",
@@ -1735,6 +1808,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-02-27",
         "release_notes": "https://us.download.nvidia.com/Windows/572.60/572.60-win11-win10-release-notes.pdf",
+        "still_open": ["4995658", "5091576"],
         "bugs": [
             {
                 "description": "[Adobe Substance 3D Sampler] Crashing at launch with R570 branch drivers",
@@ -1753,6 +1827,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-03-05",
         "release_notes": "https://us.download.nvidia.com/Windows/572.70/572.70-win11-win10-release-notes.pdf",
+        "still_open": ["4995658", "5091576"],
         "bugs": [
             {
                 "description": "Forza Horizon 5 lights flicker at night time",
@@ -1806,6 +1881,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-03-18",
         "release_notes": "https://us.download.nvidia.com/Windows/572.83/572.83-win11-win10-release-notes.pdf",
+        "still_open": ["4995658", "5038335", "5137042", "5144768", "5121715", "5156168", "5076545"],
         "bugs": [
             {
                 "description": "[VRED 2026] Optix compile error with R570 branch drivers",
@@ -1864,6 +1940,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-04-16",
         "release_notes": "https://us.download.nvidia.com/Windows/576.02/576.02-win11-win10-release-notes.pdf",
+        "still_open": ["5076545", "5137042", "5158681", "5038335", "5201811"],
         "bugs": [
             {
                 "description": "[Fortnite] random crashes during gameplay",
@@ -2034,6 +2111,41 @@
                 "description": "[RTX 50 series] [Black Myth]: Game will randomly crash when Wukong transforms",
                 "ids": ["5231902"],
                 "fixed_in": "Fixed (576.28)"
+            },
+            {
+                "description": "General system stability issues",
+                "ids": ["4921925"],
+                "fixed_in": "Fixed (576.02)"
+            },
+            {
+                "description": "[RTX 50 series] Random Black Screen issues",
+                "ids": ["5090505"],
+                "fixed_in": "Fixed (576.02)"
+            },
+            {
+                "description": "[Control] Flickering corruption in multiple areas",
+                "ids": ["5118876"],
+                "fixed_in": "Fixed (576.02)"
+            },
+            {
+                "description": "Black screen on installing drivers and booting into Windows",
+                "ids": ["5153642"],
+                "fixed_in": "Fixed (576.02)"
+            },
+            {
+                "description": "Stability issues when using Windows 11 24H2",
+                "ids": ["5160948"],
+                "fixed_in": "Fixed (576.02)"
+            },
+            {
+                "description": "[Star Wars Outlaws] Application will freeze after leaving the game idle for 5+ minutes",
+                "ids": ["5191099"],
+                "fixed_in": "Fixed (576.02)"
+            },
+            {
+                "description": "Multiple users reporting black screen issue when disable the \"FCH Spread Spectrum\" settings",
+                "ids": ["5204493"],
+                "fixed_in": "Fixed (576.02)"
             }
         ]
     },
@@ -2042,6 +2154,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-04-30",
         "release_notes": "https://us.download.nvidia.com/Windows/576.28/576.28-win11-win10-release-notes.pdf",
+        "still_open": ["5076545", "5138067"],
         "bugs": [
             {
                 "description": "[RTX 50 series] Grey screen crashes with multiple monitors",
@@ -2130,6 +2243,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-05-12",
         "release_notes": "https://us.download.nvidia.com/Windows/576.40/576.40-win11-win10-release-notes.pdf",
+        "still_open": ["5138067", "5076545", "5240429", "5251937", "5252205", "5241341", "5259963", "5257319", "5264112"],
         "bugs": [
             {
                 "description": "Slight stutter may be observed on certain LG TVs at lower refresh rates when G-SYNC is enabled",
@@ -2193,6 +2307,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-05-19",
         "release_notes": "https://us.download.nvidia.com/Windows/576.52/576.52-win10-win11-nsd-release-notes.pdf",
+        "still_open": ["5138067", "5076545", "5251937", "5131160", "5252205", "5241341", "5259963", "5279848", "5243686", "5284105", "5282396", "5284518"],
         "bugs": [
             {
                 "description": "[RTX 50 series] Twinmotion: Bugcheck when attempting to launch",
@@ -2216,6 +2331,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-06-17",
         "release_notes": "https://us.download.nvidia.com/Windows/576.80/576.80-win11-win10-release-notes.pdf",
+        "still_open": ["5076545", "5284105"],
         "bugs": [
             {
                 "description": "Dune: Awakening: stability issues",
@@ -2309,6 +2425,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-07-01",
         "release_notes": "https://us.download.nvidia.com/Windows/576.88/576.88-win11-win10-release-notes.pdf",
+        "still_open": ["5076545", "5284105", "5273429", "5278913"],
         "bugs": [
             {
                 "description": "Black screen when installing drivers on some AMD Ryzen configurations",
@@ -2322,6 +2439,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-07-22",
         "release_notes": "https://us.download.nvidia.com/Windows/577.00/577.00-win11-win10-release-notes.pdf",
+        "still_open": ["5076545", "5284105", "5273429", "5278913"],
         "bugs": [
             {
                 "description": "Counter-Strike 2: Black screen using 4:3 aspect ratio resolution on ASUS ROG PG27AQN monitor",
@@ -2340,6 +2458,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-07-31",
         "release_notes": "https://us.download.nvidia.com/Windows/580.88/580.88-win11-win10-release-notes.pdf",
+        "still_open": ["5076545", "5278913"],
         "bugs": [
             {
                 "description": "Marvel’s Spider-Man Remastered: Lower performance after updating to R575 drivers",
@@ -2433,6 +2552,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-08-12",
         "release_notes": "https://us.download.nvidia.com/Windows/580.97/580.97-win11-win10-release-notes.pdf",
+        "still_open": ["5076545", "5278913"],
         "bugs": [
             {
                 "description": "Samsung 57\" Odyssey Neo G9 Flicker/Underflow when idle at desktop",
@@ -2451,11 +2571,12 @@
         "channels": ["game-ready"],
         "release_date": "2025-08-19",
         "release_notes": "https://us.download.nvidia.com/Windows/581.08/581.08-win11-win10-release-notes.pdf",
+        "still_open": ["5278913", "5431822"],
         "bugs": [
             {
-                "description": "Marvel Rivals: Negative performance impact when using some 581.xx drivers",
+                "description": "Marvel Rivals: Negative performance impact when using 580.88 driver",
                 "ids": ["5444816"],
-                "fixed_in": "Fixed (581.29)"
+                "fixed_in": "Fixed (581.08)"
             },
             {
                 "description": "Forza Motorsport: Game crashes if using Smooth Motion while bringing up NVIDIA Appoverlay statistics",
@@ -2499,6 +2620,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-08-28",
         "release_notes": "https://us.download.nvidia.com/Windows/581.15/581.15-win11-win10-release-notes.pdf",
+        "still_open": ["5278913", "5431822", "5432356"],
         "bugs": [
             {
                 "description": "Marvel's Avengers - The Definitive Edition: Game crashes to desktop on startup",
@@ -2513,10 +2635,25 @@
         ]
     },
     {
+        "version": "581.29",
+        "channels": ["game-ready", "studio"],
+        "release_date": "2025-09-10",
+        "release_notes": "https://us.download.nvidia.com/Windows/581.29/581.29-win11-win10-release-notes.pdf",
+        "still_open": ["5278913", "5431822", "5432356"],
+        "bugs": [
+            {
+                "description": "Marvel Rivals: Negative performance impact when using some 581.xx drivers",
+                "ids": ["5444816"],
+                "fixed_in": "Fixed (581.29)"
+            }
+        ]
+    },
+    {
         "version": "581.42",
         "channels": ["game-ready"],
         "release_date": "2025-09-30",
         "release_notes": "https://us.download.nvidia.com/Windows/581.42/581.42-win11-win10-release-notes.pdf",
+        "still_open": ["5278913", "5432356"],
         "bugs": [
             {
                 "description": "Battlefield 2042: Increased GPU Crashing after updating to R580 drivers",
@@ -2560,6 +2697,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2025-10-14",
         "release_notes": "https://us.download.nvidia.com/Windows/581.57/581.57-win11-win10-release-notes.pdf",
+        "still_open": ["5278913", "5432356"],
         "bugs": [
             {
                 "description": "Steam overlay may cause game stability issues",
@@ -2623,6 +2761,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-11-04",
         "release_notes": "https://us.download.nvidia.com/Windows/581.80/581.80-win11-win10-release-notes.pdf",
+        "still_open": ["5278913", "5432356"],
         "bugs": [
             {
                 "description": "F1 25: Performance optimizations when using DLSS Frame Generation",
@@ -2704,6 +2843,7 @@
         "channels": ["game-ready"],
         "release_date": "2025-12-18",
         "release_notes": "https://us.download.nvidia.com/Windows/591.59/591.59-win11-win10-release-notes.pdf",
+        "still_open": ["5622213"],
         "bugs": [
             {
                 "description": "Enshrouded: Game stability issues on GeForce RTX 50 Series GPUs",
@@ -2766,7 +2906,7 @@
             {
                 "description": "Call of Duty Modern Warfare (2019) displays image corruption after driver update",
                 "ids": ["5733427"],
-                "fixed_in": "Fixed (595.59)"
+                "fixed_in": "Fixed (595.71)"
             }
         ]
     },
@@ -2775,11 +2915,12 @@
         "channels": ["game-ready"],
         "release_date": "2026-01-27",
         "release_notes": "https://us.download.nvidia.com/Windows/591.86/591.86-win11-win10-release-notes.pdf",
+        "still_open": ["5733427"],
         "bugs": [
             {
                 "description": "Total War: THREE KINGDOMS: Green artifacts appear on GeForce RTX 50 series",
                 "ids": ["5745647"],
-                "fixed_in": "Fixed (595.59)"
+                "fixed_in": "Fixed (595.71)"
             },
             {
                 "description": "Color banding observed with SDR content when Windows Automatic Color Management enabled",
@@ -2794,38 +2935,31 @@
         ]
     },
     {
-        "version": "595.59",
-        "channels": ["game-ready", "studio"],
-        "release_date": "2026-02-26",
-        "bugs": [
-            {
-                "description": "The Ascent: Intermittent black bar on top of screen on GeForce RTX 50 Series GPUs",
-                "ids": ["5859818"],
-                "fixed_in": "Fixed (595.59)"
-            },
-            {
-                "description": "FINAL FANTASY XII The Zodiac Age crashes with fatal error after driver update",
-                "ids": ["5741199"],
-                "fixed_in": "Fixed (595.59)"
-            },
-            {
-                "description": "Quantum Break: Performance drops significantly on Act 4 Part 1",
-                "ids": ["5607678"],
-                "fixed_in": "Fixed (595.59)"
-            },
-            {
-                "description": "Blackmagic Design DaVinci Resolve: AV1 decode crash with multiple obu in one packet",
-                "ids": ["5671098"],
-                "fixed_in": "Fixed (595.59)"
-            }
-        ]
-    },
-    {
         "version": "595.71",
         "channels": ["game-ready"],
         "release_date": "2026-03-02",
         "release_notes": "https://us.download.nvidia.com/Windows/595.71/595.71-win11-win10-release-notes.pdf",
         "bugs": [
+            {
+                "description": "The Ascent: Intermittent black bar on top of screen on GeForce RTX 50 Series GPUs",
+                "ids": ["5859818"],
+                "fixed_in": "Fixed (595.71)"
+            },
+            {
+                "description": "FINAL FANTASY XII The Zodiac Age crashes with fatal error after driver update",
+                "ids": ["5741199"],
+                "fixed_in": "Fixed (595.71)"
+            },
+            {
+                "description": "Quantum Break: Performance drops significantly on Act 4 Part 1",
+                "ids": ["5607678"],
+                "fixed_in": "Fixed (595.71)"
+            },
+            {
+                "description": "Blackmagic Design DaVinci Resolve: AV1 decode crash with multiple obu in one packet",
+                "ids": ["5671098"],
+                "fixed_in": "Fixed (595.71)"
+            },
             {
                 "description": "595.59: HW monitoring softwares not detecting all fans on the GPU",
                 "ids": ["5934264"],
@@ -2886,6 +3020,7 @@
         "channels": ["game-ready"],
         "release_date": "2026-03-24",
         "release_notes": "https://us.download.nvidia.com/Windows/595.97/595.97-win11-win10-release-notes.pdf",
+        "still_open": ["5955501", "5950402"],
         "bugs": [
             {
                 "description": "Halo Infinite: Texture corruption may occur on R595 drivers",
@@ -3016,6 +3151,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2026-06-16",
         "release_notes": "https://us.download.nvidia.com/Windows/610.62/610.62-win11-win10-release-notes.pdf",
+        "still_open": ["6007998"],
         "bugs": [
             {
                 "description": "[Ada] Resolves a frame pacing issue on certain monitors when G-SYNC is enabled",
@@ -3074,6 +3210,7 @@
         "channels": ["game-ready"],
         "release_date": "2026-07-07",
         "release_notes": "https://us.download.nvidia.com/Windows/610.74/610.74-win11-win10-release-notes.pdf",
+        "still_open": ["6007998"],
         "bugs": [
             {
                 "description": "Tencent Meeting: Flickering may be observed when Smooth Motion is enabled globally",
@@ -3087,6 +3224,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2026-07-28",
         "release_notes": "https://us.download.nvidia.com/Windows/610.88/610.88-win11-win10-release-notes.pdf",
+        "still_open": ["6007998"],
         "bugs": [
             {
                 "description": "[Halo: Campaign Evolved]: Resolved game crashes observed on RTX 50 Series GPUs with R610 drivers.",
@@ -3140,6 +3278,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2026-08-26",
         "release_notes": "https://us.download.nvidia.com/Windows/616.56/616.56-win11-win10-release-notes.pdf",
+        "still_open": ["6007998"],
         "bugs": [
             {
                 "description": "DOOM: The Dark Ages & Indiana Jones and the Great Circle: Frame rate may exceed VSYNC when DLSS Frame Generation 3x or higher is used",
@@ -3183,6 +3322,7 @@
         "channels": ["game-ready"],
         "release_date": "2026-09-03",
         "release_notes": "https://us.download.nvidia.com/Windows/616.64/616.64-win11-win10-release-notes.pdf",
+        "still_open": ["6007998"],
         "bugs": [
             {
                 "description": "Intermittent flicker may be observed in browsers when navigating to certain websites",
@@ -3196,6 +3336,7 @@
         "channels": ["game-ready", "studio"],
         "release_date": "2026-09-09",
         "release_notes": "https://us.download.nvidia.com/Windows/616.92/616.92-win11-win10-release-notes.pdf",
+        "still_open": ["6007998"],
         "bugs": [
             {
                 "description": "Fixed an issue where virtual displays could not be created after updating to driver 616.56",
@@ -3215,7 +3356,7 @@
             {
                 "description": "Judgement/Lost Judgement/ Virtua Fighter 5 R.E.V.O. may fail to launch after updating to driver 616.56",
                 "ids": ["6681537"],
-                "fixed_in": "Fixed (OTA profile update)"
+                "fixed_in": "Fixed (617.14)"
             }
         ]
     },
@@ -3224,6 +3365,9 @@
         "channels": ["game-ready"],
         "release_date": "2026-09-22",
         "release_notes": "https://us.download.nvidia.com/Windows/617.14/617.14-win11-win10-release-notes.pdf",
+        "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/590992/geforce-grd-61714-feedback-thread-released-92226/",
+        "reddit_thread": "https://www.reddit.com/r/nvidia/comments/1wn9cdj/game_ready_driver_61714_faqdiscussion/",
+        "still_open": ["6007998", "6685219"],
         "bugs": [
             {
                 "description": "No picture on Samsung Odyssey G95NC monitor when connected via HDMI after updating to R615 drivers",
