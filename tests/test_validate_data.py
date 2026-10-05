@@ -142,6 +142,8 @@ class TestValidateData(unittest.TestCase):
             channels=["game-ready", "studio"],
             release_date="2025-01-01",
             release_notes="https://example.com/release-notes.pdf",
+            feedback_thread="https://example.com/forum-thread",
+            reddit_thread="https://example.com/reddit-thread",
         )
         self.assertTrue(validate_data(self._create_temp_json(valid)))
 
@@ -152,6 +154,25 @@ class TestValidateData(unittest.TestCase):
         self.assertFalse(validate_data(self._create_temp_json(entry(release_date="2025-13-01"))))
         self.assertFalse(validate_data(self._create_temp_json(entry(release_date="04/11/2025"))))
         self.assertFalse(validate_data(self._create_temp_json(entry(release_notes="http://example.com"))))
+        self.assertFalse(validate_data(self._create_temp_json(entry(feedback_thread="www.example.com"))))
+        self.assertFalse(validate_data(self._create_temp_json(entry(reddit_thread=42))))
+
+    def test_still_open(self):
+        def data(still_open, fixed_in=None, version="610.62"):
+            return [
+                {"version": "610.47", "bugs": [{"description": "Power mode", "ids": ["6007998"], "fixed_in": fixed_in}]},
+                {"version": version, "bugs": [{"description": "Crash", "ids": ["6685219"], "fixed_in": None}], "still_open": still_open},
+            ]
+        check = lambda d: validate_data(self._create_temp_json(d))
+        self.assertTrue(check(data(["6007998"])))
+        self.assertTrue(check(data(["6007998"], fixed_in="Fixed (616.92)")))
+        self.assertFalse(check(data([])))                                         # empty list
+        self.assertFalse(check(data(["6007998", "6007998"])))                     # repeated
+        self.assertFalse(check(data([6007998])))                                  # not a string
+        self.assertFalse(check(data(["6685219"])))                                # this driver's own bug
+        self.assertFalse(check(data(["1234567"])))                                # no earlier driver has it
+        self.assertFalse(check(data(["6007998"], fixed_in="Fixed (610.62)")))     # already fixed by then
+        self.assertFalse(check(data(["6007998"], version="600.00")))              # listed only later
 
     def test_unexpected_keys(self):
         data = [{"version": "581.80", "bugs": [], "extra_key": "val"}]

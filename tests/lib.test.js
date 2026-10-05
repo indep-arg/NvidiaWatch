@@ -19,11 +19,15 @@ test('formatVersion pads to two decimals and leaves non-numbers alone', () => {
     assert.equal(lib.formatVersion('beta'), 'beta');
 });
 
-test('bugStatus splits fixed, fixed later and pending', () => {
-    assert.equal(lib.bugStatus(bug(null), '581.80'), 'pending');
-    assert.equal(lib.bugStatus(bug('Fixed (581.80)'), '581.80'), 'fixed');
-    assert.equal(lib.bugStatus(bug('Fixed (581.94)'), '581.80'), 'fixed-later');
-    assert.equal(lib.bugStatus(bug('Fixed External'), '581.80'), 'fixed-later');
+test('bugStatus matches the shared cases (same file as the Python chart tests)', () => {
+    const cases = JSON.parse(fs.readFileSync(path.join(__dirname, 'status_cases.json'), 'utf8'));
+    cases.forEach(c => assert.equal(lib.bugStatus(bug(c.fixed_in), c.version), c.status, JSON.stringify(c)));
+});
+
+test('fixedInVersion only reads a driver version', () => {
+    assert.equal(lib.fixedInVersion(bug('Fixed (581.94)')), '581.94');
+    assert.equal(lib.fixedInVersion(bug('Fixed External')), null);
+    assert.equal(lib.fixedInVersion(bug(null)), null);
 });
 
 test('escapeHTML escapes markup characters', () => {
@@ -61,6 +65,23 @@ test('filterAndSortDrivers applies status filter before search', () => {
     assert.deepEqual(pending.map(d => d.version), ['581.94', '581.80', '576.02']);
 });
 
+test('status filters: fixed means fixed in that driver, known means fixed later or still open', () => {
+    // 576.02 lists one bug fixed in 581.80: a known issue of 576.02, not a fix.
+    assert.deepEqual(lib.filterAndSortDrivers(drivers, { filter: 'fixed' }).map(d => d.version), ['581.80', '576.02']);
+    assert.deepEqual(lib.visibleBugs(drivers[2], 'fixed', '').map(b => b.fixed_in), ['Fixed (576.02)']);
+    assert.deepEqual(lib.visibleBugs(drivers[2], 'known', '').map(b => b.fixed_in), ['Fixed (581.80)', null]);
+});
+
+test('filterAndSortDrivers filters by channel', () => {
+    const withChannels = [
+        { version: '600.00', channels: ['game-ready'], bugs: [] },
+        { version: '600.10', channels: ['game-ready', 'studio'], bugs: [] },
+        { version: '600.20', bugs: [] },
+    ];
+    assert.deepEqual(lib.filterAndSortDrivers(withChannels, { channel: 'studio' }).map(d => d.version), ['600.10']);
+    assert.equal(lib.filterAndSortDrivers(withChannels, { channel: 'all' }).length, 3);
+});
+
 test('filterAndSortDrivers matches the version text', () => {
     assert.deepEqual(lib.filterAndSortDrivers(drivers, { query: 'driver 576' }).map(d => d.version), ['576.02']);
 });
@@ -85,9 +106,26 @@ test('knownIssueCount leaves out the bugs a driver fixed', () => {
     assert.equal(lib.knownIssueCount(drivers[2]), 2);
 });
 
-test('computeStats counts fix rate and pending over all bugs', () => {
-    assert.deepEqual(lib.computeStats(drivers), { totalDrivers: 3, totalBugs: 6, fixedRate: 50, pending: 3 });
-    assert.deepEqual(lib.computeStats([]), { totalDrivers: 0, totalBugs: 0, fixedRate: 0, pending: 0 });
+test('summaryStats counts fixes apart from known issues', () => {
+    assert.deepEqual(lib.summaryStats(drivers), { drivers: 3, bugs: 6, fixed: 2, fixedLater: 1, pending: 3, known: 4, fixedLaterRate: 25 });
+    assert.deepEqual(lib.summaryStats([]), { drivers: 0, bugs: 0, fixed: 0, fixedLater: 0, pending: 0, known: 0, fixedLaterRate: 0 });
+});
+
+test('driverBugs splits a driver into its fixes and its known issues', () => {
+    const split = lib.driverBugs(drivers[2]);
+    assert.deepEqual(split.fixed.map(b => b.fixed_in), ['Fixed (576.02)']);
+    assert.deepEqual(split.known.map(b => b.fixed_in), ['Fixed (581.80)', null]);
+});
+
+test('latestDriver, neighbours and openBugs', () => {
+    const withChannels = drivers.map((d, i) => ({ ...d, channels: i === 2 ? ['game-ready', 'studio'] : ['game-ready'] }));
+    assert.equal(lib.latestDriver(withChannels).version, '581.94');
+    assert.equal(lib.latestDriver(withChannels, 'studio').version, '576.02');
+    assert.equal(lib.latestDriver([], 'studio'), null);
+    const n = lib.neighbours(drivers, '581.80');
+    assert.deepEqual([n.previous.version, n.next.version], ['576.02', '581.94']);
+    assert.equal(lib.neighbours(drivers, '581.94').next, null);
+    assert.deepEqual(lib.openBugs(drivers).map(o => o.driver.version), ['581.94', '581.80', '576.02']);
 });
 
 test('trendSeries builds chronological per-status counts', () => {
@@ -121,8 +159,9 @@ test('paginationPages', () => {
 
 test('real drivers.json works with every helper', () => {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
-    const stats = lib.computeStats(data);
-    assert.equal(stats.totalDrivers, data.length);
+    const stats = lib.summaryStats(data);
+    assert.equal(stats.drivers, data.length);
+    assert.equal(stats.fixed + stats.known, stats.bugs);
     assert.equal(lib.trendSeries(data, 'all').length, data.length);
     assert.equal(lib.filterAndSortDrivers(data).length, data.length);
 });
@@ -194,10 +233,110 @@ test('trendSeries is unchanged unless carried-over issues are asked for', () => 
     assert.deepEqual(withCarried.map(s => s.carried), [0, 0, 0]);
 });
 
-test('real data: the Reddit example 4063597 is carried into 531.61', () => {
+test('real data: the Reddit example 4063597 is a known issue of 531.61, which repeated it', () => {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
-    const series = lib.trendSeries(data, 'all', { includeCarried: true });
-    const at = v => series.find(s => s.version === v);
-    assert.equal(at('531.61').known, 0);
-    assert.ok(at('531.61').carried >= 1);
+    const d = lib.asListed(data).find(x => x.version === '531.61');
+    assert.ok(lib.driverBugs(d).known.some(b => b.ids.includes('4063597') && b.since === '531.41'));
+    assert.ok(!lib.carriedOverBugs(data, '531.61').some(c => c.bug.ids.includes('4063597')));
+});
+
+test('carriedOverBugs lists what carriedOverCounts counts', () => {
+    const chain = [
+        { version: '531.41', bugs: [bug('Fixed (536.23)', { ids: ['4063597'] }), bug('Fixed (531.41)'), bug(null), bug('Fixed External')] },
+        { version: '531.61', bugs: [] },
+        { version: '536.23', bugs: [] },
+    ];
+    const carried = lib.carriedOverBugs(chain, '531.61');
+    assert.deepEqual(carried.map(c => [c.from, c.to, c.bug.ids[0]]), [['531.41', '536.23', '4063597']]);
+    assert.equal(lib.carriedOverBugs(chain, '536.23').length, 0);
+});
+
+test('real data: carriedOverBugs and carriedOverCounts agree for every driver', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
+    const counts = lib.carriedOverCounts(data);
+    data.forEach(d => assert.equal(lib.carriedOverBugs(data, d.version).length, counts.get(d.version), d.version));
+});
+
+test('bugHistory: where a bug was listed and which drivers carried it', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
+    const h = lib.bugHistory(data, '4063597');
+    assert.deepEqual(h.mentions.map(m => [m.driver.version, m.status]), [['531.41', 'fixed-later']]);
+    // NVIDIA repeated it in every driver until the fix, except 532.03, whose
+    // release notes leave it out and which has no feedback thread.
+    assert.deepEqual(h.relisted.map(d => d.version), ['531.61', '531.68', '531.79', '535.98']);
+    assert.deepEqual(h.carried.map(d => d.version), ['532.03']);
+    assert.deepEqual(lib.bugHistory(data, '0000000'), { mentions: [], relisted: [], carried: [] });
+});
+
+test('withEarlierFixes adds fixes of earlier known issues to the driver that fixed them', () => {
+    const drivers = [
+        { version: '581.94', bugs: [{ description: 'Crash', ids: ['2'], fixed_in: 'Fixed (581.94)' }] },
+        { version: '581.80', bugs: [
+            { description: 'Flicker', ids: ['1'], fixed_in: 'Fixed (581.94)' },
+            { description: 'Crash', ids: ['2'], fixed_in: 'Fixed (581.94)' },
+            { description: 'Profile', ids: ['3'], fixed_in: 'Fixed (OTA profile update)' },
+        ] },
+    ];
+    const result = lib.withEarlierFixes(drivers);
+    const newer = result.find(d => d.version === '581.94');
+    assert.deepEqual(newer.bugs.map(b => [b.ids[0], b.listedIn]), [['2', undefined], ['1', '581.80']]);
+    assert.equal(lib.bugStatus(newer.bugs[1], '581.94'), 'fixed');
+    assert.equal(result.find(d => d.version === '581.80'), drivers[1]);
+    assert.equal(drivers[0].bugs.length, 1);
+});
+
+test('real data: 616.92 shows the flicker fix listed in 616.64', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
+    const d = lib.withEarlierFixes(data).find(x => x.version === '616.92');
+    const { fixed } = lib.driverBugs(d);
+    assert.deepEqual(fixed.map(b => b.ids[0]), ['6674464', '6687328', '6673430']);
+    assert.equal(fixed[2].listedIn, '616.64');
+    assert.equal(lib.trendSeries(lib.withEarlierFixes(data), 'all').reduce((n, s) => n + s.fixed, 0), 461);
+});
+
+test('fixedElsewhere connects an open entry to the same ID fixed in that driver or later', () => {
+    const open = { description: 'Crash', ids: ['7'], fixed_in: null };
+    const drivers = [
+        { version: '528.24', bugs: [open] },
+        { version: '528.49', bugs: [{ description: 'Crash', ids: ['7'], fixed_in: 'Fixed (528.49)' }] },
+        { version: '520.00', bugs: [{ description: 'Old', ids: ['7'], fixed_in: 'Fixed (521.00)' }] },
+    ];
+    assert.deepEqual(lib.fixedElsewhere(drivers, open, '528.24'), { to: '528.49', listedIn: '528.49' });
+    assert.equal(lib.fixedElsewhere(drivers, { ...open, ids: ['8'] }, '528.24'), null);
+    assert.equal(lib.fixedElsewhere(drivers, drivers[1].bugs[0], '528.49'), null);
+});
+
+test('real data: only the two open entries whose ID was fixed elsewhere get the note', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
+    const found = data.flatMap(d => d.bugs.map(b => [d.version, b.ids[0], lib.fixedElsewhere(data, b, d.version)])).filter(x => x[2]);
+    assert.deepEqual(found.map(([v, id, f]) => [v, id, f.to]), [['528.24', '3957846', '528.49'], ['560.94', '4679970', '561.09']]);
+});
+
+test('withRelisted adds the open issues a driver repeated, from the latest earlier entry', () => {
+    const drivers = [
+        { version: '610.47', bugs: [{ description: 'Power mode', ids: ['1'], fixed_in: null }] },
+        { version: '610.62', bugs: [{ description: 'Crash', ids: ['2'], fixed_in: 'Fixed (617.14)' }], still_open: ['1'] },
+        { version: '616.92', bugs: [], still_open: ['1', '2'] },
+        { version: '617.14', bugs: [{ description: 'Crash', ids: ['2'], fixed_in: 'Fixed (617.14)' }], still_open: ['1'] },
+    ];
+    const listed = lib.withRelisted(drivers);
+    const v = listed.find(d => d.version === '616.92');
+    assert.deepEqual(v.bugs.map(b => [b.ids[0], b.since, lib.bugStatus(b, '616.92')]), [['1', '610.47', 'pending'], ['2', '610.62', 'fixed-later']]);
+    assert.equal(listed[0], drivers[0]);
+    // Repeated in 616.92, so not carried there; still carried nowhere else in between.
+    assert.deepEqual(lib.carriedOverBugs(drivers, '616.92'), []);
+    assert.equal(lib.carriedOverCounts(lib.asListed(drivers)).get('616.92'), 0);
+    const h = lib.bugHistory(drivers, '1');
+    assert.deepEqual([h.mentions.map(m => m.driver.version), h.relisted.map(d => d.version), h.carried], [['610.47'], ['610.62', '616.92', '617.14'], []]);
+    assert.equal(lib.openBugs(lib.asListed(drivers)).length, 1);
+});
+
+test('real data: 617.14 repeats the two open issues NVIDIA posted', () => {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
+    const d = lib.asListed(data).find(x => x.version === '617.14');
+    assert.deepEqual(lib.driverBugs(d).known.map(b => [b.ids[0], b.since]), [['6007998', '610.47'], ['6685219', '616.92']]);
+    const series = lib.trendSeries(lib.asListed(data), 'all');
+    assert.equal(series.reduce((n, s) => n + s.known, 0), 602);
+    assert.equal(series.reduce((n, s) => n + s.fixed, 0), 461);
+    assert.equal(lib.openBugs(lib.asListed(data)).length, 53);
 });

@@ -30,12 +30,23 @@ Please only add information you can point to in an official NVIDIA source: the d
 | `channels` | no | `game-ready` and/or `studio`. Many versions ship in both. |
 | `release_date` | no | `YYYY-MM-DD`, the Game Ready release date from NVIDIA's download page. |
 | `release_notes` | no | Link to the official release notes PDF. |
+| `feedback_thread` | no | Link to NVIDIA's feedback thread for this driver on its forums. |
+| `reddit_thread` | no | Link to the r/nvidia discussion thread for this driver. |
+| `still_open` | no | IDs of open issues from earlier drivers that this driver's notes repeat, e.g. `["6007998", "6685219"]`. |
 | `bugs` | yes | List of bugs, can be empty. |
 | `description` | yes | What goes wrong. Don't include the bug ID here. |
 | `ids` | yes | NVIDIA bug IDs as strings, e.g. `["4103923", "4343427"]`. Use `[]` if there is none. |
 | `fixed_in` | yes | `null` while pending, otherwise usually `"Fixed (X.YY)"`. |
 
 A bug whose `fixed_in` names its own driver version is one that driver fixed (it's in that driver's "Fixed Issues" list). Any other bug is a known issue of that driver: fixed later, or still pending.
+
+When a later driver fixes a known issue, change its `fixed_in` where it was first listed, e.g. `"Fixed (616.92)"`. Don't add it again under the newer driver: the site shows it in that driver's fixes on its own.
+
+NVIDIA repeats open issues in each new driver's notes until they're fixed. Add a bug once, under the first driver that lists it. In later drivers, put the IDs that their "Open Issues" section repeats in `still_open` instead of adding the bug again; the site shows them in that driver's known issues. `validate_data.py` checks that each ID belongs to an earlier driver and wasn't already fixed.
+
+The home page shows the `feedback_thread` and `reddit_thread` links of the newest Game Ready driver, and each driver page shows its own, so add them when you add a new driver. Older drivers don't need them.
+
+The rule above is written twice, in `bugStatus()` in `docs/lib.js` and in `bug_status()` in `scripts/generate_chart.py`. Both are tested against `tests/status_cases.json`, so a change to one has to go into the other.
 
 ## GPU launch events
 
