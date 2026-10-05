@@ -1,0 +1,244 @@
+// Pure helpers shared by script.js and the Node tests (tests/lib.test.js).
+// No DOM access here.
+(function (root) {
+    const CHANNEL_LABELS = { 'game-ready': 'Game Ready', 'studio': 'Studio' };
+
+    function escapeHTML(str) {
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+
+    // Matches on the raw text and escapes each piece afterwards, so a query
+    // like "amp" never lands inside an entity such as "&amp;".
+    function highlightText(text, query) {
+        if (!query) return escapeHTML(text);
+        const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`(${safeQuery})`, 'gi');
+        return String(text)
+            .split(regex)
+            .map((part, i) => i % 2 ? `<mark class="highlight">${escapeHTML(part)}</mark>` : escapeHTML(part))
+            .join('');
+    }
+
+    function formatVersion(version) {
+        const verNum = parseFloat(version);
+        return !isNaN(verNum) ? verNum.toFixed(2) : version;
+    }
+
+    // Numeric per segment, so "581.9" sorts before "581.10".
+    function compareVersions(a, b) {
+        const splitA = a.split('.').map(n => parseFloat(n) || 0);
+        const splitB = b.split('.').map(n => parseFloat(n) || 0);
+        const len = Math.max(splitA.length, splitB.length);
+        for (let i = 0; i < len; i++) {
+            const valA = splitA[i] || 0;
+            const valB = splitB[i] || 0;
+            if (valA !== valB) return valA - valB;
+        }
+        return 0;
+    }
+
+    // 'fixed': this driver fixed it (listed under the driver's own fixes).
+    // 'fixed-later' and 'pending': a known issue in this driver.
+    // Same rule as bug_status() in scripts/generate_chart.py.
+    function bugStatus(bug, version) {
+        if (bug.fixed_in === null) return 'pending';
+        if (bug.fixed_in === `Fixed (${version})`) return 'fixed';
+        return 'fixed-later';
+    }
+
+    function knownIssueCount(driver) {
+        return driver.bugs.filter(bug => bugStatus(bug, driver.version) !== 'fixed').length;
+    }
+
+    function matchesStatusFilter(bug, filter) {
+        if (filter === 'pending') return bug.fixed_in === null;
+        if (filter === 'fixed') return bug.fixed_in !== null;
+        return true;
+    }
+
+    // `query` is expected lowercased and trimmed. IDs match with or without
+    // the leading "#" the cards show.
+    function bugMatchesQuery(bug, query) {
+        if (!query) return true;
+        const idQuery = query.replace(/^#/, '');
+        return (bug.description || '').toLowerCase().includes(query) ||
+            (bug.fixed_in || 'Pending').toLowerCase().includes(query) ||
+            (idQuery !== '' && (bug.ids || []).some(id => id.includes(idQuery)));
+    }
+
+    // Bugs a card lists under the active status filter and search.
+    function visibleBugs(driver, filter, query) {
+        return driver.bugs.filter(bug => matchesStatusFilter(bug, filter) && bugMatchesQuery(bug, query));
+    }
+
+    // A driver is kept if its version matches the search, or if one of its
+    // bugs matches both the status filter and the search. With a status
+    // filter set, drivers with no bugs of that status are dropped.
+    function filterAndSortDrivers(drivers, { query = '', filter = 'all', sort = 'version-desc' } = {}) {
+        const result = drivers.filter(driver => {
+            const bugsMatchingStatus = driver.bugs.filter(bug => matchesStatusFilter(bug, filter));
+            if (filter !== 'all' && bugsMatchingStatus.length === 0) return false;
+            const versionText = `driver ${formatVersion(driver.version)}`.toLowerCase();
+            return versionText.includes(query) || bugsMatchingStatus.some(bug => bugMatchesQuery(bug, query));
+        });
+        result.sort((a, b) => {
+            switch (sort) {
+                case 'version-asc': return compareVersions(a.version, b.version);
+                case 'version-desc': return compareVersions(b.version, a.version);
+                case 'bugs-asc': return knownIssueCount(a) - knownIssueCount(b);
+                case 'bugs-desc': return knownIssueCount(b) - knownIssueCount(a);
+                default: return 0;
+            }
+        });
+        return result;
+    }
+
+    function computeStats(drivers) {
+        let totalBugs = 0;
+        let pending = 0;
+        drivers.forEach(d => {
+            d.bugs.forEach(b => {
+                totalBugs++;
+                if (b.fixed_in === null) pending++;
+            });
+        });
+        return {
+            totalDrivers: drivers.length,
+            totalBugs,
+            fixedRate: totalBugs > 0 ? Math.round(((totalBugs - pending) / totalBugs) * 100) : 0,
+            pending,
+        };
+    }
+
+    // 'recent': the 20 newest versions. 'worst': the 15 with the most known
+    // issues, put back in version order. 'all': everything.
+    // Bugs logged under an earlier driver and fixed after this one, per driver
+    // version. Only bugs with a known fix version count; pending ones and fixes
+    // outside the driver ("Fixed External", OTA) have no known end.
+    function carriedOverCounts(drivers) {
+        const versions = drivers.map(d => d.version).sort(compareVersions);
+        const counts = new Map(versions.map(v => [v, 0]));
+        drivers.forEach(d => {
+            d.bugs.forEach(b => {
+                const m = /^Fixed \((\d+\.\d{2})\)$/.exec(b.fixed_in || '');
+                if (!m || m[1] === d.version) return;
+                versions.forEach(v => {
+                    if (compareVersions(v, d.version) > 0 && compareVersions(v, m[1]) < 0) {
+                        counts.set(v, counts.get(v) + 1);
+                    }
+                });
+            });
+        });
+        return counts;
+    }
+
+    // With includeCarried, each item also gets `carried` (see carriedOverCounts)
+    // and the 'worst' range ranks by known + carried.
+    function trendSeries(drivers, range, { includeCarried = false } = {}) {
+        const carried = includeCarried ? carriedOverCounts(drivers) : null;
+        const chronological = [...drivers]
+            .sort((a, b) => compareVersions(a.version, b.version))
+            .map(d => {
+                const statuses = d.bugs.map(b => bugStatus(b, d.version));
+                const count = status => statuses.filter(s => s === status).length;
+                const fixedLater = count('fixed-later');
+                const pending = count('pending');
+                const item = {
+                    version: d.version,
+                    known: fixedLater + pending,
+                    fixedLater,
+                    pending,
+                    fixed: count('fixed'),
+                };
+                if (carried) item.carried = carried.get(d.version);
+                return item;
+            });
+
+        if (range === 'recent') return chronological.slice(-20);
+        if (range === 'worst') {
+            const weight = s => s.known + (s.carried || 0);
+            return [...chronological]
+                .sort((a, b) => weight(b) - weight(a))
+                .slice(0, 15)
+                .sort((a, b) => compareVersions(a.version, b.version));
+        }
+        return chronological;
+    }
+
+    // Drivers that have a release date, oldest first, with the same counts as
+    // trendSeries(). Used by the timeline view.
+    function timelineSeries(drivers, options) {
+        const dates = new Map(drivers.map(d => [d.version, d.release_date]));
+        return trendSeries(drivers.filter(d => d.release_date), 'all', options)
+            .map(item => ({ ...item, date: dates.get(item.version) }))
+            .sort((a, b) => a.date.localeCompare(b.date));
+    }
+
+    // Consecutive launch events of the same GPU family, merged into one band.
+    function launchBands(events) {
+        const bands = [];
+        [...events].sort((a, b) => a.date.localeCompare(b.date)).forEach(event => {
+            const last = bands[bands.length - 1];
+            if (last && last.family === event.family) {
+                last.end = event.date;
+                last.events.push(event);
+            } else {
+                bands.push({ family: event.family, start: event.date, end: event.date, events: [event] });
+            }
+        });
+        return bands;
+    }
+
+    // driver version -> GPU names it launched, e.g. "572.16" -> ["GeForce RTX 5090", ...]
+    function launchesByDriver(events) {
+        const map = new Map();
+        events.forEach(e => map.set(e.driver, [...(map.get(e.driver) || []), ...e.gpus]));
+        return map;
+    }
+
+    function daysBetween(from, to) {
+        return (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) / 86400000;
+    }
+
+    // Page numbers to show, with '...' for gaps. Never more than 7 entries.
+    function paginationPages(currentPage, totalPages) {
+        if (totalPages <= 7) return Array.from({ length: totalPages }, (_, i) => i + 1);
+        if (currentPage <= 4) return [1, 2, 3, 4, 5, '...', totalPages];
+        if (currentPage >= totalPages - 3) {
+            return [1, '...', totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+        }
+        return [1, '...', currentPage - 1, currentPage, currentPage + 1, '...', totalPages];
+    }
+
+    const lib = {
+        CHANNEL_LABELS,
+        escapeHTML,
+        highlightText,
+        formatVersion,
+        compareVersions,
+        bugStatus,
+        knownIssueCount,
+        bugMatchesQuery,
+        visibleBugs,
+        filterAndSortDrivers,
+        computeStats,
+        carriedOverCounts,
+        trendSeries,
+        timelineSeries,
+        launchBands,
+        launchesByDriver,
+        daysBetween,
+        paginationPages,
+    };
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = lib;
+    } else {
+        root.NvidiaWatch = lib;
+    }
+})(this);
