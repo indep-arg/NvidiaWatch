@@ -291,7 +291,7 @@ test('real data: 616.92 shows the flicker fix listed in 616.64', () => {
     const { fixed } = lib.driverBugs(d);
     assert.deepEqual(fixed.map(b => b.ids[0]), ['6674464', '6687328', '6673430']);
     assert.equal(fixed[2].listedIn, '616.64');
-    assert.equal(lib.trendSeries(lib.withEarlierFixes(data), 'all').reduce((n, s) => n + s.fixed, 0), 461);
+    assert.equal(lib.trendSeries(lib.withEarlierFixes(data), 'all').reduce((n, s) => n + s.fixed, 0), fixTotal(data));
 });
 
 test('fixedElsewhere connects an open entry to the same ID fixed in that driver or later', () => {
@@ -306,10 +306,10 @@ test('fixedElsewhere connects an open entry to the same ID fixed in that driver 
     assert.equal(lib.fixedElsewhere(drivers, drivers[1].bugs[0], '528.49'), null);
 });
 
-test('real data: only the two open entries whose ID was fixed elsewhere get the note', () => {
+test('real data: only the open entry whose ID was fixed elsewhere gets the note', () => {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
     const found = data.flatMap(d => d.bugs.map(b => [d.version, b.ids[0], lib.fixedElsewhere(data, b, d.version)])).filter(x => x[2]);
-    assert.deepEqual(found.map(([v, id, f]) => [v, id, f.to]), [['528.24', '3957846', '528.49'], ['560.94', '4679970', '561.09']]);
+    assert.deepEqual(found.map(([v, id, f]) => [v, id, f.to]), [['560.94', '4679970', '561.09']]);
 });
 
 test('withRelisted adds the open issues a driver repeated, from the latest earlier entry', () => {
@@ -331,12 +331,24 @@ test('withRelisted adds the open issues a driver repeated, from the latest earli
     assert.equal(lib.openBugs(lib.asListed(drivers)).length, 1);
 });
 
+// Totals the charts should add up to, counted straight from the file so
+// adding a driver doesn't mean editing these tests. test_generate_chart.py
+// counts the same way.
+function fixTotal(data) {
+    const versions = new Set(data.map(d => d.version));
+    return data.flatMap(d => d.bugs).filter(b => versions.has(lib.fixedInVersion(b))).length;
+}
+
+function knownTotal(data) {
+    return data.reduce((n, d) => n + lib.knownIssueCount(d) + (d.still_open || []).length, 0);
+}
+
 test('real data: 617.14 repeats the two open issues NVIDIA posted', () => {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
     const d = lib.asListed(data).find(x => x.version === '617.14');
     assert.deepEqual(lib.driverBugs(d).known.map(b => [b.ids[0], b.since]), [['6007998', '610.47'], ['6685219', '616.92']]);
     const series = lib.trendSeries(lib.asListed(data), 'all');
-    assert.equal(series.reduce((n, s) => n + s.known, 0), 602);
-    assert.equal(series.reduce((n, s) => n + s.fixed, 0), 461);
-    assert.equal(lib.openBugs(lib.asListed(data)).length, 53);
+    assert.equal(series.reduce((n, s) => n + s.known, 0), knownTotal(data));
+    assert.equal(series.reduce((n, s) => n + s.fixed, 0), fixTotal(data));
+    assert.equal(lib.openBugs(lib.asListed(data)).length, data.flatMap(d => d.bugs).filter(b => b.fixed_in === null).length);
 });

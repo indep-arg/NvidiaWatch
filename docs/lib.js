@@ -1,4 +1,4 @@
-// Pure helpers shared by script.js and the Node tests (tests/lib.test.js).
+// Pure helpers shared by the page modules (docs/js) and the Node tests (tests/lib.test.js).
 // No DOM access here.
 (function (root) {
     const CHANNEL_LABELS = { 'game-ready': 'Game Ready', 'studio': 'Studio' };
