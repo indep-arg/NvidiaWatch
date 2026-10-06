@@ -317,7 +317,7 @@
             {
                 "description": "[Adobe Bridge] Application may crash when previewing images in full screen mode",
                 "ids": ["3957846"],
-                "fixed_in": null
+                "fixed_in": "Fixed (528.49)"
             },
             {
                 "description": "When Discord is open in the background, graphics card memory clocks will not reach full speeds",
@@ -338,11 +338,6 @@
         "release_notes": "https://us.download.nvidia.com/Windows/528.49/528.49-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3866530", "3858016", "3952556"],
         "bugs": [
-            {
-                "description": "Adobe Bridge stability issues with 528.02",
-                "ids": ["3957846"],
-                "fixed_in": "Fixed (528.49)"
-            },
             {
                 "description": "Disable Hitman 3 Resizable Bar profile on Intel platforms",
                 "ids": ["3956209"],
@@ -3351,7 +3346,7 @@
             {
                 "description": "Assassin's Creed Shadows may crash to desktop after extended gameplay after updating to driver 616.56",
                 "ids": ["6685219"],
-                "fixed_in": null
+                "fixed_in": "Fixed (617.42)"
             },
             {
                 "description": "Judgement/Lost Judgement/ Virtua Fighter 5 R.E.V.O. may fail to launch after updating to driver 616.56",
@@ -3380,5 +3375,14 @@
                 "fixed_in": "Fixed (617.14)"
             }
         ]
+    },
+    {
+        "version": "617.42",
+        "channels": ["game-ready", "studio"],
+        "release_date": "2026-10-06",
+        "release_notes": "https://us.download.nvidia.com/Windows/617.42/617.42-win11-win10-release-notes.pdf",
+        "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/591391/geforce-grd-61742-feedback-thread-released-10626/",
+        "still_open": ["6007998"],
+        "bugs": []
     }
 ]

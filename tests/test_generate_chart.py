@@ -13,6 +13,23 @@ import generate_chart as gc
 SVG_NS = "{http://www.w3.org/2000/svg}"
 
 
+def real_data():
+    with open(Path(__file__).parent.parent / "docs" / "drivers.json", encoding="utf-8") as f:
+        return json.load(f)
+
+
+# Totals counted straight from the file, the same way tests/lib.test.js does.
+def fix_total(data):
+    versions = {d["version"] for d in data}
+    return sum(1 for d in data for b in d["bugs"]
+               if (b["fixed_in"] or "").startswith("Fixed (") and b["fixed_in"][7:-1] in versions)
+
+
+def known_total(data):
+    return sum(sum(1 for b in d["bugs"] if gc.bug_status(b, d["version"]) != "fixed") + len(d.get("still_open", []))
+               for d in data)
+
+
 def bug(fixed_in):
     return {"description": "Test bug", "ids": [], "fixed_in": fixed_in}
 
@@ -82,7 +99,7 @@ class TestEarlierFixes(unittest.TestCase):
     def test_matches_lib_js_on_real_data(self):
         series = {s["version"]: s for s in gc.load_series()}
         self.assertEqual(series["616.92"]["fixed"], 3)
-        self.assertEqual(sum(s["fixed"] for s in series.values()), 461)
+        self.assertEqual(sum(s["fixed"] for s in series.values()), fix_total(real_data()))
 
 
 class TestBuildSvg(unittest.TestCase):
@@ -135,7 +152,7 @@ class TestRelisted(unittest.TestCase):
     def test_matches_lib_js_on_real_data(self):
         series = {s["version"]: s for s in gc.load_series()}
         self.assertEqual(series["617.14"]["known"], 2)
-        self.assertEqual(sum(s["known"] for s in series.values()), 602)
+        self.assertEqual(sum(s["known"] for s in series.values()), known_total(real_data()))
 
 
 if __name__ == "__main__":
