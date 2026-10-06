@@ -3382,6 +3382,7 @@
         "release_date": "2026-10-06",
         "release_notes": "https://us.download.nvidia.com/Windows/617.42/617.42-win11-win10-release-notes.pdf",
         "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/591391/geforce-grd-61742-feedback-thread-released-10626/",
+        "reddit_thread": "https://www.reddit.com/r/nvidia/comments/1wz575x/game_ready_studio_driver_61742_faqdiscussion/",
         "still_open": ["6007998"],
         "bugs": []
     }
