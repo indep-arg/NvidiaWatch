@@ -23,6 +23,10 @@ export function render(main, { drivers }) {
             <p>Only bugs with a known fix version are carried. A bug that is still open, or that was fixed outside the driver, has no end point, so drivers only show it when their notes repeat it.</p>
             <p>The charts leave carried over issues out by default, so each bar counts what that driver's notes say. Turn them on in Trends to see them stacked.</p>
 
+            <h2>Driver branches</h2>
+            <p>Each driver shows the branch named at the top of its release notes: "Release 615 Driver for Windows, Version 617.42" is the R615 branch. Each bug page lists the branch of every driver it appears in, so you can see when a bug moves from one branch to the next. Search the drivers for a branch, like R615, to list its drivers.</p>
+            <p>Drivers also show their build branch, like r617_07-22: build 22 of the r617_07 branch. It's stored in the driver itself (nvlddmkm.sys in NVIDIA's installer) and is what tools like GPU Shark show. One release branch holds several build branches, and a driver can come from an older one than the driver before it. Search for a build branch, like r617_07, to list its drivers.</p>
+
             <h2>Limits</h2>
             <ul>
                 <li>Only what NVIDIA acknowledges shows up. Bugs that users report but NVIDIA never lists aren't here.</li>

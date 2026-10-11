@@ -21,8 +21,8 @@ Below the line are the bugs that driver fixed.
 
 - **Latest:** the newest Game Ready driver with what it fixed and its known issues, the newest Studio driver and the totals
 - **Drivers:** search across games, driver versions, known issues and NVIDIA bug IDs; filter by status (known issues, still open, fixed in that driver) and channel; sort by version or number of known issues
-- **Driver pages:** everything NVIDIA listed for that driver: its fixes, its known issues (including the open ones it repeated from earlier drivers) and the ones it carried over, with release notes and feedback thread links
-- **Bug history:** for any NVIDIA bug ID, the driver that listed it, the drivers that repeated or carried it and the one that fixed it
+- **Driver pages:** everything NVIDIA listed for that driver: its fixes, its known issues (including the open ones it repeated from earlier drivers) and the ones it carried over, with its branch (R615, from the release notes), its build branch (r617_07-22, from the driver itself) and release notes and feedback thread links
+- **Bug history:** for any NVIDIA bug ID, the driver that listed it, the drivers that repeated or carried it and the one that fixed it, with the branch and build branch of each
 - **Trends:** known issues and fixes per driver (latest 20, most affected, all time) and a timeline by release date with RTX 40 and RTX 50 launch periods; carried-over issues are optional
 - Dark theme by default, light theme on request; works with a keyboard and on phones
 

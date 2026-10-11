@@ -12,6 +12,8 @@ Please only add information you can point to in an official NVIDIA source: the d
 {
     "version": "581.80",
     "channels": ["game-ready"],
+    "branch": "R580",
+    "build_branch": "r581_66-7",
     "release_date": "2025-11-04",
     "release_notes": "https://us.download.nvidia.com/Windows/581.80/581.80-win11-win10-release-notes.pdf",
     "bugs": [
@@ -28,6 +30,8 @@ Please only add information you can point to in an official NVIDIA source: the d
 |---|---|---|
 | `version` | yes | Always two decimals: `581.80`, not `581.8`. |
 | `channels` | no | `game-ready` and/or `studio`. Many versions ship in both. |
+| `branch` | no | The branch named at the top of the release notes PDF: "Release 580 Driver for Windows, Version 581.80" is `R580`. |
+| `build_branch` | no | The build branch inside the driver, as GPU Shark shows it. It's stored in `Display.Driver/nvlddmkm.sys` in NVIDIA's installer, right after the version: `581.80 ... r581_66-7 ... RELEASE`. |
 | `release_date` | no | `YYYY-MM-DD`, the Game Ready release date from NVIDIA's download page. |
 | `release_notes` | no | Link to the official release notes PDF. |
 | `feedback_thread` | no | Link to NVIDIA's feedback thread for this driver on its forums. |
