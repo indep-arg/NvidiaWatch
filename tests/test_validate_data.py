@@ -165,6 +165,14 @@ class TestValidateData(unittest.TestCase):
         self.assertFalse(validate_data(self._create_temp_json(entry(branch="R590"))))
         self.assertTrue(validate_data(self._create_temp_json(entry(branch="R581"))))
 
+        self.assertTrue(validate_data(self._create_temp_json(entry(branch="R580", build_branch="r581_66-7"))))
+        self.assertTrue(validate_data(self._create_temp_json(entry(build_branch="r580_00-203"))))
+        for bad in ("R581_66-7", "r581_66", "r581-66-7", "581_66-7", 58166):
+            self.assertFalse(validate_data(self._create_temp_json(entry(build_branch=bad))), bad)
+        # Newer than 581.80 itself, or older than its own branch.
+        self.assertFalse(validate_data(self._create_temp_json(entry(build_branch="r590_00-1"))))
+        self.assertFalse(validate_data(self._create_temp_json(entry(branch="R580", build_branch="r575_92-7"))))
+
     def test_still_open(self):
         def data(still_open, fixed_in=None, version="610.62"):
             return [

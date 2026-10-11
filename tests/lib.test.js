@@ -81,6 +81,19 @@ test('filterAndSortDrivers finds a branch by its whole name only', () => {
     assert.deepEqual(find(''), ['617.42', '616.92', '610.88', '581.80']);
 });
 
+test('filterAndSortDrivers finds a build branch with or without its build number', () => {
+    const withBuilds = [
+        { version: '617.42', branch: 'R615', build_branch: 'r617_07-22', bugs: [] },
+        { version: '617.14', branch: 'R615', build_branch: 'r617_07-4', bugs: [] },
+        { version: '616.92', branch: 'R615', build_branch: 'r616_69-12', bugs: [] },
+    ];
+    const find = q => lib.filterAndSortDrivers(withBuilds, { query: q }).map(d => d.version);
+    assert.deepEqual(find('r617_07'), ['617.42', '617.14']);
+    assert.deepEqual(find('r617_07-4'), ['617.14']);
+    assert.deepEqual(find('r617'), []);
+    assert.deepEqual(find('r617_0'), []);
+});
+
 test('status filters: fixed means fixed in that driver, known means fixed later or still open', () => {
     // 576.02 lists one bug fixed in 581.80: a known issue of 576.02, not a fix.
     assert.deepEqual(lib.filterAndSortDrivers(drivers, { filter: 'fixed' }).map(d => d.version), ['581.80', '576.02']);

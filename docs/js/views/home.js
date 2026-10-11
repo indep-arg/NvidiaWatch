@@ -37,7 +37,7 @@ export function render(main, { drivers, listed, events, navigate }) {
             <div>
                 <h1 class="kicker">Latest Game Ready driver</h1>
                 <p class="version-big"><a href="${driverHref(latest.version)}" data-nav>${esc(latest.version)}</a></p>
-                <p class="meta"><span>${longDate(latest.release_date)}</span><span>${esc(channels(latest))}</span>${latest.branch ? `<span>${esc(latest.branch)} branch</span>` : ''}${launch ? `<span class="flag">Launch driver for ${esc(launch.join(', '))}</span>` : ''}</p>
+                <p class="meta"><span>${longDate(latest.release_date)}</span><span>${esc(channels(latest))}</span>${latest.branch ? `<span>${esc(latest.branch)} branch</span>` : ''}${latest.build_branch ? `<span class="build">${esc(latest.build_branch)}</span>` : ''}${launch ? `<span class="flag">Launch driver for ${esc(launch.join(', '))}</span>` : ''}</p>
                 <p class="meta spaced">${driverLinks(latest)}</p>
 
                 <section class="section" aria-labelledby="home-fixed">

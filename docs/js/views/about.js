@@ -25,6 +25,7 @@ export function render(main, { drivers }) {
 
             <h2>Driver branches</h2>
             <p>Each driver shows the branch named at the top of its release notes: "Release 615 Driver for Windows, Version 617.42" is the R615 branch. Each bug page lists the branch of every driver it appears in, so you can see when a bug moves from one branch to the next. Search the drivers for a branch, like R615, to list its drivers.</p>
+            <p>Drivers also show their build branch, like r617_07-22: build 22 of the r617_07 branch. It's stored in the driver itself (nvlddmkm.sys in NVIDIA's installer) and is what tools like GPU Shark show. One release branch holds several build branches, and a driver can come from an older one than the driver before it. Search for a build branch, like r617_07, to list its drivers.</p>
 
             <h2>Limits</h2>
             <ul>

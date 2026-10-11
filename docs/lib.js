@@ -102,7 +102,9 @@
             const bugsMatchingStatus = driver.bugs.filter(bug => matchesStatusFilter(bug, driver.version, filter));
             if (filter !== 'all' && bugsMatchingStatus.length === 0) return false;
             const versionText = `driver ${formatVersion(driver.version)}`.toLowerCase();
-            const branchHit = query !== '' && (driver.branch || '').toLowerCase() === query;
+            // "r615" finds a release branch, "r617_07" or "r617_07-22" a build branch.
+            const build = driver.build_branch || '';
+            const branchHit = query !== '' && ((driver.branch || '').toLowerCase() === query || build === query || build.split('-')[0] === query);
             return versionText.includes(query) || branchHit || bugsMatchingStatus.some(bug => bugMatchesQuery(bug, query));
         });
         result.sort((a, b) => {

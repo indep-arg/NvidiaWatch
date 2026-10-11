@@ -60,10 +60,10 @@ export function render(main, { listed: drivers, params }) {
         } else if (grouped) {
             results.innerHTML = shown.map(d => {
                 // A version match shows the whole driver; otherwise only the matching bugs.
-                const versionHit = q && (`driver ${lib.formatVersion(d.version)}`.toLowerCase().includes(q) || (d.branch || '').toLowerCase() === q);
+                const versionHit = q && (`driver ${lib.formatVersion(d.version)}`.toLowerCase().includes(q) || (d.branch || '').toLowerCase() === q || (d.build_branch || '') === q || (d.build_branch || '').split('-')[0] === q);
                 const bugs = lib.visibleBugs(d, state.filter, versionHit ? '' : q);
                 return `<section class="group" aria-label="Driver ${esc(d.version)}">
-                    <div class="group-head"><a class="version" href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a><span class="quiet">${longDate(d.release_date)} · ${esc(channels(d))}${d.branch ? ` · ${esc(d.branch)}` : ''}</span></div>
+                    <div class="group-head"><a class="version" href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a><span class="quiet">${longDate(d.release_date)} · ${esc(channels(d))}${d.branch ? ` · ${esc(d.branch)}` : ''}${d.build_branch ? ` · <span class="build">${esc(d.build_branch)}</span>` : ''}</span></div>
                     ${bugs.length ? bugList(bugs.map(b => bugItem(b, lib.bugStatus(b, d.version), { sub: statusNote(b, d.version), query: q }))) : '<p class="empty">No bugs listed.</p>'}
                 </section>`;
             }).join('');
@@ -73,7 +73,7 @@ export function render(main, { listed: drivers, params }) {
                 <tbody>${shown.map(d => {
                     const split = lib.driverBugs(d);
                     const open = split.known.filter(b => b.fixed_in === null).length;
-                    return `<tr data-href="${driverHref(d.version)}"><td class="version"><a href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a></td><td class="date">${esc(d.release_date || '')}</td><td class="quiet hide-narrow">${esc(channels(d))}</td><td class="quiet hide-narrow">${esc(d.branch || '')}</td><td class="num">${split.fixed.length}</td><td class="num">${split.known.length}${open ? ` <span class="quiet">(${open} open)</span>` : ''}</td><td class="num hide-narrow">${carried.get(d.version)}</td></tr>`;
+                    return `<tr data-href="${driverHref(d.version)}"><td class="version"><a href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a></td><td class="date">${esc(d.release_date || '')}</td><td class="quiet hide-narrow">${esc(channels(d))}</td><td class="quiet hide-narrow">${esc(d.branch || '')}${d.build_branch ? ` · <span class="build">${esc(d.build_branch)}</span>` : ''}</td><td class="num">${split.fixed.length}</td><td class="num">${split.known.length}${open ? ` <span class="quiet">(${open} open)</span>` : ''}</td><td class="num hide-narrow">${carried.get(d.version)}</td></tr>`;
                 }).join('')}</tbody></table>`;
         }
         results.insertAdjacentHTML('beforeend', pagination(state.page, pages, page => hrefFor({ ...state, page })));

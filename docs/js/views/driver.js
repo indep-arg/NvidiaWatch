@@ -25,7 +25,7 @@ export function render(main, { drivers, listed, events, params }) {
         <div class="two-col">
             <div>
                 <h1 class="version-big">${esc(driver.version)}</h1>
-                <p class="meta"><span>${longDate(driver.release_date)}</span><span>${esc(channels(driver))}</span>${driver.branch ? `<span>${esc(driver.branch)} branch</span>` : ''}${launch ? `<span class="flag">Launch driver for ${esc(launch.join(', '))}</span>` : ''}</p>
+                <p class="meta"><span>${longDate(driver.release_date)}</span><span>${esc(channels(driver))}</span>${driver.branch ? `<span>${esc(driver.branch)} branch</span>` : ''}${driver.build_branch ? `<span class="build">${esc(driver.build_branch)}</span>` : ''}${launch ? `<span class="flag">Launch driver for ${esc(launch.join(', '))}</span>` : ''}</p>
                 ${links ? `<p class="meta spaced">${links}</p>` : ''}
 
                 <section class="section" aria-labelledby="driver-fixed">
