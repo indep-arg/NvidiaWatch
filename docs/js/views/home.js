@@ -37,7 +37,7 @@ export function render(main, { drivers, listed, events, navigate }) {
             <div>
                 <h1 class="kicker">Latest Game Ready driver</h1>
                 <p class="version-big"><a href="${driverHref(latest.version)}" data-nav>${esc(latest.version)}</a></p>
-                <p class="meta"><span>${longDate(latest.release_date)}</span><span>${esc(channels(latest))}</span>${launch ? `<span class="flag">Launch driver for ${esc(launch.join(', '))}</span>` : ''}</p>
+                <p class="meta"><span>${longDate(latest.release_date)}</span><span>${esc(channels(latest))}</span>${latest.branch ? `<span>${esc(latest.branch)} branch</span>` : ''}${launch ? `<span class="flag">Launch driver for ${esc(launch.join(', '))}</span>` : ''}</p>
                 <p class="meta spaced">${driverLinks(latest)}</p>
 
                 <section class="section" aria-labelledby="home-fixed">
@@ -66,7 +66,7 @@ export function render(main, { drivers, listed, events, navigate }) {
                 ${studio ? `<div class="side-box">
                     <h2>Latest Studio driver</h2>
                     <p class="version-mid"><a href="${driverHref(studio.version)}" data-nav>${esc(studio.version)}</a></p>
-                    <p class="quiet tight">${longDate(studio.release_date)} · ${esc(channels(studio))}</p>
+                    <p class="quiet tight">${longDate(studio.release_date)} · ${esc(channels(studio))}${studio.branch ? ` · ${esc(studio.branch)}` : ''}</p>
                     ${countsHTML(studio)}
                 </div>` : ''}
             </aside>

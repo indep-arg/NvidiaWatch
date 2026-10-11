@@ -102,7 +102,8 @@
             const bugsMatchingStatus = driver.bugs.filter(bug => matchesStatusFilter(bug, driver.version, filter));
             if (filter !== 'all' && bugsMatchingStatus.length === 0) return false;
             const versionText = `driver ${formatVersion(driver.version)}`.toLowerCase();
-            return versionText.includes(query) || bugsMatchingStatus.some(bug => bugMatchesQuery(bug, query));
+            const branchHit = query !== '' && (driver.branch || '').toLowerCase() === query;
+            return versionText.includes(query) || branchHit || bugsMatchingStatus.some(bug => bugMatchesQuery(bug, query));
         });
         result.sort((a, b) => {
             switch (sort) {

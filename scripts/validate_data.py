@@ -25,6 +25,10 @@ ID_IN_DESCRIPTION_REGEX = re.compile(r"\[\s*\d{6,}(?:\s*/\s*\d{6,})*\s*\]")
 
 DRIVER_CHANNELS = {"game-ready", "studio"}
 
+# The driver branch from the release notes header: "Release 615 Driver for
+# Windows, Version 617.42" -> "R615".
+BRANCH_REGEX = re.compile(r"^R(\d{3})$")
+
 
 def is_real_date(value):
     """True for a real calendar date written as YYYY-MM-DD."""
@@ -76,7 +80,7 @@ def validate_data(filepath):
             has_errors = True
             continue
 
-        allowed_entry_keys = {"version", "bugs", "channels", "release_date", "release_notes", "feedback_thread", "reddit_thread", "still_open"}
+        allowed_entry_keys = {"version", "bugs", "channels", "branch", "release_date", "release_notes", "feedback_thread", "reddit_thread", "still_open"}
         extra_keys = set(entry.keys()) - allowed_entry_keys
         if extra_keys:
             print(f"Error at {location}: Contains unexpected key(s): {', '.join(sorted(extra_keys))}")
@@ -106,6 +110,16 @@ def validate_data(filepath):
                     or any(c not in DRIVER_CHANNELS for c in channels)
                     or len(set(channels)) != len(channels)):
                 print(f"Error at {location}: 'channels' must be a non-empty list of unique values from: {', '.join(sorted(DRIVER_CHANNELS))}.")
+                has_errors = True
+
+        if "branch" in entry:
+            branch = entry["branch"]
+            m = BRANCH_REGEX.match(branch) if isinstance(branch, str) else None
+            if not m:
+                print(f"Error at {location}: 'branch' must look like 'R615'.")
+                has_errors = True
+            elif isinstance(version, str) and VERSION_REGEX.match(version) and int(m.group(1)) > int(version.split(".")[0]):
+                print(f"Error at {location}: branch {branch} is newer than the version itself.")
                 has_errors = True
 
         if "release_date" in entry:

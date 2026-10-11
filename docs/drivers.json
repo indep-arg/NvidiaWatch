@@ -2,6 +2,7 @@
     {
         "version": "526.47",
         "channels": ["game-ready"],
+        "branch": "R525",
         "release_date": "2022-10-27",
         "release_notes": "https://us.download.nvidia.com/Windows/526.47/526.47-win11-win10-release-notes.pdf",
         "bugs": [
@@ -120,6 +121,7 @@
     {
         "version": "526.86",
         "channels": ["game-ready"],
+        "branch": "R525",
         "release_date": "2022-11-10",
         "release_notes": "https://us.download.nvidia.com/Windows/526.86/526.86-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "200742937", "3592260", "3659104", "3809401", "3830387", "3838022"],
@@ -154,6 +156,7 @@
     {
         "version": "526.98",
         "channels": ["game-ready", "studio"],
+        "branch": "R525",
         "release_date": "2022-11-16",
         "release_notes": "https://us.download.nvidia.com/Windows/526.98/526.98-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "200742937", "3870232", "3858911", "3793355", "3858016", "3592260"],
@@ -178,6 +181,7 @@
     {
         "version": "527.37",
         "channels": ["game-ready"],
+        "branch": "R525",
         "release_date": "2022-12-01",
         "release_notes": "https://us.download.nvidia.com/Windows/527.37/527.37-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "200742937", "3870232", "3858016", "3592260", "3876764"],
@@ -227,6 +231,7 @@
     {
         "version": "527.56",
         "channels": ["game-ready", "studio"],
+        "branch": "R525",
         "release_date": "2022-12-08",
         "release_notes": "https://us.download.nvidia.com/Windows/527.56/527.56-win10-win11-nsd-release-notes.pdf",
         "still_open": ["3624030", "200742937", "3592260", "3888343", "3866530", "3858016"],
@@ -246,6 +251,7 @@
     {
         "version": "528.02",
         "channels": ["game-ready", "studio"],
+        "branch": "R525",
         "release_date": "2023-01-05",
         "release_notes": "https://us.download.nvidia.com/Windows/528.02/528.02-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3866530", "3858016"],
@@ -295,6 +301,7 @@
     {
         "version": "528.24",
         "channels": ["game-ready", "studio"],
+        "branch": "R525",
         "release_date": "2023-01-24",
         "release_notes": "https://us.download.nvidia.com/Windows/528.24/528.24-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3866530", "3858016"],
@@ -334,6 +341,7 @@
     {
         "version": "528.49",
         "channels": ["game-ready", "studio"],
+        "branch": "R525",
         "release_date": "2023-02-08",
         "release_notes": "https://us.download.nvidia.com/Windows/528.49/528.49-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3866530", "3858016", "3952556"],
@@ -358,6 +366,7 @@
     {
         "version": "531.18",
         "channels": ["game-ready"],
+        "branch": "R530",
         "release_date": "2023-02-28",
         "release_notes": "https://us.download.nvidia.com/Windows/531.18/531.18-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "3940086"],
@@ -412,6 +421,7 @@
     {
         "version": "531.29",
         "channels": ["game-ready"],
+        "branch": "R530",
         "release_date": "2023-03-14",
         "release_notes": "https://us.download.nvidia.com/Windows/531.29/531.29-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3858016", "4012825", "4008945", "4008770", "3952556"],
@@ -426,6 +436,7 @@
     {
         "version": "531.41",
         "channels": ["game-ready", "studio"],
+        "branch": "R530",
         "release_date": "2023-03-23",
         "release_notes": "https://us.download.nvidia.com/Windows/531.41/531.41-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4008770"],
@@ -505,6 +516,7 @@
     {
         "version": "531.61",
         "channels": ["game-ready", "studio"],
+        "branch": "R530",
         "release_date": "2023-04-13",
         "release_notes": "https://us.download.nvidia.com/Windows/531.61/531.61-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4050712"],
@@ -519,6 +531,7 @@
     {
         "version": "531.68",
         "channels": ["game-ready"],
+        "branch": "R530",
         "release_date": "2023-04-18",
         "release_notes": "https://us.download.nvidia.com/Windows/531.68/531.68-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4050712"],
@@ -563,6 +576,7 @@
     {
         "version": "531.79",
         "channels": ["game-ready"],
+        "branch": "R530",
         "release_date": "2023-05-02",
         "release_notes": "https://us.download.nvidia.com/Windows/531.79/531.79-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3888343", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4034096", "4084000", "4019721"],
@@ -582,6 +596,7 @@
     {
         "version": "532.03",
         "channels": ["game-ready"],
+        "branch": "R530",
         "release_date": "2023-05-24",
         "release_notes": "https://us.download.nvidia.com/Windows/532.03/532.03-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3592260", "3858016", "3952556", "4008945"],
@@ -601,6 +616,7 @@
     {
         "version": "535.98",
         "channels": ["game-ready", "studio"],
+        "branch": "R535",
         "release_date": "2023-05-30",
         "release_notes": "https://us.download.nvidia.com/Windows/535.98/535.98-win11-win10-release-notes.pdf",
         "still_open": ["3624030", "3858016", "3952556", "4008945", "4049182", "3992875", "4063597", "4024853", "4034096", "4084000", "4114157"],
@@ -650,6 +666,7 @@
     {
         "version": "536.23",
         "channels": ["game-ready"],
+        "branch": "R535",
         "release_date": "2023-06-14",
         "release_notes": "https://us.download.nvidia.com/Windows/536.23/536.23-win11-win10-release-notes.pdf",
         "still_open": ["3952556", "4008945", "4049182", "3992875", "4034096", "4084000", "4140545", "4029825"],
@@ -664,6 +681,7 @@
     {
         "version": "536.40",
         "channels": ["game-ready", "studio"],
+        "branch": "R535",
         "release_date": "2023-06-29",
         "release_notes": "https://us.download.nvidia.com/Windows/536.40/536.40-win11-win10-release-notes.pdf",
         "still_open": ["3952556", "4008945", "4049182", "3992875", "4034096", "4084000", "4029825"],
@@ -693,6 +711,7 @@
     {
         "version": "536.67",
         "channels": ["game-ready", "studio"],
+        "branch": "R535",
         "release_date": "2023-07-18",
         "release_notes": "https://us.download.nvidia.com/Windows/536.67/536.67-win11-win10-release-notes.pdf",
         "still_open": ["3992875", "4034096", "4084000", "4029825", "4186490", "4049182", "4140545"],
@@ -732,6 +751,7 @@
     {
         "version": "536.99",
         "channels": ["game-ready", "studio"],
+        "branch": "R535",
         "release_date": "2023-08-08",
         "release_notes": "https://us.download.nvidia.com/Windows/536.99/536.99-win11-win10-release-notes.pdf",
         "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4212649", "4009884"],
@@ -751,6 +771,7 @@
     {
         "version": "537.13",
         "channels": ["game-ready"],
+        "branch": "R535",
         "release_date": "2023-08-22",
         "release_notes": "https://us.download.nvidia.com/Windows/537.13/537.13-win11-win10-release-notes.pdf",
         "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4009884", "4103923"],
@@ -780,6 +801,7 @@
     {
         "version": "537.34",
         "channels": ["game-ready"],
+        "branch": "R535",
         "release_date": "2023-09-12",
         "release_notes": "https://us.download.nvidia.com/Windows/537.34/537.34-win11-win10-release-notes.pdf",
         "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
@@ -794,6 +816,7 @@
     {
         "version": "537.42",
         "channels": ["game-ready", "studio"],
+        "branch": "R535",
         "release_date": "2023-09-21",
         "release_notes": "https://us.download.nvidia.com/Windows/537.42/537.42-win11-win10-release-notes.pdf",
         "still_open": ["4052711", "3992875", "4034096", "4186490", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
@@ -818,6 +841,7 @@
     {
         "version": "537.58",
         "channels": ["game-ready", "studio"],
+        "branch": "R535",
         "release_date": "2023-10-10",
         "release_notes": "https://us.download.nvidia.com/Windows/537.58/537.58-win11-win10-release-notes.pdf",
         "still_open": ["4052711", "3992875", "4034096", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
@@ -832,6 +856,7 @@
     {
         "version": "545.84",
         "channels": ["game-ready"],
+        "branch": "R545",
         "release_date": "2023-10-17",
         "release_notes": "https://us.download.nvidia.com/Windows/545.84/545.84-win11-win10-release-notes.pdf",
         "still_open": ["4052711", "3992875", "4049182", "4009884", "4103923", "4251314", "4146369", "4239893"],
@@ -866,6 +891,7 @@
     {
         "version": "545.92",
         "channels": ["game-ready"],
+        "branch": "R545",
         "release_date": "2023-10-26",
         "release_notes": "https://us.download.nvidia.com/Windows/545.92/545.92-win11-win10-release-notes.pdf",
         "still_open": ["4052711", "3992875", "4009884", "4103923", "4251314", "4146369", "4239893", "4331318", "4335862", "4336461", "4337526"],
@@ -885,6 +911,7 @@
     {
         "version": "546.01",
         "channels": ["game-ready", "studio"],
+        "branch": "R545",
         "release_date": "2023-10-31",
         "release_notes": "https://us.download.nvidia.com/Windows/546.01/546.01-win11-win10-release-notes.pdf",
         "still_open": ["4251314", "4349586", "4335862", "3992875", "4009884", "4103923", "4146369", "4239893", "4336461"],
@@ -939,6 +966,7 @@
     {
         "version": "546.17",
         "channels": ["game-ready"],
+        "branch": "R545",
         "release_date": "2023-11-14",
         "release_notes": "https://us.download.nvidia.com/Windows/546.17/546.17-win11-win10-release-notes.pdf",
         "still_open": ["4349586", "4251314", "3992875", "4009884", "4103923", "4146369", "4239893", "4362307"],
@@ -983,6 +1011,7 @@
     {
         "version": "546.29",
         "channels": ["game-ready"],
+        "branch": "R545",
         "release_date": "2023-12-04",
         "release_notes": "https://us.download.nvidia.com/Windows/546.29/546.29-win11-win10-release-notes.pdf",
         "still_open": ["4349586", "4251314", "4009884", "4103923", "4146369", "4239893", "4362307", "4351702"],
@@ -1002,6 +1031,7 @@
     {
         "version": "546.33",
         "channels": ["game-ready", "studio"],
+        "branch": "R545",
         "release_date": "2023-12-12",
         "release_notes": "https://us.download.nvidia.com/Windows/546.33/546.33-win11-win10-release-notes.pdf",
         "still_open": ["4388454", "4009884", "4103923", "4146369", "4239893", "4362307", "4351702"],
@@ -1026,6 +1056,7 @@
     {
         "version": "546.65",
         "channels": ["game-ready"],
+        "branch": "R545",
         "release_date": "2024-01-17",
         "release_notes": "https://us.download.nvidia.com/Windows/546.65/546.65-win11-win10-release-notes.pdf",
         "still_open": ["4388454", "4009884", "4103923", "4146369", "4239893", "4362307"],
@@ -1040,6 +1071,7 @@
     {
         "version": "551.23",
         "channels": ["game-ready", "studio"],
+        "branch": "R550",
         "release_date": "2024-01-24",
         "release_notes": "https://us.download.nvidia.com/Windows/551.23/551.23-win11-win10-release-notes.pdf",
         "still_open": ["4388454", "4009884", "4362307"],
@@ -1084,6 +1116,7 @@
     {
         "version": "551.52",
         "channels": ["game-ready"],
+        "branch": "R550",
         "release_date": "2024-02-13",
         "release_notes": "https://us.download.nvidia.com/Windows/551.52/551.52-win11-win10-release-notes.pdf",
         "still_open": ["4388454", "4009884", "4472656", "4492243"],
@@ -1108,6 +1141,7 @@
     {
         "version": "551.61",
         "channels": ["game-ready", "studio"],
+        "branch": "R550",
         "release_date": "2024-02-22",
         "release_notes": "https://us.download.nvidia.com/Windows/551.61/551.61-win11-win10-release-notes.pdf",
         "still_open": ["4388454", "4009884"],
@@ -1147,6 +1181,7 @@
     {
         "version": "551.76",
         "channels": ["game-ready"],
+        "branch": "R550",
         "release_date": "2024-03-05",
         "release_notes": "https://us.download.nvidia.com/Windows/551.76/551.76-win11-win10-release-notes.pdf",
         "still_open": ["4388454", "4009884"],
@@ -1171,6 +1206,7 @@
     {
         "version": "551.86",
         "channels": ["game-ready", "studio"],
+        "branch": "R550",
         "release_date": "2024-03-19",
         "release_notes": "https://us.download.nvidia.com/Windows/551.86/551.86-win11-win10-release-notes.pdf",
         "still_open": ["4009884", "4503216", "4388454"],
@@ -1215,6 +1251,7 @@
     {
         "version": "552.12",
         "channels": ["game-ready"],
+        "branch": "R550",
         "release_date": "2024-04-04",
         "release_notes": "https://us.download.nvidia.com/Windows/552.12/552.12-win11-win10-release-notes.pdf",
         "still_open": ["4009884", "4412035", "4503216"],
@@ -1249,6 +1286,7 @@
     {
         "version": "552.22",
         "channels": ["game-ready", "studio"],
+        "branch": "R550",
         "release_date": "2024-04-16",
         "release_notes": "https://us.download.nvidia.com/Windows/552.22/552.22-win11-win10-release-notes.pdf",
         "still_open": ["4503216", "4485993", "4412035"],
@@ -1288,6 +1326,7 @@
     {
         "version": "552.44",
         "channels": ["game-ready"],
+        "branch": "R550",
         "release_date": "2024-05-09",
         "release_notes": "https://us.download.nvidia.com/Windows/552.44/552.44-win11-win10-release-notes.pdf",
         "still_open": ["4503216", "4412035", "4608670"],
@@ -1302,6 +1341,7 @@
     {
         "version": "555.85",
         "channels": ["game-ready", "studio"],
+        "branch": "R555",
         "release_date": "2024-05-21",
         "release_notes": "https://us.download.nvidia.com/Windows/555.85/555.85-win11-win10-release-notes.pdf",
         "still_open": ["4608670"],
@@ -1351,6 +1391,7 @@
     {
         "version": "555.99",
         "channels": ["game-ready", "studio"],
+        "branch": "R555",
         "release_date": "2024-06-04",
         "release_notes": "https://us.download.nvidia.com/Windows/555.99/555.99-win11-win10-release-notes.pdf",
         "still_open": ["4662117", "4663766"],
@@ -1395,6 +1436,7 @@
     {
         "version": "556.12",
         "channels": ["game-ready"],
+        "branch": "R555",
         "release_date": "2024-06-27",
         "release_notes": "https://us.download.nvidia.com/Windows/556.12/556.12-win11-win10-release-notes.pdf",
         "still_open": ["4697900", "4679970"],
@@ -1419,6 +1461,7 @@
     {
         "version": "560.70",
         "channels": ["game-ready", "studio"],
+        "branch": "R560",
         "release_date": "2024-07-16",
         "release_notes": "https://us.download.nvidia.com/Windows/560.70/560.70-win11-win10-release-notes.pdf",
         "still_open": ["4679970", "4720547"],
@@ -1458,6 +1501,7 @@
     {
         "version": "560.81",
         "channels": ["game-ready", "studio"],
+        "branch": "R560",
         "release_date": "2024-08-06",
         "release_notes": "https://us.download.nvidia.com/Windows/560.81/560.81-win11-win10-release-notes.pdf",
         "still_open": ["4679970", "4726026"],
@@ -1477,6 +1521,7 @@
     {
         "version": "560.94",
         "channels": ["game-ready"],
+        "branch": "R560",
         "release_date": "2024-08-20",
         "release_notes": "https://us.download.nvidia.com/Windows/560.94/560.94-win11-win10-release-notes.pdf",
         "still_open": ["4790774"],
@@ -1501,6 +1546,7 @@
     {
         "version": "561.09",
         "channels": ["game-ready", "studio"],
+        "branch": "R560",
         "release_date": "2024-09-11",
         "release_notes": "https://us.download.nvidia.com/Windows/561.09/561.09-win11-win10-release-notes.pdf",
         "bugs": [
@@ -1519,6 +1565,7 @@
     {
         "version": "565.90",
         "channels": ["game-ready", "studio"],
+        "branch": "R565",
         "release_date": "2024-10-01",
         "release_notes": "https://us.download.nvidia.com/Windows/565.90/565.90-win11-win10-release-notes.pdf",
         "bugs": [
@@ -1587,6 +1634,7 @@
     {
         "version": "566.03",
         "channels": ["game-ready"],
+        "branch": "R565",
         "release_date": "2024-10-22",
         "release_notes": "https://us.download.nvidia.com/Windows/566.03/566.03-win11-win10-release-notes.pdf",
         "still_open": ["4895184", "4893446", "4798073", "4895217", "4910686"],
@@ -1611,6 +1659,7 @@
     {
         "version": "566.14",
         "channels": ["game-ready", "studio"],
+        "branch": "R565",
         "release_date": "2024-11-12",
         "release_notes": "https://us.download.nvidia.com/Windows/566.14/566.14-win11-win10-release-notes.pdf",
         "still_open": ["4922638", "4798073"],
@@ -1635,6 +1684,7 @@
     {
         "version": "566.36",
         "channels": ["game-ready", "studio"],
+        "branch": "R565",
         "release_date": "2024-12-05",
         "release_notes": "https://us.download.nvidia.com/Windows/566.36/566.36-win11-win10-release-notes.pdf",
         "still_open": ["4730911"],
@@ -1659,6 +1709,7 @@
     {
         "version": "572.16",
         "channels": ["game-ready", "studio"],
+        "branch": "R570",
         "release_date": "2025-01-30",
         "release_notes": "https://us.download.nvidia.com/Windows/572.16/572.16-win11-win10-release-notes.pdf",
         "still_open": ["4995658"],
@@ -1758,6 +1809,7 @@
     {
         "version": "572.42",
         "channels": ["game-ready"],
+        "branch": "R570",
         "release_date": "2025-02-13",
         "release_notes": "https://us.download.nvidia.com/Windows/572.42/572.42-win11-win10-release-notes.pdf",
         "still_open": ["4995658", "4915763", "5091781", "5089560", "5088118", "5091576"],
@@ -1787,6 +1839,7 @@
     {
         "version": "572.47",
         "channels": ["game-ready"],
+        "branch": "R570",
         "release_date": "2025-02-20",
         "release_notes": "https://us.download.nvidia.com/Windows/572.47/572.47-win11-win10-release-notes.pdf",
         "still_open": ["4995658", "4915763", "5091781", "5088118", "5071565", "5091576", "5104848"],
@@ -1801,6 +1854,7 @@
     {
         "version": "572.60",
         "channels": ["game-ready", "studio"],
+        "branch": "R570",
         "release_date": "2025-02-27",
         "release_notes": "https://us.download.nvidia.com/Windows/572.60/572.60-win11-win10-release-notes.pdf",
         "still_open": ["4995658", "5091576"],
@@ -1820,6 +1874,7 @@
     {
         "version": "572.70",
         "channels": ["game-ready"],
+        "branch": "R570",
         "release_date": "2025-03-05",
         "release_notes": "https://us.download.nvidia.com/Windows/572.70/572.70-win11-win10-release-notes.pdf",
         "still_open": ["4995658", "5091576"],
@@ -1874,6 +1929,7 @@
     {
         "version": "572.83",
         "channels": ["game-ready", "studio"],
+        "branch": "R570",
         "release_date": "2025-03-18",
         "release_notes": "https://us.download.nvidia.com/Windows/572.83/572.83-win11-win10-release-notes.pdf",
         "still_open": ["4995658", "5038335", "5137042", "5144768", "5121715", "5156168", "5076545"],
@@ -1933,6 +1989,7 @@
     {
         "version": "576.02",
         "channels": ["game-ready", "studio"],
+        "branch": "R575",
         "release_date": "2025-04-16",
         "release_notes": "https://us.download.nvidia.com/Windows/576.02/576.02-win11-win10-release-notes.pdf",
         "still_open": ["5076545", "5137042", "5158681", "5038335", "5201811"],
@@ -2147,6 +2204,7 @@
     {
         "version": "576.28",
         "channels": ["game-ready"],
+        "branch": "R575",
         "release_date": "2025-04-30",
         "release_notes": "https://us.download.nvidia.com/Windows/576.28/576.28-win11-win10-release-notes.pdf",
         "still_open": ["5076545", "5138067"],
@@ -2236,6 +2294,7 @@
     {
         "version": "576.40",
         "channels": ["game-ready"],
+        "branch": "R575",
         "release_date": "2025-05-12",
         "release_notes": "https://us.download.nvidia.com/Windows/576.40/576.40-win11-win10-release-notes.pdf",
         "still_open": ["5138067", "5076545", "5240429", "5251937", "5252205", "5241341", "5259963", "5257319", "5264112"],
@@ -2300,6 +2359,7 @@
     {
         "version": "576.52",
         "channels": ["game-ready", "studio"],
+        "branch": "R575",
         "release_date": "2025-05-19",
         "release_notes": "https://us.download.nvidia.com/Windows/576.52/576.52-win10-win11-nsd-release-notes.pdf",
         "still_open": ["5138067", "5076545", "5251937", "5131160", "5252205", "5241341", "5259963", "5279848", "5243686", "5284105", "5282396", "5284518"],
@@ -2324,6 +2384,7 @@
     {
         "version": "576.80",
         "channels": ["game-ready", "studio"],
+        "branch": "R575",
         "release_date": "2025-06-17",
         "release_notes": "https://us.download.nvidia.com/Windows/576.80/576.80-win11-win10-release-notes.pdf",
         "still_open": ["5076545", "5284105"],
@@ -2418,6 +2479,7 @@
     {
         "version": "576.88",
         "channels": ["game-ready"],
+        "branch": "R575",
         "release_date": "2025-07-01",
         "release_notes": "https://us.download.nvidia.com/Windows/576.88/576.88-win11-win10-release-notes.pdf",
         "still_open": ["5076545", "5284105", "5273429", "5278913"],
@@ -2432,6 +2494,7 @@
     {
         "version": "577.00",
         "channels": ["game-ready", "studio"],
+        "branch": "R575",
         "release_date": "2025-07-22",
         "release_notes": "https://us.download.nvidia.com/Windows/577.00/577.00-win11-win10-release-notes.pdf",
         "still_open": ["5076545", "5284105", "5273429", "5278913"],
@@ -2451,6 +2514,7 @@
     {
         "version": "580.88",
         "channels": ["game-ready"],
+        "branch": "R580",
         "release_date": "2025-07-31",
         "release_notes": "https://us.download.nvidia.com/Windows/580.88/580.88-win11-win10-release-notes.pdf",
         "still_open": ["5076545", "5278913"],
@@ -2545,6 +2609,7 @@
     {
         "version": "580.97",
         "channels": ["game-ready", "studio"],
+        "branch": "R580",
         "release_date": "2025-08-12",
         "release_notes": "https://us.download.nvidia.com/Windows/580.97/580.97-win11-win10-release-notes.pdf",
         "still_open": ["5076545", "5278913"],
@@ -2564,6 +2629,7 @@
     {
         "version": "581.08",
         "channels": ["game-ready"],
+        "branch": "R580",
         "release_date": "2025-08-19",
         "release_notes": "https://us.download.nvidia.com/Windows/581.08/581.08-win11-win10-release-notes.pdf",
         "still_open": ["5278913", "5431822"],
@@ -2613,6 +2679,7 @@
     {
         "version": "581.15",
         "channels": ["game-ready"],
+        "branch": "R580",
         "release_date": "2025-08-28",
         "release_notes": "https://us.download.nvidia.com/Windows/581.15/581.15-win11-win10-release-notes.pdf",
         "still_open": ["5278913", "5431822", "5432356"],
@@ -2632,6 +2699,7 @@
     {
         "version": "581.29",
         "channels": ["game-ready", "studio"],
+        "branch": "R580",
         "release_date": "2025-09-10",
         "release_notes": "https://us.download.nvidia.com/Windows/581.29/581.29-win11-win10-release-notes.pdf",
         "still_open": ["5278913", "5431822", "5432356"],
@@ -2646,6 +2714,7 @@
     {
         "version": "581.42",
         "channels": ["game-ready"],
+        "branch": "R580",
         "release_date": "2025-09-30",
         "release_notes": "https://us.download.nvidia.com/Windows/581.42/581.42-win11-win10-release-notes.pdf",
         "still_open": ["5278913", "5432356"],
@@ -2690,6 +2759,7 @@
     {
         "version": "581.57",
         "channels": ["game-ready", "studio"],
+        "branch": "R580",
         "release_date": "2025-10-14",
         "release_notes": "https://us.download.nvidia.com/Windows/581.57/581.57-win11-win10-release-notes.pdf",
         "still_open": ["5278913", "5432356"],
@@ -2754,6 +2824,7 @@
     {
         "version": "581.80",
         "channels": ["game-ready"],
+        "branch": "R580",
         "release_date": "2025-11-04",
         "release_notes": "https://us.download.nvidia.com/Windows/581.80/581.80-win11-win10-release-notes.pdf",
         "still_open": ["5278913", "5432356"],
@@ -2773,6 +2844,7 @@
     {
         "version": "591.44",
         "channels": ["game-ready", "studio"],
+        "branch": "R590",
         "release_date": "2025-12-04",
         "release_notes": "https://us.download.nvidia.com/Windows/591.44/591.44-win11-win10-release-notes.pdf",
         "bugs": [
@@ -2836,6 +2908,7 @@
     {
         "version": "591.59",
         "channels": ["game-ready"],
+        "branch": "R590",
         "release_date": "2025-12-18",
         "release_notes": "https://us.download.nvidia.com/Windows/591.59/591.59-win11-win10-release-notes.pdf",
         "still_open": ["5622213"],
@@ -2870,6 +2943,7 @@
     {
         "version": "591.74",
         "channels": ["game-ready", "studio"],
+        "branch": "R590",
         "release_date": "2026-01-05",
         "release_notes": "https://us.download.nvidia.com/Windows/591.74/591.74-win11-win10-release-notes.pdf",
         "bugs": [
@@ -2908,6 +2982,7 @@
     {
         "version": "591.86",
         "channels": ["game-ready"],
+        "branch": "R590",
         "release_date": "2026-01-27",
         "release_notes": "https://us.download.nvidia.com/Windows/591.86/591.86-win11-win10-release-notes.pdf",
         "still_open": ["5733427"],
@@ -2932,6 +3007,7 @@
     {
         "version": "595.71",
         "channels": ["game-ready"],
+        "branch": "R595",
         "release_date": "2026-03-02",
         "release_notes": "https://us.download.nvidia.com/Windows/595.71/595.71-win11-win10-release-notes.pdf",
         "bugs": [
@@ -2970,6 +3046,7 @@
     {
         "version": "595.79",
         "channels": ["game-ready", "studio"],
+        "branch": "R595",
         "release_date": "2026-03-10",
         "release_notes": "https://us.download.nvidia.com/Windows/595.79/595.79-win11-win10-release-notes.pdf",
         "bugs": [
@@ -3013,6 +3090,7 @@
     {
         "version": "595.97",
         "channels": ["game-ready"],
+        "branch": "R595",
         "release_date": "2026-03-24",
         "release_notes": "https://us.download.nvidia.com/Windows/595.97/595.97-win11-win10-release-notes.pdf",
         "still_open": ["5955501", "5950402"],
@@ -3037,6 +3115,7 @@
     {
         "version": "596.21",
         "channels": ["game-ready"],
+        "branch": "R595",
         "release_date": "2026-04-16",
         "release_notes": "https://us.download.nvidia.com/Windows/596.21/596.21-win11-win10-release-notes.pdf",
         "bugs": [
@@ -3050,6 +3129,7 @@
     {
         "version": "596.36",
         "channels": ["game-ready", "studio"],
+        "branch": "R595",
         "release_date": "2026-04-28",
         "release_notes": "https://us.download.nvidia.com/Windows/596.36/596.36-win11-win10-release-notes.pdf",
         "bugs": [
@@ -3078,6 +3158,7 @@
     {
         "version": "596.49",
         "channels": ["game-ready"],
+        "branch": "R595",
         "release_date": "2026-05-12",
         "release_notes": "https://us.download.nvidia.com/Windows/596.49/596.49-win11-win10-release-notes.pdf",
         "bugs": [
@@ -3096,6 +3177,7 @@
     {
         "version": "610.47",
         "channels": ["game-ready", "studio"],
+        "branch": "R610",
         "release_date": "2026-05-26",
         "release_notes": "https://us.download.nvidia.com/Windows/610.47/610.47-win11-win10-release-notes.pdf",
         "bugs": [
@@ -3144,6 +3226,7 @@
     {
         "version": "610.62",
         "channels": ["game-ready", "studio"],
+        "branch": "R610",
         "release_date": "2026-06-16",
         "release_notes": "https://us.download.nvidia.com/Windows/610.62/610.62-win11-win10-release-notes.pdf",
         "still_open": ["6007998"],
@@ -3203,6 +3286,7 @@
     {
         "version": "610.74",
         "channels": ["game-ready"],
+        "branch": "R610",
         "release_date": "2026-07-07",
         "release_notes": "https://us.download.nvidia.com/Windows/610.74/610.74-win11-win10-release-notes.pdf",
         "still_open": ["6007998"],
@@ -3217,6 +3301,7 @@
     {
         "version": "610.88",
         "channels": ["game-ready", "studio"],
+        "branch": "R610",
         "release_date": "2026-07-28",
         "release_notes": "https://us.download.nvidia.com/Windows/610.88/610.88-win11-win10-release-notes.pdf",
         "still_open": ["6007998"],
@@ -3271,6 +3356,7 @@
     {
         "version": "616.56",
         "channels": ["game-ready", "studio"],
+        "branch": "R615",
         "release_date": "2026-08-26",
         "release_notes": "https://us.download.nvidia.com/Windows/616.56/616.56-win11-win10-release-notes.pdf",
         "still_open": ["6007998"],
@@ -3315,6 +3401,7 @@
     {
         "version": "616.64",
         "channels": ["game-ready"],
+        "branch": "R615",
         "release_date": "2026-09-03",
         "release_notes": "https://us.download.nvidia.com/Windows/616.64/616.64-win11-win10-release-notes.pdf",
         "still_open": ["6007998"],
@@ -3329,6 +3416,7 @@
     {
         "version": "616.92",
         "channels": ["game-ready", "studio"],
+        "branch": "R615",
         "release_date": "2026-09-09",
         "release_notes": "https://us.download.nvidia.com/Windows/616.92/616.92-win11-win10-release-notes.pdf",
         "still_open": ["6007998"],
@@ -3358,6 +3446,7 @@
     {
         "version": "617.14",
         "channels": ["game-ready"],
+        "branch": "R615",
         "release_date": "2026-09-22",
         "release_notes": "https://us.download.nvidia.com/Windows/617.14/617.14-win11-win10-release-notes.pdf",
         "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/590992/geforce-grd-61714-feedback-thread-released-92226/",
@@ -3379,6 +3468,7 @@
     {
         "version": "617.42",
         "channels": ["game-ready", "studio"],
+        "branch": "R615",
         "release_date": "2026-10-06",
         "release_notes": "https://us.download.nvidia.com/Windows/617.42/617.42-win11-win10-release-notes.pdf",
         "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/591391/geforce-grd-61742-feedback-thread-released-10626/",

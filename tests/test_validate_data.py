@@ -140,6 +140,7 @@ class TestValidateData(unittest.TestCase):
 
         valid = entry(
             channels=["game-ready", "studio"],
+            branch="R580",
             release_date="2025-01-01",
             release_notes="https://example.com/release-notes.pdf",
             feedback_thread="https://example.com/forum-thread",
@@ -156,6 +157,13 @@ class TestValidateData(unittest.TestCase):
         self.assertFalse(validate_data(self._create_temp_json(entry(release_notes="http://example.com"))))
         self.assertFalse(validate_data(self._create_temp_json(entry(feedback_thread="www.example.com"))))
         self.assertFalse(validate_data(self._create_temp_json(entry(reddit_thread=42))))
+        self.assertFalse(validate_data(self._create_temp_json(entry(branch="580"))))
+        self.assertFalse(validate_data(self._create_temp_json(entry(branch="r580"))))
+        self.assertFalse(validate_data(self._create_temp_json(entry(branch="R58"))))
+        self.assertFalse(validate_data(self._create_temp_json(entry(branch=580))))
+        # 581.80 can't come from a newer branch than its own number.
+        self.assertFalse(validate_data(self._create_temp_json(entry(branch="R590"))))
+        self.assertTrue(validate_data(self._create_temp_json(entry(branch="R581"))))
 
     def test_still_open(self):
         def data(still_open, fixed_in=None, version="610.62"):

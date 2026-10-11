@@ -31,7 +31,7 @@ export function render(main, { listed: drivers, params }) {
         <h1 class="page-title">Drivers</h1>
         <div class="controls">
             <label class="control control-search">Search
-                <input type="search" id="drivers-q" value="${esc(state.q)}" placeholder="Game, app, bug ID or driver version" autocomplete="off">
+                <input type="search" id="drivers-q" value="${esc(state.q)}" placeholder="Game, app, bug ID, version or branch" autocomplete="off">
             </label>
             <div class="control control-show"><span id="show-label">Show</span>
                 <div class="segmented" role="group" aria-labelledby="show-label">${FILTERS.map(([v, t]) => `<button type="button" data-filter="${v}" aria-pressed="${v === state.filter}">${t}</button>`).join('')}</div>
@@ -60,20 +60,20 @@ export function render(main, { listed: drivers, params }) {
         } else if (grouped) {
             results.innerHTML = shown.map(d => {
                 // A version match shows the whole driver; otherwise only the matching bugs.
-                const versionHit = q && `driver ${lib.formatVersion(d.version)}`.toLowerCase().includes(q);
+                const versionHit = q && (`driver ${lib.formatVersion(d.version)}`.toLowerCase().includes(q) || (d.branch || '').toLowerCase() === q);
                 const bugs = lib.visibleBugs(d, state.filter, versionHit ? '' : q);
                 return `<section class="group" aria-label="Driver ${esc(d.version)}">
-                    <div class="group-head"><a class="version" href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a><span class="quiet">${longDate(d.release_date)} · ${esc(channels(d))}</span></div>
+                    <div class="group-head"><a class="version" href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a><span class="quiet">${longDate(d.release_date)} · ${esc(channels(d))}${d.branch ? ` · ${esc(d.branch)}` : ''}</span></div>
                     ${bugs.length ? bugList(bugs.map(b => bugItem(b, lib.bugStatus(b, d.version), { sub: statusNote(b, d.version), query: q }))) : '<p class="empty">No bugs listed.</p>'}
                 </section>`;
             }).join('');
         } else {
             results.innerHTML = `<table class="data-table">
-                <thead><tr><th scope="col">Version</th><th scope="col">Released</th><th scope="col" class="hide-narrow">Channel</th><th scope="col" class="num">Fixed</th><th scope="col" class="num">Known issues</th><th scope="col" class="num hide-narrow">Carried over</th></tr></thead>
+                <thead><tr><th scope="col">Version</th><th scope="col">Released</th><th scope="col" class="hide-narrow">Channel</th><th scope="col" class="hide-narrow">Branch</th><th scope="col" class="num">Fixed</th><th scope="col" class="num">Known issues</th><th scope="col" class="num hide-narrow">Carried over</th></tr></thead>
                 <tbody>${shown.map(d => {
                     const split = lib.driverBugs(d);
                     const open = split.known.filter(b => b.fixed_in === null).length;
-                    return `<tr data-href="${driverHref(d.version)}"><td class="version"><a href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a></td><td class="date">${esc(d.release_date || '')}</td><td class="quiet hide-narrow">${esc(channels(d))}</td><td class="num">${split.fixed.length}</td><td class="num">${split.known.length}${open ? ` <span class="quiet">(${open} open)</span>` : ''}</td><td class="num hide-narrow">${carried.get(d.version)}</td></tr>`;
+                    return `<tr data-href="${driverHref(d.version)}"><td class="version"><a href="${driverHref(d.version)}" data-nav>${esc(d.version)}</a></td><td class="date">${esc(d.release_date || '')}</td><td class="quiet hide-narrow">${esc(channels(d))}</td><td class="quiet hide-narrow">${esc(d.branch || '')}</td><td class="num">${split.fixed.length}</td><td class="num">${split.known.length}${open ? ` <span class="quiet">(${open} open)</span>` : ''}</td><td class="num hide-narrow">${carried.get(d.version)}</td></tr>`;
                 }).join('')}</tbody></table>`;
         }
         results.insertAdjacentHTML('beforeend', pagination(state.page, pages, page => hrefFor({ ...state, page })));
