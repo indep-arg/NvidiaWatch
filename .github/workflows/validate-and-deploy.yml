@@ -27,6 +27,12 @@ jobs:
         with:
           python-version: '3.12'
 
+      # Pinned so a new runner image can't change the Node that runs the JS tests.
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
       - name: Run Python tests
         run: |
           python -m unittest discover -s tests

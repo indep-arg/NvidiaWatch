@@ -29,7 +29,7 @@ export function render(main, { listed: drivers, params }) {
 
     main.innerHTML = `
         <h1 class="page-title">Drivers</h1>
-        <div class="controls">
+        <div class="controls controls-filters">
             <label class="control control-search">Search
                 <input type="search" id="drivers-q" value="${esc(state.q)}" placeholder="Game, app, bug ID, version or branch" autocomplete="off">
             </label>
@@ -39,11 +39,15 @@ export function render(main, { listed: drivers, params }) {
             <label class="control">Channel<select id="drivers-channel">${options(CHANNELS, state.channel)}</select></label>
             <label class="control">Sort<select id="drivers-sort">${options(SORTS, state.sort)}</select></label>
         </div>
-        <p class="count" id="drivers-count" aria-live="polite"></p>
+        <div class="results-bar">
+            <p class="count" id="drivers-count" aria-live="polite"></p>
+            <button type="button" class="link-button" id="drivers-clear" hidden>Clear filters</button>
+        </div>
         <div id="drivers-results"></div>`;
 
     const results = main.querySelector('#drivers-results');
     const count = main.querySelector('#drivers-count');
+    const clear = main.querySelector('#drivers-clear');
 
     function update() {
         const q = state.q.toLowerCase();
@@ -55,6 +59,7 @@ export function render(main, { listed: drivers, params }) {
         const shown = list.slice((state.page - 1) * perPage, state.page * perPage);
 
         count.textContent = `${list.length} driver${list.length === 1 ? '' : 's'}${q ? ` matching "${state.q}"` : ''}`;
+        clear.hidden = !(q || state.filter !== 'all' || state.channel !== 'all' || state.sort !== 'version-desc');
         if (!list.length) {
             results.innerHTML = '<p class="empty">Nothing matches. Try another word, a bug ID or a version.</p>';
         } else if (grouped) {
@@ -93,6 +98,16 @@ export function render(main, { listed: drivers, params }) {
     }));
     main.querySelector('#drivers-channel').addEventListener('change', e => { state.channel = e.target.value; state.page = 1; update(); });
     main.querySelector('#drivers-sort').addEventListener('change', e => { state.sort = e.target.value; state.page = 1; update(); });
+    // Back to every driver, newest first, and to the search box.
+    clear.addEventListener('click', () => {
+        Object.assign(state, { q: '', filter: 'all', channel: 'all', sort: 'version-desc', page: 1 });
+        main.querySelector('#drivers-q').value = '';
+        main.querySelector('#drivers-channel').value = 'all';
+        main.querySelector('#drivers-sort').value = 'version-desc';
+        main.querySelectorAll('[data-filter]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.filter === 'all')));
+        update();
+        main.querySelector('#drivers-q').focus();
+    });
 
     update();
     return 'Drivers';
