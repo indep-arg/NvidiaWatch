@@ -231,9 +231,8 @@
 <rect x="592.79" y="150.2" width="9.47" height="2.4" fill="#e8703a"/>
 <rect x="592.79" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
 </g>
-<g><title>560.94: 2 known issues (1 fixed later, 1 still open), 2 bugs fixed in this driver</title>
-<rect x="605.26" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="605.26" y="154.6" width="9.47" height="2.4" fill="#e8703a"/>
+<g><title>560.94: 2 known issues (2 fixed later, 0 still open), 2 bugs fixed in this driver</title>
+<rect x="605.26" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
 <rect x="605.26" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>561.09: 1 known issues (1 fixed later, 0 still open), 3 bugs fixed in this driver</title>

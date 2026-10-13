@@ -335,10 +335,10 @@ test('fixedElsewhere connects an open entry to the same ID fixed in that driver 
     assert.equal(lib.fixedElsewhere(drivers, drivers[1].bugs[0], '528.49'), null);
 });
 
-test('real data: only the open entry whose ID was fixed elsewhere gets the note', () => {
+test('real data: no open entry has its ID fixed in another entry', () => {
     const data = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'docs', 'drivers.json'), 'utf8'));
     const found = data.flatMap(d => d.bugs.map(b => [d.version, b.ids[0], lib.fixedElsewhere(data, b, d.version)])).filter(x => x[2]);
-    assert.deepEqual(found.map(([v, id, f]) => [v, id, f.to]), [['560.94', '4679970', '561.09']]);
+    assert.deepEqual(found.map(([v, id, f]) => [v, id, f.to]), []);
 });
 
 test('withRelisted adds the open issues a driver repeated, from the latest earlier entry', () => {
