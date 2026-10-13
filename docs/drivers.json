@@ -1146,6 +1146,32 @@
         ]
     },
     {
+        "version": "551.31",
+        "channels": ["game-ready"],
+        "branch": "R550",
+        "build_branch": "r551_06-16",
+        "release_date": "2024-01-31",
+        "release_notes": "https://us.download.nvidia.com/Windows/551.31/551.31-win11-win10-release-notes.pdf",
+        "still_open": ["4388454", "4009884", "4362307"],
+        "bugs": [
+            {
+                "description": "Forza Horizon 4: Ansel/ Freestyle filters cause application to freeze or crash",
+                "ids": ["4253513"],
+                "fixed_in": "Fixed (551.31)"
+            },
+            {
+                "description": "RTX 4060 Ti: Display may randomly flicker with a black bar on the top of the screen when using desktop apps",
+                "ids": ["4239893"],
+                "fixed_in": "Fixed (551.31)"
+            },
+            {
+                "description": "Horizontal band may appear when cloning a G-SYNC display to HDMI monitor",
+                "ids": ["4103923", "4343427"],
+                "fixed_in": "Fixed (551.31)"
+            }
+        ]
+    },
+    {
         "version": "551.52",
         "channels": ["game-ready"],
         "branch": "R550",

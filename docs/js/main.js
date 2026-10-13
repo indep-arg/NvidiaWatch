@@ -17,8 +17,9 @@ const VIEWS = { home, drivers: driversView, driver: driverView, bugs: bugsView, 
 const SECTION = { home: 'home', drivers: 'drivers', driver: 'drivers', bugs: 'bugs', bug: 'bugs', trends: 'trends', about: 'about' };
 
 function routeFor(params) {
-    if (params.has('driver')) return 'driver';
-    if (params.has('bug')) return 'bug';
+    // An empty ?driver= or ?bug= goes to the list instead of a "not found" page.
+    if (params.has('driver')) return params.get('driver').trim() ? 'driver' : 'drivers';
+    if (params.has('bug')) return params.get('bug').replace(/^#/, '').trim() ? 'bug' : 'bugs';
     const view = params.get('view');
     if (view in VIEWS && view !== 'driver' && view !== 'bug') return view;
     return 'home';
@@ -88,9 +89,13 @@ themeButton.addEventListener('click', () => {
 });
 syncThemeButton();
 
+// Both files are requested together; the page preloads them too.
+const driversRequest = fetch('drivers.json');
+const eventsRequest = fetch('events.json').catch(() => null);
+
 async function load() {
     try {
-        const response = await fetch('drivers.json');
+        const response = await driversRequest;
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         state.drivers = await response.json();
         state.listed = window.NvidiaWatch.asListed(state.drivers);
@@ -103,8 +108,8 @@ async function load() {
     }
     // Launch markers are extra; the site works without them.
     try {
-        const response = await fetch('events.json');
-        if (response.ok) state.events = await response.json();
+        const response = await eventsRequest;
+        if (response && response.ok) state.events = await response.json();
     } catch { /* no launch markers */ }
 
     render();
