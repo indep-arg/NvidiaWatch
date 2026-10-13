@@ -1595,7 +1595,7 @@
         "build_branch": "r560_88-4",
         "release_date": "2024-08-20",
         "release_notes": "https://us.download.nvidia.com/Windows/560.94/560.94-win11-win10-release-notes.pdf",
-        "still_open": ["4790774"],
+        "still_open": ["4679970", "4790774"],
         "bugs": [
             {
                 "description": "GeForce Experience unable to locate Counter-Strike 2",
@@ -1606,11 +1606,6 @@
                 "description": "[Octane Benchmark]: Unable to finish octane benchmark",
                 "ids": ["4744794"],
                 "fixed_in": "Fixed (560.94)"
-            },
-            {
-                "description": "[GeForce Experience] Performance Monitoring overlay may stop refreshing GPU information",
-                "ids": ["4679970"],
-                "fixed_in": null
             }
         ]
     },
