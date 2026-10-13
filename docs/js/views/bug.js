@@ -82,7 +82,7 @@ export function render(main, { drivers, params }) {
         <section class="section" aria-labelledby="bug-where">
             <h2 class="section-title" id="bug-where">Where it appears</h2>
             <table class="data-table">
-                <thead><tr><th scope="col">Driver</th><th scope="col" class="hide-narrow">Branch</th><th scope="col" class="hide-narrow">Build</th><th scope="col">Released</th><th scope="col">What the data says</th></tr></thead>
+                <thead><tr><th scope="col">Driver</th><th scope="col" class="hide-narrow">Branch</th><th scope="col" class="hide-narrow">Build</th><th scope="col">Released</th><th scope="col">Status</th></tr></thead>
                 <tbody>${rows.map(r => `<tr><td class="version"><a href="${driverHref(r.driver.version)}" data-nav>${esc(r.driver.version)}</a></td><td class="quiet hide-narrow">${esc(r.driver.branch || '')}</td><td class="hide-narrow"><span class="build">${esc(r.driver.build_branch || '')}</span></td><td class="date">${esc(r.driver.release_date || '')}</td><td>${esc(r.what)}</td></tr>`).join('')}</tbody>
             </table>
             ${fixVersion && !byVersion.has(fixVersion) ? `<p class="explain spaced">Fixed in ${esc(fixVersion)}, a driver that isn't tracked here.</p>` : ''}

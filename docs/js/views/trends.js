@@ -25,6 +25,7 @@ export function render(main, { listed: drivers, events, params, navigate }) {
 
     main.innerHTML = `
         <h1 class="page-title">Trends</h1>
+        <p class="explain">Each bar is one driver. Above the line are the known issues it shipped with, below it the bugs it fixed. A taller bar just means more of them, not a better or worse driver. Click a bar to open that driver.</p>
         <nav class="tabs" aria-label="Chart range">${RANGES.map(([r, t]) => `<a href="${href(r, carried)}" data-nav${r === range ? ' aria-current="page"' : ''}>${t}</a>`).join('')}</nav>
         <div class="toolbar">
             ${legendHTML({ carried, launches: timeline })}

@@ -49,7 +49,7 @@ export function render(main, { drivers, listed, events, navigate }) {
                     ${known.length
                         ? bugList(known.map(b => bugItem(b, lib.bugStatus(b, latest.version), { sub: statusNote(b, latest.version) })))
                         : '<p class="empty">NVIDIA listed no known issues for this driver.</p>'}
-                    <p class="explain spaced">Also ${olderOpen} known issue${olderOpen === 1 ? '' : 's'} from earlier drivers with no fix logged yet that this driver's notes don't mention. <a href="?view=bugs" data-nav>See them</a>.</p>
+                    <p class="explain spaced">${olderOpen === 1 ? '1 older known issue still has no fix logged, but this driver\'s notes don\'t mention it.' : `${olderOpen} older known issues still have no fix logged, but this driver's notes don't mention them.`} <a href="?view=bugs" data-nav>See all open bugs</a>.</p>
                 </section>
             </div>
             <aside aria-label="Overview">
@@ -57,11 +57,13 @@ export function render(main, { drivers, listed, events, navigate }) {
                     <h2>In numbers</h2>
                     <dl class="figures">
                         <dt>${stats.drivers}</dt><dd>drivers tracked</dd>
-                        <dt>${stats.known}</dt><dd>known issues NVIDIA listed</dd>
-                        <dt>${stats.fixedLaterRate}%</dt><dd>of them fixed later</dd>
+                        <dt>${stats.bugs}</dt><dd>bugs logged</dd>
+                        <dt>${stats.known}</dt><dd>of them listed as known issues</dd>
+                        <dt>${stats.fixedLaterRate}%</dt><dd>of those fixed later</dd>
                         <dt>${stats.pending}</dt><dd>still open</dd>
                         <dt>${fixes}</dt><dd>fixes across all drivers</dd>
                     </dl>
+                    <p class="explain">Each bug counts once, however many drivers list it. Fixes count every bug a driver fixed, including known issues from earlier drivers.</p>
                 </div>
                 ${studio ? `<div class="side-box">
                     <h2>Latest Studio driver</h2>
@@ -87,6 +89,7 @@ export function render(main, { drivers, listed, events, navigate }) {
             </section>
             <section aria-labelledby="home-chart">
                 <h2 class="section-title" id="home-chart">Last 12 drivers</h2>
+                <p class="explain">Each bar is one driver. Above the line are the known issues it shipped with, below it the bugs it fixed. A taller bar just means more of them, not a better or worse driver.</p>
                 ${legendHTML()}
                 <div id="home-chart-box"></div>
                 <p class="count"><a href="?view=trends" data-nav>All trends</a></p>

@@ -21,7 +21,7 @@ function niceStep(unit, max) {
 export function describe(item, { carried = false, launches } = {}) {
     const plural = (n, word, many = `${word}s`) => `${n} ${n === 1 ? word : many}`;
     let text = `Driver ${item.version}${item.date ? ` (${item.date})` : ''}: ${plural(item.known, 'known issue')}`
-        + ` (${item.fixedLater} fixed later, ${item.pending} still open), ${plural(item.fixed, 'fix', 'fixes')}`;
+        + ` (${item.fixedLater} fixed later, ${item.pending} still open) and ${plural(item.fixed, 'fix', 'fixes')}`;
     if (carried) text += `, ${item.carried} carried over from earlier drivers`;
     if (launches && launches.length) text += `. Launch driver for ${launches.join(', ')}`;
     return text;
@@ -185,18 +185,21 @@ function draw(container, series, options) {
 
     scroll.appendChild(svg);
     scroll.scrollLeft = scroll.scrollWidth;
-    readout.textContent = `${series.length} drivers. Hover, tap or focus a bar for details.`;
+    readout.textContent = `${series.length} drivers. Hover over or tap a bar to see its numbers.`;
 }
 
 export function legendHTML({ carried = false, launches = false } = {}) {
     const items = [
-        ['later', 'Known issue, fixed later'],
-        ['open', 'Known issue, still open'],
-        ...(carried ? [['carried', 'Carried over from an earlier driver']] : []),
-        ['fixed', 'Fixed in that driver'],
+        ['head', 'Above the line, known issues:'],
+        ['later', 'fixed later'],
+        ['open', 'still open'],
+        ...(carried ? [['carried', 'carried over from an earlier driver']] : []),
+        ['head', 'Below the line:'],
+        ['fixed', 'bugs fixed in that driver'],
         ...(launches ? [['band', 'GPU launch period']] : []),
     ];
     return `<ul class="legend">${items.map(([color, text]) => {
+        if (color === 'head') return `${text.startsWith('Below') ? '<li class="legend-break" aria-hidden="true"></li>' : ''}<li class="legend-head">${esc(text)}</li>`;
         const swatch = color === 'carried' ? '<span class="swatch swatch-carried"></span>'
             : color === 'band' ? '<span class="swatch swatch-band"></span>'
             : `<span class="swatch swatch-${color}"></span>`;
