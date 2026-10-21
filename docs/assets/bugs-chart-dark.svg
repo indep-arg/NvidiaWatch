@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400" role="img" aria-label="Bugs by driver: known issues above the line, bugs fixed in that driver below it">
 <rect x="0" y="0" width="1200" height="400" rx="14" fill="#18191c" stroke="#3a3d42"/>
 <text x="44" y="34" font-family="'IBM Plex Sans', 'Segoe UI', sans-serif" font-weight="600" font-size="20" fill="#ecebe7">Bugs by driver</text>
-<text x="44" y="56" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="12" fill="#a2a3a7">91 driver versions &#183; 526.47 &#8594; 617.42 &#183; <tspan fill="#8fb4ff">576.40 had the most known issues (19)</tspan></text>
+<text x="44" y="56" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="12" fill="#a2a3a7">92 driver versions &#183; 526.47 &#8594; 621.01 &#183; <tspan fill="#8fb4ff">576.40 had the most known issues (19)</tspan></text>
 <text x="1176" y="34" text-anchor="end" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="12" fill="#a2a3a7">Known issues: <tspan fill="#e69f00">&#9679;</tspan> Fixed later &#160;<tspan fill="#e8703a">&#9679;</tspan> Still open</text>
 <text x="1176" y="56" text-anchor="end" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="12" fill="#a2a3a7">Below the line: <tspan fill="#2fb58f">&#9679;</tspan> Fixed in this driver</text>
 <line x1="44" y1="76.0" x2="1176" y2="76.0" stroke="#2a2c30" stroke-width="1"/>
@@ -9,427 +9,430 @@
 <line x1="44" y1="338.0" x2="1176" y2="338.0" stroke="#2a2c30" stroke-width="1"/>
 <text x="44" y="333.0" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="10" fill="#a2a3a7">40 fixed</text>
 <g><title>526.47: 16 known issues (13 fixed later, 3 still open), 6 bugs fixed in this driver</title>
-<rect x="44.00" y="106.6" width="9.47" height="55.8" fill="#e69f00"/>
-<rect x="44.00" y="93.5" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="44.00" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="44.00" y="106.6" width="9.34" height="55.8" fill="#e69f00"/>
+<rect x="44.00" y="93.5" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="44.00" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>526.86: 9 known issues (7 fixed later, 2 still open), 8 bugs fixed in this driver</title>
-<rect x="56.47" y="132.8" width="9.47" height="29.6" fill="#e69f00"/>
-<rect x="56.47" y="124.0" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="56.47" y="164.3" width="9.47" height="33.9" fill="#2fb58f"/>
+<rect x="56.34" y="132.8" width="9.34" height="29.6" fill="#e69f00"/>
+<rect x="56.34" y="124.0" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="56.34" y="164.3" width="9.34" height="33.9" fill="#2fb58f"/>
 </g>
 <g><title>526.98: 9 known issues (7 fixed later, 2 still open), 6 bugs fixed in this driver</title>
-<rect x="68.95" y="132.8" width="9.47" height="29.6" fill="#e69f00"/>
-<rect x="68.95" y="124.0" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="68.95" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="68.67" y="132.8" width="9.34" height="29.6" fill="#e69f00"/>
+<rect x="68.67" y="124.0" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="68.67" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>527.37: 12 known issues (7 fixed later, 5 still open), 5 bugs fixed in this driver</title>
-<rect x="81.42" y="132.8" width="9.47" height="29.6" fill="#e69f00"/>
-<rect x="81.42" y="110.9" width="9.47" height="19.8" fill="#e8703a"/>
-<rect x="81.42" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="81.01" y="132.8" width="9.34" height="29.6" fill="#e69f00"/>
+<rect x="81.01" y="110.9" width="9.34" height="19.8" fill="#e8703a"/>
+<rect x="81.01" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>527.56: 7 known issues (3 fixed later, 4 still open), 5 bugs fixed in this driver</title>
-<rect x="93.89" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="93.89" y="132.8" width="9.47" height="15.5" fill="#e8703a"/>
-<rect x="93.89" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="93.35" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="93.35" y="132.8" width="9.34" height="15.5" fill="#e8703a"/>
+<rect x="93.35" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>528.02: 8 known issues (5 fixed later, 3 still open), 6 bugs fixed in this driver</title>
-<rect x="106.36" y="141.5" width="9.47" height="20.8" fill="#e69f00"/>
-<rect x="106.36" y="128.4" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="106.36" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="105.68" y="141.5" width="9.34" height="20.8" fill="#e69f00"/>
+<rect x="105.68" y="128.4" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="105.68" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>528.24: 9 known issues (6 fixed later, 3 still open), 5 bugs fixed in this driver</title>
-<rect x="118.84" y="137.1" width="9.47" height="25.2" fill="#e69f00"/>
-<rect x="118.84" y="124.0" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="118.84" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="118.02" y="137.1" width="9.34" height="25.2" fill="#e69f00"/>
+<rect x="118.02" y="124.0" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="118.02" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>528.49: 8 known issues (5 fixed later, 3 still open), 3 bugs fixed in this driver</title>
-<rect x="131.31" y="141.5" width="9.47" height="20.8" fill="#e69f00"/>
-<rect x="131.31" y="128.4" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="131.31" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="130.36" y="141.5" width="9.34" height="20.8" fill="#e69f00"/>
+<rect x="130.36" y="128.4" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="130.36" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>531.18: 13 known issues (10 fixed later, 3 still open), 4 bugs fixed in this driver</title>
-<rect x="143.78" y="119.7" width="9.47" height="42.7" fill="#e69f00"/>
-<rect x="143.78" y="106.6" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="143.78" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
+<rect x="142.70" y="119.7" width="9.34" height="42.7" fill="#e69f00"/>
+<rect x="142.70" y="106.6" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="142.70" y="164.3" width="9.34" height="16.5" fill="#2fb58f"/>
 </g>
 <g><title>531.29: 9 known issues (6 fixed later, 3 still open), 3 bugs fixed in this driver</title>
-<rect x="156.25" y="137.1" width="9.47" height="25.2" fill="#e69f00"/>
-<rect x="156.25" y="124.0" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="156.25" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="155.03" y="137.1" width="9.34" height="25.2" fill="#e69f00"/>
+<rect x="155.03" y="124.0" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="155.03" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>531.41: 15 known issues (8 fixed later, 7 still open), 7 bugs fixed in this driver</title>
-<rect x="168.73" y="128.4" width="9.47" height="33.9" fill="#e69f00"/>
-<rect x="168.73" y="97.8" width="9.47" height="28.6" fill="#e8703a"/>
-<rect x="168.73" y="164.3" width="9.47" height="29.6" fill="#2fb58f"/>
+<rect x="167.37" y="128.4" width="9.34" height="33.9" fill="#e69f00"/>
+<rect x="167.37" y="97.8" width="9.34" height="28.6" fill="#e8703a"/>
+<rect x="167.37" y="164.3" width="9.34" height="29.6" fill="#2fb58f"/>
 </g>
 <g><title>531.61: 11 known issues (5 fixed later, 6 still open), 4 bugs fixed in this driver</title>
-<rect x="181.20" y="141.5" width="9.47" height="20.8" fill="#e69f00"/>
-<rect x="181.20" y="115.3" width="9.47" height="24.2" fill="#e8703a"/>
-<rect x="181.20" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
+<rect x="179.71" y="141.5" width="9.34" height="20.8" fill="#e69f00"/>
+<rect x="179.71" y="115.3" width="9.34" height="24.2" fill="#e8703a"/>
+<rect x="179.71" y="164.3" width="9.34" height="16.5" fill="#2fb58f"/>
 </g>
 <g><title>531.68: 16 known issues (10 fixed later, 6 still open), 3 bugs fixed in this driver</title>
-<rect x="193.67" y="119.7" width="9.47" height="42.7" fill="#e69f00"/>
-<rect x="193.67" y="93.5" width="9.47" height="24.2" fill="#e8703a"/>
-<rect x="193.67" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="192.04" y="119.7" width="9.34" height="42.7" fill="#e69f00"/>
+<rect x="192.04" y="93.5" width="9.34" height="24.2" fill="#e8703a"/>
+<rect x="192.04" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>531.79: 15 known issues (9 fixed later, 6 still open), 2 bugs fixed in this driver</title>
-<rect x="206.14" y="124.0" width="9.47" height="38.3" fill="#e69f00"/>
-<rect x="206.14" y="97.8" width="9.47" height="24.2" fill="#e8703a"/>
-<rect x="206.14" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="204.38" y="124.0" width="9.34" height="38.3" fill="#e69f00"/>
+<rect x="204.38" y="97.8" width="9.34" height="24.2" fill="#e8703a"/>
+<rect x="204.38" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>532.03: 5 known issues (3 fixed later, 2 still open), 2 bugs fixed in this driver</title>
-<rect x="218.62" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="218.62" y="141.5" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="218.62" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="216.72" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="216.72" y="141.5" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="216.72" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>535.98: 16 known issues (10 fixed later, 6 still open), 6 bugs fixed in this driver</title>
-<rect x="231.09" y="119.7" width="9.47" height="42.7" fill="#e69f00"/>
-<rect x="231.09" y="93.5" width="9.47" height="24.2" fill="#e8703a"/>
-<rect x="231.09" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="229.05" y="119.7" width="9.34" height="42.7" fill="#e69f00"/>
+<rect x="229.05" y="93.5" width="9.34" height="24.2" fill="#e8703a"/>
+<rect x="229.05" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>536.23: 8 known issues (5 fixed later, 3 still open), 7 bugs fixed in this driver</title>
-<rect x="243.56" y="141.5" width="9.47" height="20.8" fill="#e69f00"/>
-<rect x="243.56" y="128.4" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="243.56" y="164.3" width="9.47" height="29.6" fill="#2fb58f"/>
+<rect x="241.39" y="141.5" width="9.34" height="20.8" fill="#e69f00"/>
+<rect x="241.39" y="128.4" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="241.39" y="164.3" width="9.34" height="29.6" fill="#2fb58f"/>
 </g>
 <g><title>536.40: 8 known issues (5 fixed later, 3 still open), 4 bugs fixed in this driver</title>
-<rect x="256.03" y="141.5" width="9.47" height="20.8" fill="#e69f00"/>
-<rect x="256.03" y="128.4" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="256.03" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
+<rect x="253.73" y="141.5" width="9.34" height="20.8" fill="#e69f00"/>
+<rect x="253.73" y="128.4" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="253.73" y="164.3" width="9.34" height="16.5" fill="#2fb58f"/>
 </g>
 <g><title>536.67: 12 known issues (9 fixed later, 3 still open), 3 bugs fixed in this driver</title>
-<rect x="268.51" y="124.0" width="9.47" height="38.3" fill="#e69f00"/>
-<rect x="268.51" y="110.9" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="268.51" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="266.07" y="124.0" width="9.34" height="38.3" fill="#e69f00"/>
+<rect x="266.07" y="110.9" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="266.07" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>536.99: 8 known issues (6 fixed later, 2 still open), 5 bugs fixed in this driver</title>
-<rect x="280.98" y="137.1" width="9.47" height="25.2" fill="#e69f00"/>
-<rect x="280.98" y="128.4" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="280.98" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="278.40" y="137.1" width="9.34" height="25.2" fill="#e69f00"/>
+<rect x="278.40" y="128.4" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="278.40" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>537.13: 11 known issues (8 fixed later, 3 still open), 1 bugs fixed in this driver</title>
-<rect x="293.45" y="128.4" width="9.47" height="33.9" fill="#e69f00"/>
-<rect x="293.45" y="115.3" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="293.45" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="290.74" y="128.4" width="9.34" height="33.9" fill="#e69f00"/>
+<rect x="290.74" y="115.3" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="290.74" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>537.34: 10 known issues (7 fixed later, 3 still open), 2 bugs fixed in this driver</title>
-<rect x="305.92" y="132.8" width="9.47" height="29.6" fill="#e69f00"/>
-<rect x="305.92" y="119.7" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="305.92" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="303.08" y="132.8" width="9.34" height="29.6" fill="#e69f00"/>
+<rect x="303.08" y="119.7" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="303.08" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>537.42: 11 known issues (8 fixed later, 3 still open), 2 bugs fixed in this driver</title>
-<rect x="318.40" y="128.4" width="9.47" height="33.9" fill="#e69f00"/>
-<rect x="318.40" y="115.3" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="318.40" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="315.41" y="128.4" width="9.34" height="33.9" fill="#e69f00"/>
+<rect x="315.41" y="115.3" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="315.41" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>537.58: 9 known issues (6 fixed later, 3 still open), 3 bugs fixed in this driver</title>
-<rect x="330.87" y="137.1" width="9.47" height="25.2" fill="#e69f00"/>
-<rect x="330.87" y="124.0" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="330.87" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="327.75" y="137.1" width="9.34" height="25.2" fill="#e69f00"/>
+<rect x="327.75" y="124.0" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="327.75" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>545.84: 12 known issues (9 fixed later, 3 still open), 2 bugs fixed in this driver</title>
-<rect x="343.34" y="124.0" width="9.47" height="38.3" fill="#e69f00"/>
-<rect x="343.34" y="110.9" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="343.34" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="340.09" y="124.0" width="9.34" height="38.3" fill="#e69f00"/>
+<rect x="340.09" y="110.9" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="340.09" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>545.92: 12 known issues (10 fixed later, 2 still open), 1 bugs fixed in this driver</title>
-<rect x="355.81" y="119.7" width="9.47" height="42.7" fill="#e69f00"/>
-<rect x="355.81" y="110.9" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="355.81" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="352.42" y="119.7" width="9.34" height="42.7" fill="#e69f00"/>
+<rect x="352.42" y="110.9" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="352.42" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>546.01: 16 known issues (12 fixed later, 4 still open), 5 bugs fixed in this driver</title>
-<rect x="368.29" y="110.9" width="9.47" height="51.4" fill="#e69f00"/>
-<rect x="368.29" y="93.5" width="9.47" height="15.5" fill="#e8703a"/>
-<rect x="368.29" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="364.76" y="110.9" width="9.34" height="51.4" fill="#e69f00"/>
+<rect x="364.76" y="93.5" width="9.34" height="15.5" fill="#e8703a"/>
+<rect x="364.76" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>546.17: 10 known issues (8 fixed later, 2 still open), 10 bugs fixed in this driver</title>
-<rect x="380.76" y="128.4" width="9.47" height="33.9" fill="#e69f00"/>
-<rect x="380.76" y="119.7" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="380.76" y="164.3" width="9.47" height="42.7" fill="#2fb58f"/>
+<rect x="377.10" y="128.4" width="9.34" height="33.9" fill="#e69f00"/>
+<rect x="377.10" y="119.7" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="377.10" y="164.3" width="9.34" height="42.7" fill="#2fb58f"/>
 </g>
 <g><title>546.29: 9 known issues (7 fixed later, 2 still open), 1 bugs fixed in this driver</title>
-<rect x="393.23" y="132.8" width="9.47" height="29.6" fill="#e69f00"/>
-<rect x="393.23" y="124.0" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="393.23" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="389.43" y="132.8" width="9.34" height="29.6" fill="#e69f00"/>
+<rect x="389.43" y="124.0" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="389.43" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>546.33: 8 known issues (6 fixed later, 2 still open), 5 bugs fixed in this driver</title>
-<rect x="405.70" y="137.1" width="9.47" height="25.2" fill="#e69f00"/>
-<rect x="405.70" y="128.4" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="405.70" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="401.77" y="137.1" width="9.34" height="25.2" fill="#e69f00"/>
+<rect x="401.77" y="128.4" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="401.77" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>546.65: 6 known issues (4 fixed later, 2 still open), 2 bugs fixed in this driver</title>
-<rect x="418.18" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="418.18" y="137.1" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="418.18" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="414.11" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="414.11" y="137.1" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="414.11" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>551.23: 9 known issues (5 fixed later, 4 still open), 3 bugs fixed in this driver</title>
-<rect x="430.65" y="141.5" width="9.47" height="20.8" fill="#e69f00"/>
-<rect x="430.65" y="124.0" width="9.47" height="15.5" fill="#e8703a"/>
-<rect x="430.65" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="426.45" y="141.5" width="9.34" height="20.8" fill="#e69f00"/>
+<rect x="426.45" y="124.0" width="9.34" height="15.5" fill="#e8703a"/>
+<rect x="426.45" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>551.31: 3 known issues (2 fixed later, 1 still open), 3 bugs fixed in this driver</title>
-<rect x="443.12" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="443.12" y="150.2" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="443.12" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="438.78" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="438.78" y="150.2" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="438.78" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>551.52: 4 known issues (3 fixed later, 1 still open), 5 bugs fixed in this driver</title>
-<rect x="455.59" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="455.59" y="145.9" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="455.59" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="451.12" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="451.12" y="145.9" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="451.12" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>551.61: 4 known issues (3 fixed later, 1 still open), 6 bugs fixed in this driver</title>
-<rect x="468.07" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="468.07" y="145.9" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="468.07" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="463.46" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="463.46" y="145.9" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="463.46" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>551.76: 4 known issues (3 fixed later, 1 still open), 3 bugs fixed in this driver</title>
-<rect x="480.54" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="480.54" y="145.9" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="480.54" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="475.79" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="475.79" y="145.9" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="475.79" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>551.86: 4 known issues (3 fixed later, 1 still open), 7 bugs fixed in this driver</title>
-<rect x="493.01" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="493.01" y="145.9" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="493.01" y="164.3" width="9.47" height="29.6" fill="#2fb58f"/>
+<rect x="488.13" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="488.13" y="145.9" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="488.13" y="164.3" width="9.34" height="29.6" fill="#2fb58f"/>
 </g>
 <g><title>552.12: 7 known issues (5 fixed later, 2 still open), 1 bugs fixed in this driver</title>
-<rect x="505.48" y="141.5" width="9.47" height="20.8" fill="#e69f00"/>
-<rect x="505.48" y="132.8" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="505.48" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="500.47" y="141.5" width="9.34" height="20.8" fill="#e69f00"/>
+<rect x="500.47" y="132.8" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="500.47" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>552.22: 5 known issues (3 fixed later, 2 still open), 7 bugs fixed in this driver</title>
-<rect x="517.96" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="517.96" y="141.5" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="517.96" y="164.3" width="9.47" height="29.6" fill="#2fb58f"/>
+<rect x="512.80" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="512.80" y="141.5" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="512.80" y="164.3" width="9.34" height="29.6" fill="#2fb58f"/>
 </g>
 <g><title>552.44: 3 known issues (3 fixed later, 0 still open), 1 bugs fixed in this driver</title>
-<rect x="530.43" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="530.43" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="525.14" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="525.14" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>555.85: 8 known issues (6 fixed later, 2 still open), 3 bugs fixed in this driver</title>
-<rect x="542.90" y="137.1" width="9.47" height="25.2" fill="#e69f00"/>
-<rect x="542.90" y="128.4" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="542.90" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="537.48" y="137.1" width="9.34" height="25.2" fill="#e69f00"/>
+<rect x="537.48" y="128.4" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="537.48" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>555.99: 7 known issues (4 fixed later, 3 still open), 6 bugs fixed in this driver</title>
-<rect x="555.37" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="555.37" y="132.8" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="555.37" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="549.82" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="549.82" y="132.8" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="549.82" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>556.12: 4 known issues (4 fixed later, 0 still open), 4 bugs fixed in this driver</title>
-<rect x="567.85" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="567.85" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
+<rect x="562.15" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="562.15" y="164.3" width="9.34" height="16.5" fill="#2fb58f"/>
 </g>
 <g><title>560.70: 6 known issues (4 fixed later, 2 still open), 4 bugs fixed in this driver</title>
-<rect x="580.32" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="580.32" y="137.1" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="580.32" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
+<rect x="574.49" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="574.49" y="137.1" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="574.49" y="164.3" width="9.34" height="16.5" fill="#2fb58f"/>
 </g>
 <g><title>560.81: 3 known issues (2 fixed later, 1 still open), 4 bugs fixed in this driver</title>
-<rect x="592.79" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="592.79" y="150.2" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="592.79" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
+<rect x="586.83" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="586.83" y="150.2" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="586.83" y="164.3" width="9.34" height="16.5" fill="#2fb58f"/>
 </g>
 <g><title>560.94: 2 known issues (2 fixed later, 0 still open), 2 bugs fixed in this driver</title>
-<rect x="605.26" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="605.26" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="599.16" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="599.16" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>561.09: 1 known issues (1 fixed later, 0 still open), 3 bugs fixed in this driver</title>
-<rect x="617.74" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="617.74" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="611.50" y="159.0" width="9.34" height="3.4" fill="#e69f00"/>
+<rect x="611.50" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>565.90: 8 known issues (4 fixed later, 4 still open), 5 bugs fixed in this driver</title>
-<rect x="630.21" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="630.21" y="128.4" width="9.47" height="15.5" fill="#e8703a"/>
-<rect x="630.21" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="623.84" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="623.84" y="128.4" width="9.34" height="15.5" fill="#e8703a"/>
+<rect x="623.84" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>566.03: 8 known issues (4 fixed later, 4 still open), 1 bugs fixed in this driver</title>
-<rect x="642.68" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="642.68" y="128.4" width="9.47" height="15.5" fill="#e8703a"/>
-<rect x="642.68" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="636.17" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="636.17" y="128.4" width="9.34" height="15.5" fill="#e8703a"/>
+<rect x="636.17" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>566.14: 4 known issues (2 fixed later, 2 still open), 5 bugs fixed in this driver</title>
-<rect x="655.15" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="655.15" y="145.9" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="655.15" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="648.51" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="648.51" y="145.9" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="648.51" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>566.36: 4 known issues (3 fixed later, 1 still open), 1 bugs fixed in this driver</title>
-<rect x="667.63" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="667.63" y="145.9" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="667.63" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="660.85" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="660.85" y="145.9" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="660.85" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>572.16: 15 known issues (9 fixed later, 6 still open), 6 bugs fixed in this driver</title>
-<rect x="680.10" y="124.0" width="9.47" height="38.3" fill="#e69f00"/>
-<rect x="680.10" y="97.8" width="9.47" height="24.2" fill="#e8703a"/>
-<rect x="680.10" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="673.18" y="124.0" width="9.34" height="38.3" fill="#e69f00"/>
+<rect x="673.18" y="97.8" width="9.34" height="24.2" fill="#e8703a"/>
+<rect x="673.18" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>572.42: 8 known issues (8 fixed later, 0 still open), 5 bugs fixed in this driver</title>
-<rect x="692.57" y="128.4" width="9.47" height="33.9" fill="#e69f00"/>
-<rect x="692.57" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="685.52" y="128.4" width="9.34" height="33.9" fill="#e69f00"/>
+<rect x="685.52" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>572.47: 8 known issues (8 fixed later, 0 still open), 1 bugs fixed in this driver</title>
-<rect x="705.04" y="128.4" width="9.47" height="33.9" fill="#e69f00"/>
-<rect x="705.04" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="697.86" y="128.4" width="9.34" height="33.9" fill="#e69f00"/>
+<rect x="697.86" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>572.60: 3 known issues (3 fixed later, 0 still open), 6 bugs fixed in this driver</title>
-<rect x="717.52" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="717.52" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="710.20" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="710.20" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>572.70: 11 known issues (11 fixed later, 0 still open), 1 bugs fixed in this driver</title>
-<rect x="729.99" y="115.3" width="9.47" height="47.0" fill="#e69f00"/>
-<rect x="729.99" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="722.53" y="115.3" width="9.34" height="47.0" fill="#e69f00"/>
+<rect x="722.53" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>572.83: 15 known issues (14 fixed later, 1 still open), 6 bugs fixed in this driver</title>
-<rect x="742.46" y="102.2" width="9.47" height="60.1" fill="#e69f00"/>
-<rect x="742.46" y="97.8" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="742.46" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="734.87" y="102.2" width="9.34" height="60.1" fill="#e69f00"/>
+<rect x="734.87" y="97.8" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="734.87" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>576.02: 16 known issues (13 fixed later, 3 still open), 38 bugs fixed in this driver</title>
-<rect x="754.93" y="106.6" width="9.47" height="55.8" fill="#e69f00"/>
-<rect x="754.93" y="93.5" width="9.47" height="11.1" fill="#e8703a"/>
-<rect x="754.93" y="164.3" width="9.47" height="164.9" fill="#2fb58f"/>
+<rect x="747.21" y="106.6" width="9.34" height="55.8" fill="#e69f00"/>
+<rect x="747.21" y="93.5" width="9.34" height="11.1" fill="#e8703a"/>
+<rect x="747.21" y="164.3" width="9.34" height="164.9" fill="#2fb58f"/>
 </g>
 <g><title>576.28: 11 known issues (10 fixed later, 1 still open), 17 bugs fixed in this driver</title>
-<rect x="767.41" y="119.7" width="9.47" height="42.7" fill="#e69f00"/>
-<rect x="767.41" y="115.3" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="767.41" y="164.3" width="9.47" height="73.2" fill="#2fb58f"/>
+<rect x="759.54" y="119.7" width="9.34" height="42.7" fill="#e69f00"/>
+<rect x="759.54" y="115.3" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="759.54" y="164.3" width="9.34" height="73.2" fill="#2fb58f"/>
 </g>
 <g><title>576.40: 19 known issues (17 fixed later, 2 still open), 5 bugs fixed in this driver</title>
-<rect x="779.88" y="89.1" width="9.47" height="73.2" fill="#e69f00"/>
-<rect x="779.88" y="80.4" width="9.47" height="6.7" fill="#e8703a"/>
-<rect x="779.88" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="771.88" y="89.1" width="9.34" height="73.2" fill="#e69f00"/>
+<rect x="771.88" y="80.4" width="9.34" height="6.7" fill="#e8703a"/>
+<rect x="771.88" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>576.52: 15 known issues (11 fixed later, 4 still open), 7 bugs fixed in this driver</title>
-<rect x="792.35" y="115.3" width="9.47" height="47.0" fill="#e69f00"/>
-<rect x="792.35" y="97.8" width="9.47" height="15.5" fill="#e8703a"/>
-<rect x="792.35" y="164.3" width="9.47" height="29.6" fill="#2fb58f"/>
+<rect x="784.22" y="115.3" width="9.34" height="47.0" fill="#e69f00"/>
+<rect x="784.22" y="97.8" width="9.34" height="15.5" fill="#e8703a"/>
+<rect x="784.22" y="164.3" width="9.34" height="29.6" fill="#2fb58f"/>
 </g>
 <g><title>576.80: 7 known issues (7 fixed later, 0 still open), 21 bugs fixed in this driver</title>
-<rect x="804.82" y="132.8" width="9.47" height="29.6" fill="#e69f00"/>
-<rect x="804.82" y="164.3" width="9.47" height="90.7" fill="#2fb58f"/>
+<rect x="796.55" y="132.8" width="9.34" height="29.6" fill="#e69f00"/>
+<rect x="796.55" y="164.3" width="9.34" height="90.7" fill="#2fb58f"/>
 </g>
 <g><title>576.88: 4 known issues (4 fixed later, 0 still open), 4 bugs fixed in this driver</title>
-<rect x="817.30" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="817.30" y="164.3" width="9.47" height="16.5" fill="#2fb58f"/>
+<rect x="808.89" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="808.89" y="164.3" width="9.34" height="16.5" fill="#2fb58f"/>
 </g>
 <g><title>577.00: 4 known issues (4 fixed later, 0 still open), 2 bugs fixed in this driver</title>
-<rect x="829.77" y="145.9" width="9.47" height="16.5" fill="#e69f00"/>
-<rect x="829.77" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="821.23" y="145.9" width="9.34" height="16.5" fill="#e69f00"/>
+<rect x="821.23" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>580.88: 3 known issues (3 fixed later, 0 still open), 19 bugs fixed in this driver</title>
-<rect x="842.24" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="842.24" y="164.3" width="9.47" height="82.0" fill="#2fb58f"/>
+<rect x="833.57" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="833.57" y="164.3" width="9.34" height="82.0" fill="#2fb58f"/>
 </g>
 <g><title>580.97: 3 known issues (3 fixed later, 0 still open), 2 bugs fixed in this driver</title>
-<rect x="854.71" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="854.71" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="845.90" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="845.90" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>581.08: 3 known issues (3 fixed later, 0 still open), 8 bugs fixed in this driver</title>
-<rect x="867.19" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="867.19" y="164.3" width="9.47" height="33.9" fill="#2fb58f"/>
+<rect x="858.24" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="858.24" y="164.3" width="9.34" height="33.9" fill="#2fb58f"/>
 </g>
 <g><title>581.15: 3 known issues (3 fixed later, 0 still open), 2 bugs fixed in this driver</title>
-<rect x="879.66" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="879.66" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="870.58" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="870.58" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>581.29: 3 known issues (3 fixed later, 0 still open), 1 bugs fixed in this driver</title>
-<rect x="892.13" y="150.2" width="9.47" height="12.1" fill="#e69f00"/>
-<rect x="892.13" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="882.91" y="150.2" width="9.34" height="12.1" fill="#e69f00"/>
+<rect x="882.91" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>581.42: 2 known issues (2 fixed later, 0 still open), 8 bugs fixed in this driver</title>
-<rect x="904.60" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="904.60" y="164.3" width="9.47" height="33.9" fill="#2fb58f"/>
+<rect x="895.25" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="895.25" y="164.3" width="9.34" height="33.9" fill="#2fb58f"/>
 </g>
 <g><title>581.57: 2 known issues (2 fixed later, 0 still open), 11 bugs fixed in this driver</title>
-<rect x="917.08" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="917.08" y="164.3" width="9.47" height="47.0" fill="#2fb58f"/>
+<rect x="907.59" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="907.59" y="164.3" width="9.34" height="47.0" fill="#2fb58f"/>
 </g>
 <g><title>581.80: 2 known issues (2 fixed later, 0 still open), 2 bugs fixed in this driver</title>
-<rect x="929.55" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="929.55" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="919.92" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="919.92" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>591.44: 1 known issues (1 fixed later, 0 still open), 12 bugs fixed in this driver</title>
-<rect x="942.02" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="942.02" y="164.3" width="9.47" height="51.4" fill="#2fb58f"/>
+<rect x="932.26" y="159.0" width="9.34" height="3.4" fill="#e69f00"/>
+<rect x="932.26" y="164.3" width="9.34" height="51.4" fill="#2fb58f"/>
 </g>
 <g><title>591.59: 1 known issues (1 fixed later, 0 still open), 5 bugs fixed in this driver</title>
-<rect x="954.49" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="954.49" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="944.60" y="159.0" width="9.34" height="3.4" fill="#e69f00"/>
+<rect x="944.60" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>591.74: 1 known issues (1 fixed later, 0 still open), 6 bugs fixed in this driver</title>
-<rect x="966.97" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="966.97" y="164.3" width="9.47" height="25.2" fill="#2fb58f"/>
+<rect x="956.93" y="159.0" width="9.34" height="3.4" fill="#e69f00"/>
+<rect x="956.93" y="164.3" width="9.34" height="25.2" fill="#2fb58f"/>
 </g>
 <g><title>591.86: 2 known issues (2 fixed later, 0 still open), 2 bugs fixed in this driver</title>
-<rect x="979.44" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="979.44" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="969.27" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="969.27" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>595.71: 0 known issues (0 fixed later, 0 still open), 8 bugs fixed in this driver</title>
-<rect x="991.91" y="164.3" width="9.47" height="33.9" fill="#2fb58f"/>
+<rect x="981.61" y="164.3" width="9.34" height="33.9" fill="#2fb58f"/>
 </g>
 <g><title>595.79: 2 known issues (2 fixed later, 0 still open), 5 bugs fixed in this driver</title>
-<rect x="1004.38" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="1004.38" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="993.95" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="993.95" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>595.97: 2 known issues (2 fixed later, 0 still open), 3 bugs fixed in this driver</title>
-<rect x="1016.86" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="1016.86" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="1006.28" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="1006.28" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>596.21: 1 known issues (1 fixed later, 0 still open), 1 bugs fixed in this driver</title>
-<rect x="1029.33" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="1029.33" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="1018.62" y="159.0" width="9.34" height="3.4" fill="#e69f00"/>
+<rect x="1018.62" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>596.36: 0 known issues (0 fixed later, 0 still open), 5 bugs fixed in this driver</title>
-<rect x="1041.80" y="164.3" width="9.47" height="20.8" fill="#2fb58f"/>
+<rect x="1030.96" y="164.3" width="9.34" height="20.8" fill="#2fb58f"/>
 </g>
 <g><title>596.49: 0 known issues (0 fixed later, 0 still open), 2 bugs fixed in this driver</title>
-<rect x="1054.27" y="164.3" width="9.47" height="7.7" fill="#2fb58f"/>
+<rect x="1043.29" y="164.3" width="9.34" height="7.7" fill="#2fb58f"/>
 </g>
 <g><title>610.47: 1 known issues (0 fixed later, 1 still open), 8 bugs fixed in this driver</title>
-<rect x="1066.75" y="159.0" width="9.47" height="3.4" fill="#e8703a"/>
-<rect x="1066.75" y="164.3" width="9.47" height="33.9" fill="#2fb58f"/>
+<rect x="1055.63" y="159.0" width="9.34" height="3.4" fill="#e8703a"/>
+<rect x="1055.63" y="164.3" width="9.34" height="33.9" fill="#2fb58f"/>
 </g>
 <g><title>610.62: 1 known issues (0 fixed later, 1 still open), 10 bugs fixed in this driver</title>
-<rect x="1079.22" y="159.0" width="9.47" height="3.4" fill="#e8703a"/>
-<rect x="1079.22" y="164.3" width="9.47" height="42.7" fill="#2fb58f"/>
+<rect x="1067.97" y="159.0" width="9.34" height="3.4" fill="#e8703a"/>
+<rect x="1067.97" y="164.3" width="9.34" height="42.7" fill="#2fb58f"/>
 </g>
 <g><title>610.74: 1 known issues (0 fixed later, 1 still open), 1 bugs fixed in this driver</title>
-<rect x="1091.69" y="159.0" width="9.47" height="3.4" fill="#e8703a"/>
-<rect x="1091.69" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="1080.30" y="159.0" width="9.34" height="3.4" fill="#e8703a"/>
+<rect x="1080.30" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
 </g>
 <g><title>610.88: 1 known issues (0 fixed later, 1 still open), 9 bugs fixed in this driver</title>
-<rect x="1104.16" y="159.0" width="9.47" height="3.4" fill="#e8703a"/>
-<rect x="1104.16" y="164.3" width="9.47" height="38.3" fill="#2fb58f"/>
+<rect x="1092.64" y="159.0" width="9.34" height="3.4" fill="#e8703a"/>
+<rect x="1092.64" y="164.3" width="9.34" height="38.3" fill="#2fb58f"/>
 </g>
 <g><title>616.56: 1 known issues (0 fixed later, 1 still open), 7 bugs fixed in this driver</title>
-<rect x="1116.64" y="159.0" width="9.47" height="3.4" fill="#e8703a"/>
-<rect x="1116.64" y="164.3" width="9.47" height="29.6" fill="#2fb58f"/>
+<rect x="1104.98" y="159.0" width="9.34" height="3.4" fill="#e8703a"/>
+<rect x="1104.98" y="164.3" width="9.34" height="29.6" fill="#2fb58f"/>
 </g>
 <g><title>616.64: 2 known issues (1 fixed later, 1 still open), 0 bugs fixed in this driver</title>
-<rect x="1129.11" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="1129.11" y="154.6" width="9.47" height="2.4" fill="#e8703a"/>
+<rect x="1117.32" y="159.0" width="9.34" height="3.4" fill="#e69f00"/>
+<rect x="1117.32" y="154.6" width="9.34" height="2.4" fill="#e8703a"/>
 </g>
 <g><title>616.92: 3 known issues (2 fixed later, 1 still open), 3 bugs fixed in this driver</title>
-<rect x="1141.58" y="154.6" width="9.47" height="7.7" fill="#e69f00"/>
-<rect x="1141.58" y="150.2" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="1141.58" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="1129.65" y="154.6" width="9.34" height="7.7" fill="#e69f00"/>
+<rect x="1129.65" y="150.2" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="1129.65" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>617.14: 2 known issues (1 fixed later, 1 still open), 3 bugs fixed in this driver</title>
-<rect x="1154.05" y="159.0" width="9.47" height="3.4" fill="#e69f00"/>
-<rect x="1154.05" y="154.6" width="9.47" height="2.4" fill="#e8703a"/>
-<rect x="1154.05" y="164.3" width="9.47" height="12.1" fill="#2fb58f"/>
+<rect x="1141.99" y="159.0" width="9.34" height="3.4" fill="#e69f00"/>
+<rect x="1141.99" y="154.6" width="9.34" height="2.4" fill="#e8703a"/>
+<rect x="1141.99" y="164.3" width="9.34" height="12.1" fill="#2fb58f"/>
 </g>
 <g><title>617.42: 1 known issues (0 fixed later, 1 still open), 1 bugs fixed in this driver</title>
-<rect x="1166.53" y="159.0" width="9.47" height="3.4" fill="#e8703a"/>
-<rect x="1166.53" y="164.3" width="9.47" height="3.4" fill="#2fb58f"/>
+<rect x="1154.33" y="159.0" width="9.34" height="3.4" fill="#e8703a"/>
+<rect x="1154.33" y="164.3" width="9.34" height="3.4" fill="#2fb58f"/>
+</g>
+<g><title>621.01: 0 known issues (0 fixed later, 0 still open), 7 bugs fixed in this driver</title>
+<rect x="1166.66" y="164.3" width="9.34" height="29.6" fill="#2fb58f"/>
 </g>
 <line x1="44" y1="163.3" x2="1176" y2="163.3" stroke="#3a3d42" stroke-width="1"/>
 <text x="44.0" y="356" text-anchor="start" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">526.47</text>
-<text x="273.2" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">536.67</text>
-<text x="497.7" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">551.86</text>
-<text x="722.3" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">572.60</text>
-<text x="946.8" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">591.44</text>
-<text x="1176.0" y="356" text-anchor="end" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">617.42</text>
+<text x="270.7" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">536.67</text>
+<text x="492.8" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">551.86</text>
+<text x="727.2" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">572.70</text>
+<text x="949.3" y="356" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">591.59</text>
+<text x="1176.0" y="356" text-anchor="end" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">621.01</text>
 <text x="600.0" y="382" text-anchor="middle" font-family="'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace" font-size="11" fill="#a2a3a7">Live &amp; interactive: https://indep-arg.github.io/NvidiaWatch/?view=trends</text>
 </svg>
