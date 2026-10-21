@@ -3586,5 +3586,52 @@
         "reddit_thread": "https://www.reddit.com/r/nvidia/comments/1wz575x/game_ready_studio_driver_61742_faqdiscussion/",
         "still_open": ["6007998"],
         "bugs": []
+    },
+    {
+        "version": "621.01",
+        "channels": ["game-ready"],
+        "branch": "R620",
+        "build_branch": "r620_97-3",
+        "release_date": "2026-10-21",
+        "release_notes": "https://us.download.nvidia.com/Windows/621.01/621.01-win11-win10-release-notes.pdf",
+        "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/591981/geforce-grd-62101-feedback-thread-released-102126/",
+        "reddit_thread": "https://www.reddit.com/r/nvidia/comments/1xbn3fy/game_ready_driver_62101_faqdiscussion/",
+        "bugs": [
+            {
+                "description": "Wuthering Waves: May crash during gameplay when using NVIDIA Freestyle filters with DLSS Frame Generation enabled",
+                "ids": ["5747079"],
+                "fixed_in": "Fixed (621.01)"
+            },
+            {
+                "description": "Star Citizen: Resolves a crash that may be seen when using Vulkan API",
+                "ids": ["6680590"],
+                "fixed_in": "Fixed (621.01)"
+            },
+            {
+                "description": "Surviving Mars: Relaunched may crash during gameplay after updating to R595 drivers",
+                "ids": ["5965452"],
+                "fixed_in": "Fixed (621.01)"
+            },
+            {
+                "description": "QHD monitor running at 360 Hz may have occasional black flash during gameplay",
+                "ids": ["4846825"],
+                "fixed_in": "Fixed (621.01)"
+            },
+            {
+                "description": "When gaming on a 360Hz G-SYNC Pulsar monitor, FPS may drop to 320FPS",
+                "ids": ["6408986"],
+                "fixed_in": "Fixed (621.01)"
+            },
+            {
+                "description": "Meta Horizon Link stream may freeze when connected over USB",
+                "ids": ["6292679"],
+                "fixed_in": "Fixed (621.01)"
+            },
+            {
+                "description": "Intermittent dimming may be observed on certain ASUS notebooks after updating to R615 drivers",
+                "ids": ["6807011"],
+                "fixed_in": "Fixed (621.01)"
+            }
+        ]
     }
 ]
