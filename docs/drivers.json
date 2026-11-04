@@ -3633,5 +3633,41 @@
                 "fixed_in": "Fixed (621.01)"
             }
         ]
+    },
+    {
+        "version": "621.14",
+        "channels": ["game-ready", "studio"],
+        "branch": "R620",
+        "build_branch": "r621_02-4",
+        "release_date": "2026-11-04",
+        "release_notes": "https://us.download.nvidia.com/Windows/621.14/621.14-geforce-win11-x64-release-notes.pdf",
+        "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/592433/geforce-grd-62114-feedback-thread-released-11426/",
+        "bugs": [
+            {
+                "description": "Call of Duty: Modern Warfare 4: Game may display incorrect visual colors",
+                "ids": ["6972531"],
+                "fixed_in": "Fixed (621.14)"
+            },
+            {
+                "description": "Fixed an issue where video playback may freeze or black screen on some GeForce RTX 50 Series GPUs/RTX Spark after updating to GRD 621.01",
+                "ids": ["6979343"],
+                "fixed_in": "Fixed (621.14)"
+            },
+            {
+                "description": "Unreal Engine 5.8 may crash when Ray Lighting Mode is set to Hit Lighting",
+                "ids": ["6914378"],
+                "fixed_in": "Fixed (621.14)"
+            },
+            {
+                "description": "[RTX Spark] HDMI monitor connected to StarTech Thunderbolt 3 to HDMI 2.0 adapter may show corruption",
+                "ids": ["6054761"],
+                "fixed_in": "Fixed (621.14)"
+            },
+            {
+                "description": "[MSI N16 Flip] Intermittent flickering may be observed",
+                "ids": ["6945359"],
+                "fixed_in": "Fixed (621.14)"
+            }
+        ]
     }
 ]
