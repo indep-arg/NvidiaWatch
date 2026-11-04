@@ -3642,6 +3642,7 @@
         "release_date": "2026-11-04",
         "release_notes": "https://us.download.nvidia.com/Windows/621.14/621.14-geforce-win11-x64-release-notes.pdf",
         "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/592433/geforce-grd-62114-feedback-thread-released-11426/",
+        "reddit_thread": "https://www.reddit.com/r/nvidia/comments/1xnpr59/game_ready_studio_driver_62114_faqdiscussion/",
         "bugs": [
             {
                 "description": "Call of Duty: Modern Warfare 4: Game may display incorrect visual colors",
