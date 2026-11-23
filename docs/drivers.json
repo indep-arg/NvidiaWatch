@@ -3670,5 +3670,27 @@
                 "fixed_in": "Fixed (621.14)"
             }
         ]
+    },
+    {
+        "version": "621.24",
+        "channels": ["game-ready", "studio"],
+        "branch": "R620",
+        "build_branch": "r621_20-2",
+        "release_date": "2026-11-12",
+        "release_notes": "https://us.download.nvidia.com/Windows/621.24/621.24-geforce-win11-x64-release-notes.pdf",
+        "feedback_thread": "https://www.nvidia.com/en-us/geforce/forums/game-ready-drivers/13/592767/geforce-grd-62124-feedback-thread-released-111226/",
+        "reddit_thread": "https://www.reddit.com/r/nvidia/comments/1xuef1f/game_ready_driver_62124_faqdiscussion/",
+        "bugs": [
+            {
+                "description": "Chaos Vantage: NVIDIA OptiX Denoiser may fail at high resolutions",
+                "ids": ["6953474"],
+                "fixed_in": "Fixed (621.24)"
+            },
+            {
+                "description": "Windows Photos/Media Player: Incorrect colors with DJI D-Log H.265 video playback",
+                "ids": ["6996250"],
+                "fixed_in": "Fixed (621.24)"
+            }
+        ]
     }
 ]
